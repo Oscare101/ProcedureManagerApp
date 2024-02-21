@@ -14,7 +14,7 @@ export default function CalendarScreen({ navigation }: any) {
     bottomSheetModalRef.current?.present()
   }, [])
   const onDismisModal = useCallback(() => {
-    bottomSheetModalRef.current?.present()
+    bottomSheetModalRef.current?.dismiss()
   }, [])
 
   return (
