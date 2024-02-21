@@ -9,6 +9,7 @@ import {
 import LaunchScreen from '../screens/login/LaunchScreen'
 import CalendarScreen from '../screens/application/CalendarScreen'
 import CustomDrawerContent from './CustomDrawerContent'
+import LogInScreen from '../screens/login/LogInScreen'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -59,6 +60,13 @@ export default function MainNavigation() {
         name="StockScreen"
         component={StockScreen}
       /> */}
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="LogInScreen"
+        component={LogInScreen}
+      />
     </Stack.Navigator>
   )
 
