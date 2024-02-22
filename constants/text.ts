@@ -8,4 +8,5 @@ export default {
   emailError: 'Invalid email',
   passwordError: `Password min length is ${rules.passwordMinLengh}`,
   logoutButton: 'Log out',
+  calendarTitle: 'Calendar',
 }
