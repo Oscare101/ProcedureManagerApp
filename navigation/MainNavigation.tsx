@@ -23,7 +23,7 @@ export default function MainNavigation() {
       >
         <Drawer.Screen
           options={{ headerShown: false }}
-          name="Calendar"
+          name="CalendarScreen"
           component={CalendarScreen}
         />
       </Drawer.Navigator>

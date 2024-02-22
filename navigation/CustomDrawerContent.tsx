@@ -7,9 +7,11 @@ import {
   Text,
   TouchableOpacity,
   View,
-  useColorScheme,
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
+import text from '../constants/text'
+import { useNavigation } from '@react-navigation/native'
+import { DrawerActions } from '@react-navigation/native'
 
 const width = Dimensions.get('screen').width
 
@@ -18,9 +20,10 @@ export default function CustomDrawerContent(props: any) {
     {
       title: 'Календар',
       icon: 'briefcase-outline',
-      screen: 'PortfolioScreen',
+      screen: 'CalendarScreen',
     },
   ]
+  const navigation: any = useNavigation()
 
   function RenderScreenButtonItem({ item }: any) {
     const isCurrenctScreen: boolean =
@@ -42,7 +45,7 @@ export default function CustomDrawerContent(props: any) {
         <Ionicons name={item.icon} size={18} color={colors.card2Title} />
         <Text
           style={{
-            color: colors.card2Title,
+            color: isCurrenctScreen ? colors.white : colors.card2Title,
             marginLeft: 20,
             fontSize: 18,
           }}
@@ -64,10 +67,25 @@ export default function CustomDrawerContent(props: any) {
         alignItems: 'center',
         justifyContent: 'space-between',
         flex: 1,
+        backgroundColor: colors.card1,
       }}
       {...props}
     >
       <View style={styles.topContainer}>
+        <View style={styles.drawerHeader}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => navigation.dispatch(DrawerActions.closeDrawer())}
+            style={styles.backButton}
+          >
+            <Ionicons
+              name="chevron-back"
+              size={width * 0.08}
+              color={colors.card1Title}
+            />
+          </TouchableOpacity>
+          <Text></Text>
+        </View>
         <FlatList
           scrollEnabled={false}
           style={{ width: '100%', marginTop: 50 }}
@@ -89,42 +107,26 @@ export default function CustomDrawerContent(props: any) {
 }
 
 const styles = StyleSheet.create({
-  navigationButton: {
-    width: '92%',
-    borderRadius: width * 0.03,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  topBlock: {
-    width: '100%',
-    aspectRatio: 2,
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-  },
-  topBlockCircle: {
-    width: '35%',
-    aspectRatio: 1,
-    borderRadius: width,
-    position: 'absolute',
-    right: '5%',
-    bottom: '-35%',
-    borderWidth: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'hidden',
-  },
-  money: {
-    width: '100%',
-    textAlign: 'left',
-  },
   topContainer: {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
     flex: 1,
     width: '100%',
+    backgroundColor: colors.card1,
+  },
+  drawerHeader: {
+    height: width * 0.15,
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  backButton: {
+    height: '100%',
+    aspectRatio: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   screenButton: {
     width: '92%',
@@ -133,25 +135,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     paddingHorizontal: width * 0.05,
-  },
-  card: {
-    width: '92%',
-    aspectRatio: 2,
-    padding: width * 0.03,
-    borderRadius: width * 0.03,
-    marginTop: width * 0.03,
-    alignSelf: 'center',
-  },
-  rowBetween: {
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  columnStart: {
-    flexDirection: 'column',
-    height: '100%',
-    alignItems: 'flex-start',
-    justifyContent: 'space-evenly',
   },
 })
