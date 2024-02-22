@@ -14,6 +14,7 @@ const width = Dimensions.get('screen').width
 export function RenderDrawerItem(props: DrawerItemProps) {
   const isCurrenctScreen: boolean =
     props.routeNames[props.index] === props.item.screen
+
   return (
     <TouchableOpacity
       activeOpacity={0.8}

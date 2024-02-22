@@ -1,11 +1,9 @@
 import { DrawerContentScrollView } from '@react-navigation/drawer'
 import colors from '../constants/colors'
-import { Dimensions, FlatList, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import DrawerHeader from '../components/drawer/DrawerHeader'
 import text from '../constants/text'
-import { RenderDrawerItem } from '../components/drawer/RenderDrawerItem'
-
-const width = Dimensions.get('screen').width
+import DrawerButtonsBlock from '../components/drawer/DrawerButtonsBlock'
 
 export default function CustomDrawerContent(props: any) {
   const screensButtonData = [
@@ -33,28 +31,10 @@ export default function CustomDrawerContent(props: any) {
     >
       <View style={styles.topContainer}>
         <DrawerHeader />
-        <FlatList
-          scrollEnabled={false}
-          style={{ width: '100%', marginTop: width * 0.05 }}
+        <DrawerButtonsBlock
           data={screensButtonData}
-          renderItem={({ item }) => (
-            <RenderDrawerItem
-              item={item}
-              index={props.state.index}
-              routeNames={props.state.routeNames}
-              navigation={(screen: string) => props.navigation.jumpTo(screen)}
-            />
-          )}
-          ItemSeparatorComponent={() => (
-            <View
-              style={{
-                width: '92%',
-                height: 1,
-                alignSelf: 'center',
-                backgroundColor: colors.card2,
-              }}
-            />
-          )}
+          state={props.state}
+          navigation={(screen: string) => props.navigation.jumpTo(screen)}
         />
       </View>
     </DrawerContentScrollView>
