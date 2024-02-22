@@ -7,6 +7,9 @@ import {
 } from 'react-native'
 import colors from '../../constants/colors'
 import { IsChosenDate, IsDateToday } from '../../functions/functions'
+import { RootState } from '../../redux'
+import { useSelector } from 'react-redux'
+import { Master } from '../../constants/interfaces'
 
 const width = Dimensions.get('screen').width
 
@@ -17,12 +20,17 @@ interface DateItemProps {
 }
 
 export function RenderDateItem(props: DateItemProps) {
+  const masters = useSelector((state: RootState) => state.masters)
+  const schedule = useSelector((state: RootState) => state.schedule)
+
   const today = IsDateToday(props.item)
   const inMonth = new Date(props.item).getMonth() === props.date.getMonth()
   const isChosenDate = IsChosenDate(props.item, props.date)
 
   function GetDateSchedule() {
-    return []
+    return inMonth
+      ? Object.values(schedule['date-' + props.item.getDate()] || [])
+      : []
   }
 
   return (
@@ -56,14 +64,15 @@ export function RenderDateItem(props: DateItemProps) {
         {new Date(props.item).getDate()}
       </Text>
       <View style={styles.mastersBlock}>
-        {GetDateSchedule().map((master: any, index: number) => (
+        {GetDateSchedule().map((master: string, index: number) => (
           <View
             key={index}
             style={{
               width: width * 0.012,
               height: width * 0.012,
               borderRadius: width * 0.01,
-              backgroundColor: master,
+              backgroundColor: masters.find((m: Master) => m.id === master)
+                ?.color,
               marginHorizontal: width * 0.002,
             }}
           />

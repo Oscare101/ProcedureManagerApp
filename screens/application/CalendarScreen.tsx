@@ -1,4 +1,4 @@
-import { Button, Text, View } from 'react-native'
+import { Button, Dimensions, Text, View } from 'react-native'
 import globalStyles from '../../constants/globalStyles'
 import {
   BottomSheetModal,
@@ -11,21 +11,26 @@ import CalendarBlock from '../../components/calendar/CalendarBlock'
 import CalendarHeader from '../../components/application/CalendarHeader'
 import DateInfoBlock from '../../components/calendar/DateInfoBlock'
 
-import { Provider, useDispatch } from 'react-redux'
+import { Provider, useDispatch, useSelector } from 'react-redux'
 import { store } from '../../redux/store'
 import { useEffect } from 'react'
 import { auth } from '../../firebase'
 import { getDatabase, onValue, ref } from 'firebase/database'
 import { updateMasters } from '../../redux/masters'
 import { Master } from '../../constants/interfaces'
-import { updateSchedule } from '../../redux/schedule'
+import { clearSchedule, updateSchedule } from '../../redux/schedule'
+import { RootState } from '../../redux'
+
+const width = Dimensions.get('screen').width
 
 export default function CalendarScreen({ navigation }: any) {
+  const schedule = useSelector((state: RootState) => state.schedule)
+
   const [openCalendar, setOpenCalendar] = useState<boolean>(false)
   const [date, setDate] = useState<Date>(new Date())
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
-  const snapPoints = useMemo(() => ['25%', '50%'], [])
+  const snapPoints = useMemo(() => [width * 0.6], [])
   const onPresentModal = useCallback(() => {
     bottomSheetModalRef.current?.present()
   }, [])
@@ -48,16 +53,17 @@ export default function CalendarScreen({ navigation }: any) {
     GetMastersData()
   }, [])
 
-  function GetSchedule() {
+  function GetSchedule(date: Date) {
     if (auth.currentUser && auth.currentUser.email) {
       const data = ref(
         getDatabase(),
-        `business/PoboiskayaSofia/schedule/${date.getFullYear()}/${
+        `business/PoboiskayaSofia/schedule/year-${date.getFullYear()}/month-${
           date.getMonth() + 1
         }`
       )
       onValue(data, (snapshot) => {
-        if (snapshot.exists()) {
+        dispatch(clearSchedule())
+        if (snapshot.val()) {
           dispatch(updateSchedule(snapshot.val()))
         }
       })
@@ -65,7 +71,7 @@ export default function CalendarScreen({ navigation }: any) {
   }
 
   useEffect(() => {
-    GetSchedule()
+    GetSchedule(date)
   }, [date])
 
   return (
@@ -100,6 +106,7 @@ export default function CalendarScreen({ navigation }: any) {
         dismiss={onDismisModal}
         content="mastersSchedule"
         data={{ date: date }}
+        setDate={(newDate: Date) => setDate(newDate)}
       />
     </BottomSheetModalProvider>
   )

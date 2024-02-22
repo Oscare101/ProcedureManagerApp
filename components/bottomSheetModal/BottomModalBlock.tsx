@@ -17,11 +17,17 @@ interface BottomModalBlockProps {
   dismiss: any
   content: string
   data?: any
+  setDate?: any
 }
 
 export default function BottomModalBlock(props: BottomModalBlockProps) {
   const contentData: any = {
-    mastersSchedule: <MastersScheduleModal date={props.data.date} />,
+    mastersSchedule: (
+      <MastersScheduleModal
+        date={props.data.date}
+        setDate={(newDate: Date) => props.setDate(newDate)}
+      />
+    ),
   }
 
   return (

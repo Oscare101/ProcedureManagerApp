@@ -8,6 +8,9 @@ import {
 import colors from '../../constants/colors'
 import { Ionicons } from '@expo/vector-icons'
 import text from '../../constants/text'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../redux'
+import { Master } from '../../constants/interfaces'
 
 const width = Dimensions.get('screen').width
 
@@ -19,6 +22,9 @@ interface DateInfoBlockProps {
 }
 
 export default function DateInfoBlock(props: DateInfoBlockProps) {
+  const masters = useSelector((state: RootState) => state.masters)
+  const schedule = useSelector((state: RootState) => state.schedule)
+
   function OnNextDate() {
     const date = new Date(props.date)
     date.setDate(date.getDate() + 1)
@@ -57,7 +63,35 @@ export default function DateInfoBlock(props: DateInfoBlockProps) {
           color={colors.text}
         />
       </TouchableOpacity>
-      <View style={{ flex: 1 }} />
+      <View
+        style={{
+          flex: 1,
+          height: '100%',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+        }}
+      >
+        {Object.values(schedule['date-' + props.date.getDate()] || []).map(
+          (master: string, index: number) => (
+            <View
+              key={index}
+              style={[
+                styles.masterBlock,
+                {
+                  backgroundColor: masters.find((m: Master) => m.id === master)
+                    ?.color,
+                  marginTop: index ? width * 0.005 : 0,
+                },
+              ]}
+            >
+              <Text style={styles.masterBlockTitle}>
+                {masters.find((m: Master) => m.id === master)?.name}
+              </Text>
+            </View>
+          )
+        )}
+      </View>
       <TouchableOpacity
         style={styles.editButton}
         activeOpacity={0.8}
@@ -79,7 +113,7 @@ export default function DateInfoBlock(props: DateInfoBlockProps) {
 const styles = StyleSheet.create({
   container: {
     width: '92%',
-    height: width * 0.15,
+    height: width * 0.2,
     backgroundColor: colors.white,
     borderRadius: width * 0.05,
     padding: width * 0.02,
@@ -99,8 +133,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     width: width * 0.1,
   },
-  date: { fontSize: width * 0.06, color: colors.text },
-  weekDay: { fontSize: width * 0.04, color: colors.text },
+  date: { fontSize: width * 0.07, color: colors.text },
+  weekDay: { fontSize: width * 0.05, color: colors.text },
   editButton: {
     height: '100%',
     aspectRatio: 0.7,
@@ -120,5 +154,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: width * 0.03,
     marginLeft: width * 0.02,
+  },
+  masterBlock: {
+    width: '100%',
+    maxHeight: width * 0.05,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingLeft: '5%',
+    borderRadius: width * 0.01,
+  },
+  masterBlockTitle: {
+    fontSize: width * 0.035,
+    color: colors.white,
   },
 })

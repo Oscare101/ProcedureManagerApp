@@ -118,9 +118,9 @@ export async function UpdateSchedule(date: Date, schedule: Master['id'][]) {
     await set(
       ref(
         getDatabase(),
-        `business/PoboiskayaSofia/schedule/${date.getFullYear()}/${
+        `business/PoboiskayaSofia/schedule/year-${date.getFullYear()}/month-${
           date.getMonth() + 1
-        }/${date.getDate()}`
+        }/date-${date.getDate()}`
       ),
       schedule
     )

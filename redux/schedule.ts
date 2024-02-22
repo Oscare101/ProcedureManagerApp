@@ -10,8 +10,11 @@ const scheduleSlice = createSlice({
     updateSchedule: (state, action: PayloadAction<any>) => {
       return { ...state, ...action.payload }
     },
+    clearSchedule: () => {
+      return initialState
+    },
   },
 })
 
-export const { updateSchedule } = scheduleSlice.actions
+export const { updateSchedule, clearSchedule } = scheduleSlice.actions
 export default scheduleSlice.reducer
