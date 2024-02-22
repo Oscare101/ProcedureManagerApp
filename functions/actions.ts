@@ -16,9 +16,12 @@ import {
 } from 'firebase/database'
 import { ref as refStorage, deleteObject } from 'firebase/storage'
 import { MMKV } from 'react-native-mmkv'
+import { Agenda, Customer, Master } from '../constants/interfaces'
 
 // var md5 = require('md5')
 export const storage = new MMKV()
+
+// LOGIN
 
 export async function LogIn(email: string, password: string) {
   try {
@@ -45,5 +48,78 @@ export async function LogOut() {
     return { response: response }
   } catch (error: any) {
     return { error: 'error' }
+  }
+}
+
+// AGENDA
+
+export async function CreateAgenda(agenda: Agenda) {
+  try {
+    await set(
+      ref(getDatabase(), 'business/PoboiskayaSofia/agenda/' + agenda.id),
+      agenda
+    )
+    return true
+  } catch (error) {
+    console.log('CreateAgenda', error)
+  }
+}
+
+export async function UpdateAgenda(agenda: Agenda) {
+  try {
+    await update(
+      ref(getDatabase(), 'business/PoboiskayaSofia/agenda/' + agenda.id),
+      agenda
+    )
+  } catch (error) {
+    console.log('UpdateAgenda', error)
+  }
+}
+
+export async function DeleteAgenda(agendaID: Agenda['id']) {
+  try {
+    await remove(
+      ref(getDatabase(), 'business/PoboiskayaSofia/agenda/' + agendaID)
+    )
+  } catch (error) {
+    console.log('DeleteAgenda', error)
+  }
+}
+
+// CUSTOMER
+
+export async function CreateCustomer(customer: Customer) {
+  try {
+    await set(
+      ref(getDatabase(), 'business/PoboiskayaSofia/customer/' + customer.id),
+      customer
+    )
+    return true
+  } catch (error) {
+    console.log('CreateCustomer', error)
+  }
+}
+
+export async function UpdateCustomer(customer: Customer) {
+  try {
+    await update(
+      ref(getDatabase(), 'business/PoboiskayaSofia/customer/' + customer.id),
+      customer
+    )
+  } catch (error) {
+    console.log('UpdateCustomer', error)
+  }
+}
+
+// SCHEDULE
+
+export async function UpdateSchedule(date: string, schedule: Master['id'][]) {
+  try {
+    await update(
+      ref(getDatabase(), 'business/PoboiskayaSofia/schedule/' + date),
+      schedule
+    )
+  } catch (error) {
+    console.log('UpdateSchedule', error)
   }
 }

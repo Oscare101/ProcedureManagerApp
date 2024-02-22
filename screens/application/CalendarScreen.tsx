@@ -6,7 +6,7 @@ import {
 } from '@gorhom/bottom-sheet'
 import { useCallback, useMemo, useRef } from 'react'
 import BottomModalBlock from '../../components/bottomSheetModal/BottomModalBlock'
-import { LogIn, LogOut } from '../../functions/actions'
+import { LogOut } from '../../functions/actions'
 import ButtonBlock from '../../components/application/ButtonBlock'
 import text from '../../constants/text'
 
