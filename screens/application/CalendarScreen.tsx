@@ -18,6 +18,7 @@ import { auth } from '../../firebase'
 import { getDatabase, onValue, ref } from 'firebase/database'
 import { updateMasters } from '../../redux/masters'
 import { Master } from '../../constants/interfaces'
+import { updateSchedule } from '../../redux/schedule'
 
 export default function CalendarScreen({ navigation }: any) {
   const [openCalendar, setOpenCalendar] = useState<boolean>(false)
@@ -46,6 +47,26 @@ export default function CalendarScreen({ navigation }: any) {
   useEffect(() => {
     GetMastersData()
   }, [])
+
+  function GetSchedule() {
+    if (auth.currentUser && auth.currentUser.email) {
+      const data = ref(
+        getDatabase(),
+        `business/PoboiskayaSofia/schedule/${date.getFullYear()}/${
+          date.getMonth() + 1
+        }`
+      )
+      onValue(data, (snapshot) => {
+        if (snapshot.exists()) {
+          dispatch(updateSchedule(snapshot.val()))
+        }
+      })
+    }
+  }
+
+  useEffect(() => {
+    GetSchedule()
+  }, [date])
 
   return (
     <BottomSheetModalProvider>
@@ -77,7 +98,8 @@ export default function CalendarScreen({ navigation }: any) {
         bottomSheetModalRef={bottomSheetModalRef}
         snapPoints={snapPoints}
         dismiss={onDismisModal}
-        content={'masters'}
+        content="mastersSchedule"
+        data={{ date: date }}
       />
     </BottomSheetModalProvider>
   )

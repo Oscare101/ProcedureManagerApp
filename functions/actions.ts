@@ -113,10 +113,15 @@ export async function UpdateCustomer(customer: Customer) {
 
 // SCHEDULE
 
-export async function UpdateSchedule(date: string, schedule: Master['id'][]) {
+export async function UpdateSchedule(date: Date, schedule: Master['id'][]) {
   try {
-    await update(
-      ref(getDatabase(), 'business/PoboiskayaSofia/schedule/' + date),
+    await set(
+      ref(
+        getDatabase(),
+        `business/PoboiskayaSofia/schedule/${date.getFullYear()}/${
+          date.getMonth() + 1
+        }/${date.getDate()}`
+      ),
       schedule
     )
   } catch (error) {

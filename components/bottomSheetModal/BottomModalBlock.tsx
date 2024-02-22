@@ -7,6 +7,7 @@ import {
 } from 'react-native'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import colors from '../../constants/colors'
+import MastersScheduleModal from './MastersScheduleModal'
 
 const width = Dimensions.get('screen').width
 
@@ -15,23 +16,19 @@ interface BottomModalBlockProps {
   snapPoints: any
   dismiss: any
   content: string
+  data?: any
 }
 
 export default function BottomModalBlock(props: BottomModalBlockProps) {
-  // const contentData: any = {
-  //   themeBlock: <ThemeBlockModal />,
-
-  // }
+  const contentData: any = {
+    mastersSchedule: <MastersScheduleModal date={props.data.date} />,
+  }
 
   return (
     <BottomSheetModal
-      // backgroundStyle={{ backgroundColor: '#00000000' }}
       handleIndicatorStyle={{
         backgroundColor: colors.accent,
       }}
-      // handleComponent={() => (
-      //   <View style={{ width: 10, height: 10, backgroundColor: 'red' }}></View>
-      // )}
       ref={props.bottomSheetModalRef}
       snapPoints={props.snapPoints}
       backdropComponent={({ style }) => (
@@ -56,10 +53,9 @@ export default function BottomModalBlock(props: BottomModalBlockProps) {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'flex-start',
-          // overflow: 'hidden',
         }}
       >
-        {/* {contentData[props.content]} */}
+        {contentData[props.content]}
       </View>
     </BottomSheetModal>
   )
