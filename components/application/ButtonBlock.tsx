@@ -2,13 +2,10 @@ import {
   Dimensions,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
 import colors from '../../constants/colors'
-import { useState } from 'react'
 
 const width = Dimensions.get('screen').width
 
@@ -17,6 +14,7 @@ interface InputBlockProps {
   action: any
   buttonStyles?: any
   titleStyles?: any
+  loading?: boolean
 }
 
 export default function ButtonBlock(props: InputBlockProps) {
@@ -26,7 +24,11 @@ export default function ButtonBlock(props: InputBlockProps) {
       onPress={props.action}
       style={[styles.button, props.buttonStyles]}
     >
-      <Text style={[styles.title, props.titleStyles]}>{props.title}</Text>
+      {props.loading ? (
+        <View style={styles.circle} />
+      ) : (
+        <Text style={[styles.title, props.titleStyles]}>{props.title}</Text>
+      )}
     </TouchableOpacity>
   )
 }
@@ -44,5 +46,12 @@ const styles = StyleSheet.create({
     color: colors.card1Title,
     fontSize: width * 0.06,
     fontWeight: '300',
+  },
+  circle: {
+    height: '70%',
+    aspectRatio: 1,
+    borderWidth: 1,
+    borderColor: colors.card1Title,
+    borderRadius: 100,
   },
 })

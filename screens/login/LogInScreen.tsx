@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Dimensions, StyleSheet, Text, View } from 'react-native'
 import globalStyles from '../../constants/globalStyles'
 import { useState } from 'react'
 import colors from '../../constants/colors'
@@ -6,6 +6,7 @@ import InputBlock from '../../components/application/InputBlock'
 import ButtonBlock from '../../components/application/ButtonBlock'
 import rules from '../../constants/rules'
 import text from '../../constants/text'
+import { LogIn } from '../../functions/actions'
 
 const width = Dimensions.get('screen').width
 
@@ -13,12 +14,25 @@ export default function LogInScreen({ navigation }: any) {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [error, setError] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
 
-  function LogInFunc() {
+  async function LogInFunc() {
     if (!rules.emailCheck.test(email)) {
       setError(text.emailError)
     } else if (password.length < rules.passwordMinLengh) {
       setError(text.passwordError)
+    } else {
+      setLoading(true)
+      const response = await LogIn(email, password)
+      if (!response.error) {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'DrawerNavigation' }],
+        })
+      } else {
+        setError(response.error)
+        setLoading(false)
+      }
     }
   }
 
@@ -53,6 +67,7 @@ export default function LogInScreen({ navigation }: any) {
         title={text.loginButton}
         action={LogInFunc}
         buttonStyles={{ marginTop: width * 0.05 }}
+        loading={loading}
       />
       {error ? <Text style={styles.error}>{error}</Text> : <></>}
     </View>

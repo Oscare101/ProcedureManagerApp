@@ -6,6 +6,9 @@ import {
 } from '@gorhom/bottom-sheet'
 import { useCallback, useMemo, useRef } from 'react'
 import BottomModalBlock from '../../components/bottomSheetModal/BottomModalBlock'
+import { LogIn, LogOut } from '../../functions/actions'
+import ButtonBlock from '../../components/application/ButtonBlock'
+import text from '../../constants/text'
 
 export default function CalendarScreen({ navigation }: any) {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
@@ -17,6 +20,14 @@ export default function CalendarScreen({ navigation }: any) {
     bottomSheetModalRef.current?.dismiss()
   }, [])
 
+  async function LogOutFunc() {
+    await LogOut()
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'LaunchScreen' }],
+    })
+  }
+
   return (
     <BottomSheetModalProvider>
       <View style={globalStyles.container}>
@@ -24,6 +35,7 @@ export default function CalendarScreen({ navigation }: any) {
       </View>
       <Button onPress={onPresentModal} title="Present Modal" color="black" />
 
+      <ButtonBlock title={text.logoutButton} action={LogOutFunc} />
       <BottomModalBlock
         bottomSheetModalRef={bottomSheetModalRef}
         snapPoints={snapPoints}

@@ -42,6 +42,13 @@ export default function MainNavigation() {
       <Stack.Screen
         options={{
           headerShown: false,
+        }}
+        name="LogInScreen"
+        component={LogInScreen}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
           headerLeft: () => null,
         }}
         name="DrawerNavigation"
@@ -60,13 +67,6 @@ export default function MainNavigation() {
         name="StockScreen"
         component={StockScreen}
       /> */}
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-        name="LogInScreen"
-        component={LogInScreen}
-      />
     </Stack.Navigator>
   )
 
