@@ -4,14 +4,18 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
-import { useCallback, useMemo, useRef } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import BottomModalBlock from '../../components/bottomSheetModal/BottomModalBlock'
-import { LogOut } from '../../functions/actions'
-import ButtonBlock from '../../components/application/ButtonBlock'
 import text from '../../constants/text'
-import Header from '../../components/application/Header'
+import CalendarBlock from '../../components/calendar/CalendarBlock'
+import CalendarHeader from '../../components/application/CalendarHeader'
 
 export default function CalendarScreen({ navigation }: any) {
+  const [openCalendar, setOpenCalendar] = useState<boolean>(false)
+  const [chosenDate, setChosenDate] = useState<string>('')
+  const [year, setYear] = useState<number>(new Date().getFullYear())
+  const [monthIndex, setMonthIndex] = useState<number>(new Date().getMonth())
+
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => ['25%', '50%'], [])
   const onPresentModal = useCallback(() => {
@@ -24,9 +28,24 @@ export default function CalendarScreen({ navigation }: any) {
   return (
     <BottomSheetModalProvider>
       <View style={globalStyles.container}>
-        <Header title={text.calendarTitle} />
+        <CalendarHeader
+          title={text.months[monthIndex]}
+          toggle={() => setOpenCalendar(!openCalendar)}
+          toggleValue={openCalendar}
+        />
+        <CalendarBlock
+          open={openCalendar}
+          chosenDate={chosenDate}
+          setChosenDate={(date: string) => {
+            setChosenDate(date)
+          }}
+          year={year}
+          monthIndex={monthIndex}
+          setYear={(value: number) => setYear(value)}
+          setMonthIndex={(value: number) => setMonthIndex(value)}
+        />
+        {/* <Button onPress={onPresentModal} title="Present Modal" color="black" /> */}
       </View>
-      <Button onPress={onPresentModal} title="Present Modal" color="black" />
 
       <BottomModalBlock
         bottomSheetModalRef={bottomSheetModalRef}

@@ -11,7 +11,13 @@ import { useNavigation } from '@react-navigation/native'
 
 const width = Dimensions.get('screen').width
 
-export default function Header(props: any) {
+interface HeaderProps {
+  title: string
+  toggle: any
+  toggleValue: boolean
+}
+
+export default function CalendarHeader(props: HeaderProps) {
   const navigation: any = useNavigation()
 
   return (
@@ -27,7 +33,18 @@ export default function Header(props: any) {
           color={colors.card1Title}
         />
       </TouchableOpacity>
-      <Text style={styles.title}>{props.title}</Text>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={props.toggle}
+        style={styles.toggleButton}
+      >
+        <Ionicons
+          name={props.toggleValue ? 'chevron-up' : 'chevron-down'}
+          size={width * 0.06}
+          color={colors.card1Title}
+        />
+        <Text style={styles.title}>{props.title}</Text>
+      </TouchableOpacity>
     </View>
   )
 }
@@ -47,9 +64,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  toggleButton: {
+    height: '100%',
+    paddingHorizontal: '5%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   title: {
     fontSize: width * 0.06,
     color: colors.card1Title,
-    marginRight: '5%',
+    marginLeft: '5%',
   },
 })
