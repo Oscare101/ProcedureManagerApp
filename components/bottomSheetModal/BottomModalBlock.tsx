@@ -10,7 +10,14 @@ import colors from '../../constants/colors'
 
 const width = Dimensions.get('screen').width
 
-export default function BottomModalBlock(props: any) {
+interface BottomModalBlockProps {
+  bottomSheetModalRef: any
+  snapPoints: any
+  dismiss: any
+  content: string
+}
+
+export default function BottomModalBlock(props: BottomModalBlockProps) {
   // const contentData: any = {
   //   themeBlock: <ThemeBlockModal />,
 
