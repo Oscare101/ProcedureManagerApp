@@ -12,10 +12,7 @@ import { Ionicons } from '@expo/vector-icons'
 const width = Dimensions.get('screen').width
 
 interface MonthBlockProps {
-  year: number
-  monthIndex: number
-  setYear: any
-  setMonthIndex: any
+  date: Date
   onPreviousMonth: any
   onNextMonth: any
 }
@@ -35,7 +32,7 @@ export default function MonthBlock(props: MonthBlockProps) {
         />
       </TouchableOpacity>
       <Text style={styles.title}>
-        {props.year} {text.months[props.monthIndex]}
+        {props.date.getFullYear()} {text.months[props.date.getMonth()]}
       </Text>
       <TouchableOpacity
         activeOpacity={0.8}

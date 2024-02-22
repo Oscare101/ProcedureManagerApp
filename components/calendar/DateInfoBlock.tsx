@@ -1,0 +1,87 @@
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
+import colors from '../../constants/colors'
+import { Ionicons } from '@expo/vector-icons'
+import text from '../../constants/text'
+
+const width = Dimensions.get('screen').width
+
+interface DateInfoBlockProps {
+  date: Date
+  setDate: any
+}
+
+export default function DateInfoBlock(props: DateInfoBlockProps) {
+  function OnNextDate() {
+    const date = new Date(props.date)
+    date.setDate(date.getDate() + 1)
+    props.setDate(date)
+  }
+
+  function OnPreviousDate() {
+    const date = new Date(props.date)
+    date.setDate(date.getDate() - 1)
+    props.setDate(date)
+  }
+
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={OnPreviousDate}
+        style={styles.dateButton}
+      >
+        <Ionicons name="chevron-back" size={width * 0.06} color={colors.text} />
+      </TouchableOpacity>
+      <View style={styles.dateBlock}>
+        <Text style={styles.date}>{props.date.getDate()}</Text>
+        <Text style={styles.weekDay}>
+          {text.weekDaysShort[(props.date.getDay() || 7) - 1]}
+        </Text>
+      </View>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={OnNextDate}
+        style={styles.dateButton}
+      >
+        <Ionicons
+          name="chevron-forward"
+          size={width * 0.06}
+          color={colors.text}
+        />
+      </TouchableOpacity>
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    width: '92%',
+    height: width * 0.15,
+    backgroundColor: colors.white,
+    borderRadius: width * 0.03,
+    padding: width * 0.02,
+    marginTop: width * 0.02,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  dateButton: {
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  dateBlock: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    width: width * 0.1,
+  },
+  date: { fontSize: width * 0.06, color: colors.text },
+  weekDay: { fontSize: width * 0.04, color: colors.text },
+})

@@ -3,24 +3,20 @@ import { GetDaysTable } from '../../functions/functions'
 import { RenderDateItem } from './RenderDateItem'
 
 interface DatesBlockProps {
-  year: number
-  monthIndex: number
-  setChosenDate: any
-  chosenDate: string
+  setDate: any
+  date: Date
 }
 
 export default function DatesBlock(props: DatesBlockProps) {
   return (
     <FlatList
       scrollEnabled={false}
-      data={GetDaysTable(props.year, props.monthIndex)}
+      data={GetDaysTable(props.date.getFullYear(), props.date.getMonth())}
       renderItem={(item: any) => (
         <RenderDateItem
           item={item.item}
-          monthIndex={props.monthIndex}
-          year={props.year}
-          chosenDate={props.chosenDate}
-          setChosenDate={(value: any) => props.setChosenDate(value)}
+          date={props.date}
+          setDate={(newDate: Date) => props.setDate(newDate)}
         />
       )}
       numColumns={7}

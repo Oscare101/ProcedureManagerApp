@@ -9,12 +9,13 @@ import BottomModalBlock from '../../components/bottomSheetModal/BottomModalBlock
 import text from '../../constants/text'
 import CalendarBlock from '../../components/calendar/CalendarBlock'
 import CalendarHeader from '../../components/application/CalendarHeader'
+import DateInfoBlock from '../../components/calendar/DateInfoBlock'
 
 export default function CalendarScreen({ navigation }: any) {
   const [openCalendar, setOpenCalendar] = useState<boolean>(false)
-  const [chosenDate, setChosenDate] = useState<string>('')
-  const [year, setYear] = useState<number>(new Date().getFullYear())
-  const [monthIndex, setMonthIndex] = useState<number>(new Date().getMonth())
+  const [date, setDate] = useState<Date>(new Date())
+  // const [year, setYear] = useState<number>(new Date().getFullYear())
+  // const [monthIndex, setMonthIndex] = useState<number>(new Date().getMonth())
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => ['25%', '50%'], [])
@@ -29,20 +30,22 @@ export default function CalendarScreen({ navigation }: any) {
     <BottomSheetModalProvider>
       <View style={globalStyles.container}>
         <CalendarHeader
-          title={text.months[monthIndex]}
+          title={text.months[date.getMonth()]}
           toggle={() => setOpenCalendar(!openCalendar)}
           toggleValue={openCalendar}
         />
         <CalendarBlock
           open={openCalendar}
-          chosenDate={chosenDate}
-          setChosenDate={(date: string) => {
-            setChosenDate(date)
+          date={date}
+          setDate={(newDate: Date) => {
+            setDate(newDate)
           }}
-          year={year}
-          monthIndex={monthIndex}
-          setYear={(value: number) => setYear(value)}
-          setMonthIndex={(value: number) => setMonthIndex(value)}
+        />
+        <DateInfoBlock
+          date={date}
+          setDate={(date: Date) => {
+            setDate(date)
+          }}
         />
         {/* <Button onPress={onPresentModal} title="Present Modal" color="black" /> */}
       </View>

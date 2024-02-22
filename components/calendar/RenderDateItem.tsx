@@ -10,13 +10,16 @@ import { IsChosenDate, IsDateToday } from '../../functions/functions'
 
 const width = Dimensions.get('screen').width
 
-export function RenderDateItem(props: any) {
+interface DateItemProps {
+  item: any
+  date: Date
+  setDate: any
+}
+
+export function RenderDateItem(props: DateItemProps) {
   const today = IsDateToday(props.item)
-  const inMonth = new Date(props.item).getMonth() === props.monthIndex
-  const isChosenDate =
-    IsChosenDate(props.item, props.chosenDate) ||
-    IsChosenDate(props.item, props.chosenRangeFrom) ||
-    IsChosenDate(props.item, props.chosenRangeTo)
+  const inMonth = new Date(props.item).getMonth() === props.date.getMonth()
+  const isChosenDate = IsChosenDate(props.item, props.date)
 
   function GetDateSchedule() {
     return []
@@ -33,7 +36,7 @@ export function RenderDateItem(props: any) {
       }}
       activeOpacity={0.8}
       onPress={() => {
-        props.setChosenDate(props.item)
+        props.setDate(props.item)
       }}
     >
       {isChosenDate ? <View style={styles.chosenDate} /> : <></>}

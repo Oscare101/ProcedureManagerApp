@@ -9,12 +9,8 @@ const width = Dimensions.get('screen').width
 
 interface CalendarBlockProps {
   open: boolean
-  chosenDate: string
-  setChosenDate: any
-  year: number
-  monthIndex: number
-  setYear: any
-  setMonthIndex: any
+  date: Date
+  setDate: any
 }
 
 export default function CalendarBlock(props: CalendarBlockProps) {
@@ -29,52 +25,30 @@ export default function CalendarBlock(props: CalendarBlockProps) {
   }, [props.open])
 
   function OnPreviousMonth() {
-    if (props.monthIndex) {
-      props.setMonthIndex(props.monthIndex - 1)
-    } else {
-      props.setMonthIndex(11)
-      props.setYear(props.year - 1)
-    }
+    const date = new Date(props.date)
+    date.setDate(0)
+    props.setDate(date)
   }
 
   function OnNextMonth() {
-    if (props.monthIndex < 11) {
-      props.setMonthIndex(props.monthIndex + 1)
-    } else {
-      props.setMonthIndex(0)
-      props.setYear(props.year + 1)
-    }
+    const date = new Date(props.date)
+    date.setMonth(date.getMonth() + 1)
+    date.setDate(1)
+    props.setDate(date)
   }
 
   return (
     <Animated.View style={[styles.calendarBlock, { height: heightAnim }]}>
       <MonthBlock
-        year={props.year}
-        monthIndex={props.monthIndex}
-        setYear={(value: number) => props.setYear(value)}
-        setMonthIndex={(value: number) => props.setMonthIndex(value)}
+        date={props.date}
         onPreviousMonth={OnPreviousMonth}
         onNextMonth={OnNextMonth}
       />
       <WeekDaysBlock />
       <DatesBlock
-        year={props.year}
-        monthIndex={props.monthIndex}
-        chosenDate={props.chosenDate}
-        setChosenDate={(date: any) => {
-          if (
-            new Date(date).getMonth() === props.monthIndex - 1 ||
-            (props.monthIndex === 0 && new Date(date).getMonth() === 11)
-          ) {
-            OnPreviousMonth()
-          } else if (
-            new Date(date).getMonth() === props.monthIndex + 1 ||
-            (props.monthIndex === 11 && new Date(date).getMonth() === 0)
-          ) {
-            OnNextMonth()
-          }
-
-          props.setChosenDate(date)
+        date={props.date}
+        setDate={(date: Date) => {
+          props.setDate(date)
         }}
       />
     </Animated.View>
