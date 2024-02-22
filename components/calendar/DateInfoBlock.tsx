@@ -44,7 +44,7 @@ export default function DateInfoBlock(props: DateInfoBlockProps) {
         onPress={OnPreviousDate}
         style={styles.dateButton}
       >
-        <Ionicons name="chevron-back" size={width * 0.06} color={colors.text} />
+        <Ionicons name="chevron-back" size={width * 0.07} color={colors.text} />
       </TouchableOpacity>
       <View style={styles.dateBlock}>
         <Text style={styles.date}>{props.date.getDate()}</Text>
@@ -59,7 +59,7 @@ export default function DateInfoBlock(props: DateInfoBlockProps) {
       >
         <Ionicons
           name="chevron-forward"
-          size={width * 0.06}
+          size={width * 0.07}
           color={colors.text}
         />
       </TouchableOpacity>
@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
+    aspectRatio: 0.5,
   },
   dateBlock: {
     flexDirection: 'column',

@@ -19,7 +19,6 @@ interface HeaderProps {
 
 export default function CalendarHeader(props: HeaderProps) {
   const navigation: any = useNavigation()
-
   return (
     <View style={styles.header}>
       <TouchableOpacity
@@ -43,6 +42,7 @@ export default function CalendarHeader(props: HeaderProps) {
           size={width * 0.06}
           color={colors.card1Title}
         />
+
         <Text style={styles.title}>{props.title}</Text>
       </TouchableOpacity>
     </View>
