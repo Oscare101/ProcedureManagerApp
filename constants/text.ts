@@ -9,4 +9,5 @@ export default {
   passwordError: `Password min length is ${rules.passwordMinLengh}`,
   logoutButton: 'Log out',
   calendarTitle: 'Calendar',
+  customersTitle: 'Customers',
 }
