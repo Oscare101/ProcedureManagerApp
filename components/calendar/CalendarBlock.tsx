@@ -32,8 +32,8 @@ export default function CalendarBlock(props: CalendarBlockProps) {
 
   function OnNextMonth() {
     const date = new Date(props.date)
-    date.setMonth(date.getMonth() + 1)
     date.setDate(1)
+    date.setMonth(date.getMonth() + 1)
     props.setDate(date)
   }
 

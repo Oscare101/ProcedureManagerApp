@@ -14,8 +14,6 @@ import DateInfoBlock from '../../components/calendar/DateInfoBlock'
 export default function CalendarScreen({ navigation }: any) {
   const [openCalendar, setOpenCalendar] = useState<boolean>(false)
   const [date, setDate] = useState<Date>(new Date())
-  // const [year, setYear] = useState<number>(new Date().getFullYear())
-  // const [monthIndex, setMonthIndex] = useState<number>(new Date().getMonth())
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => ['25%', '50%'], [])
@@ -46,6 +44,8 @@ export default function CalendarScreen({ navigation }: any) {
           setDate={(date: Date) => {
             setDate(date)
           }}
+          onEdit={onPresentModal}
+          onAdd={() => {}}
         />
         {/* <Button onPress={onPresentModal} title="Present Modal" color="black" /> */}
       </View>

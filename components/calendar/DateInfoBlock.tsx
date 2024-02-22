@@ -14,6 +14,8 @@ const width = Dimensions.get('screen').width
 interface DateInfoBlockProps {
   date: Date
   setDate: any
+  onEdit: any
+  onAdd: any
 }
 
 export default function DateInfoBlock(props: DateInfoBlockProps) {
@@ -55,6 +57,21 @@ export default function DateInfoBlock(props: DateInfoBlockProps) {
           color={colors.text}
         />
       </TouchableOpacity>
+      <View style={{ flex: 1 }} />
+      <TouchableOpacity
+        style={styles.editButton}
+        activeOpacity={0.8}
+        onPress={props.onEdit}
+      >
+        <Ionicons name="pencil" size={width * 0.06} color={colors.text} />
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.addButton}
+        activeOpacity={0.8}
+        onPress={props.onAdd}
+      >
+        <Ionicons name="add" size={width * 0.08} color={colors.text} />
+      </TouchableOpacity>
     </View>
   )
 }
@@ -64,7 +81,7 @@ const styles = StyleSheet.create({
     width: '92%',
     height: width * 0.15,
     backgroundColor: colors.white,
-    borderRadius: width * 0.03,
+    borderRadius: width * 0.05,
     padding: width * 0.02,
     marginTop: width * 0.02,
     flexDirection: 'row',
@@ -84,4 +101,24 @@ const styles = StyleSheet.create({
   },
   date: { fontSize: width * 0.06, color: colors.text },
   weekDay: { fontSize: width * 0.04, color: colors.text },
+  editButton: {
+    height: '100%',
+    aspectRatio: 0.7,
+    borderWidth: width * 0.003,
+    borderColor: colors.text,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: width * 0.03,
+    marginLeft: width * 0.02,
+  },
+  addButton: {
+    height: '100%',
+    aspectRatio: 1,
+    borderWidth: width * 0.003,
+    borderColor: colors.text,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: width * 0.03,
+    marginLeft: width * 0.02,
+  },
 })
