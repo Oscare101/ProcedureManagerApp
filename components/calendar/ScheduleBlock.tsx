@@ -10,6 +10,8 @@ import {
 import rules from '../../constants/rules'
 import colors from '../../constants/colors'
 import globalStyles from '../../constants/globalStyles'
+import { useEffect, useState } from 'react'
+import CreateProcedureCard from './CreateProcedureCard'
 
 interface ScheduleBlockProps {
   date: Date
@@ -18,6 +20,20 @@ interface ScheduleBlockProps {
 const width = Dimensions.get('screen').width
 
 export default function ScheduleBlock(props: ScheduleBlockProps) {
+  const [cardPreview, setCardPreview] = useState<{
+    date: Date
+    time: string
+    column: number
+  } | null>()
+
+  useEffect(() => {
+    if (cardPreview !== null) {
+      setTimeout(function () {
+        setCardPreview(null)
+      }, 5000)
+    }
+  }, [cardPreview])
+
   function RenderTimesItem({ item }: any) {
     return (
       <View style={[styles.timesItem, globalStyles.scheduleCardHeight2]}>
@@ -26,17 +42,45 @@ export default function ScheduleBlock(props: ScheduleBlockProps) {
       </View>
     )
   }
+  function IsPreview(time: string, column: number) {
+    return (
+      props.date === cardPreview?.date &&
+      time === cardPreview?.time &&
+      column === cardPreview?.column
+    )
+  }
   function RenderScheduleItem({ item }: any) {
     return (
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => {
-          console.log(item)
-        }}
-        style={[styles.scheduleItem, globalStyles.scheduleCardHeight1]}
-      >
+      <View style={[styles.scheduleItem, globalStyles.scheduleCardHeight1]}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => {
+            setCardPreview({ date: props.date, time: item, column: 1 })
+          }}
+          style={[styles.cardPreview, globalStyles.scheduleCardHeight1]}
+        >
+          {IsPreview(item, 1) ? <CreateProcedureCard /> : <></>}
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => {
+            setCardPreview({ date: props.date, time: item, column: 2 })
+          }}
+          style={[styles.cardPreview, globalStyles.scheduleCardHeight1]}
+        >
+          {IsPreview(item, 2) ? <CreateProcedureCard /> : <></>}
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => {
+            setCardPreview({ date: props.date, time: item, column: 3 })
+          }}
+          style={[styles.cardPreview, globalStyles.scheduleCardHeight1]}
+        >
+          {IsPreview(item, 3) ? <CreateProcedureCard /> : <></>}
+        </TouchableOpacity>
         {/* <Text style={styles.Title}>{item}</Text> */}
-      </TouchableOpacity>
+      </View>
     )
   }
   return (
@@ -88,5 +132,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: colors.bg,
     borderStyle: 'dashed',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+  },
+  cardPreview: {
+    width: (width * 0.92 * 0.85) / 3,
   },
 })

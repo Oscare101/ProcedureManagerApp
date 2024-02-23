@@ -27,4 +27,5 @@ export default {
   ],
   working: 'Працює',
   dayOff: 'Вихідний',
+  createProcedure: 'Створити запис',
 }

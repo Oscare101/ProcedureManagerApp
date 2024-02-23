@@ -69,28 +69,27 @@ export default function DateInfoBlock(props: DateInfoBlockProps) {
           height: '100%',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'flex-start',
+          justifyContent: 'space-between',
         }}
       >
-        {Object.values(schedule['date-' + props.date.getDate()] || []).map(
-          (master: string, index: number) => (
-            <View
-              key={index}
-              style={[
-                styles.masterBlock,
-                {
-                  backgroundColor: masters.find((m: Master) => m.id === master)
-                    ?.color,
-                  marginTop: index ? width * 0.005 : 0,
-                },
-              ]}
-            >
-              <Text style={styles.masterBlockTitle}>
-                {masters.find((m: Master) => m.id === master)?.name}
-              </Text>
-            </View>
-          )
-        )}
+        {masters.map((master: Master, index: number) => (
+          <View
+            key={index}
+            style={[
+              styles.masterBlock,
+              {
+                backgroundColor: master.color,
+                opacity: Object.values(
+                  schedule['date-' + props.date.getDate()] || []
+                ).find((m: string) => m === master.id)
+                  ? 1
+                  : 0,
+              },
+            ]}
+          >
+            <Text style={styles.masterBlockTitle}>{master.name}</Text>
+          </View>
+        ))}
       </View>
       <TouchableOpacity
         style={styles.editButton}
