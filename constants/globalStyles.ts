@@ -1,5 +1,7 @@
-import { StyleSheet } from 'react-native'
+import { Dimensions, StyleSheet } from 'react-native'
 import colors from './colors'
+
+const width = Dimensions.get('screen').width
 
 export default StyleSheet.create({
   container: {
@@ -13,5 +15,14 @@ export default StyleSheet.create({
   center: {
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  scheduleCardHeight1: {
+    height: width * 0.1,
+  },
+  scheduleCardHeight2: {
+    height: width * 0.2,
+  },
+  scheduleCardHeight3: {
+    height: width * 0.3,
   },
 })

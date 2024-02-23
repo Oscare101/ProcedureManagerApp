@@ -20,6 +20,7 @@ import { updateMasters } from '../../redux/masters'
 import { Master } from '../../constants/interfaces'
 import { clearSchedule, updateSchedule } from '../../redux/schedule'
 import { RootState } from '../../redux'
+import ScheduleBlock from '../../components/calendar/ScheduleBlock'
 
 const width = Dimensions.get('screen').width
 
@@ -97,6 +98,7 @@ export default function CalendarScreen({ navigation }: any) {
           onEdit={onPresentModal}
           onAdd={() => {}}
         />
+        <ScheduleBlock date={date} />
         {/* <Button onPress={onPresentModal} title="Present Modal" color="black" /> */}
       </View>
 
