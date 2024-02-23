@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import mastersReducer from './masters'
 import scheduleReducer from './schedule'
+import customersReducer from './customers'
 
 export const store = configureStore({
   reducer: {
     masters: mastersReducer,
     schedule: scheduleReducer,
+    customers: customersReducer,
   },
 })
 

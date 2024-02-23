@@ -17,7 +17,7 @@ export interface Customer {
   messenger: Messenger['type']
   link: string
   id: string
-  comment: string
+  comment?: string
 }
 
 export interface Messenger {

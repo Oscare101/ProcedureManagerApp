@@ -14,23 +14,36 @@ const width = Dimensions.get('screen').width
 interface InputBlockProps {
   value: string
   setValue: any
-  type: 'email' | 'password'
+  type: 'email' | 'password' | 'text'
   placeHolder: string
   styles?: object
   icon?: keyof typeof Ionicons.glyphMap
+  iconPosittion?: 'left' | 'right'
 }
 
 export default function InputBlock(props: InputBlockProps) {
   const [hidden, setHidden] = useState<boolean>(props.type === 'password')
 
   return (
-    <View style={[styles.inputBlock, props.styles]}>
+    <View
+      style={[
+        styles.inputBlock,
+        props.styles,
+        {
+          flexDirection:
+            props.iconPosittion === 'right' ? 'row-reverse' : 'row',
+        },
+      ]}
+    >
       {props.icon ? (
         <Ionicons
           name={props.icon}
           size={24}
           color={colors.text}
-          style={{ marginRight: width * 0.03 }}
+          style={{
+            marginRight: props.iconPosittion === 'right' ? 0 : width * 0.03,
+            marginLeft: props.iconPosittion === 'right' ? width * 0.03 : 0,
+          }}
         />
       ) : (
         <></>

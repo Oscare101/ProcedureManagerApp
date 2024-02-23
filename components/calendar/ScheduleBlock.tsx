@@ -28,9 +28,12 @@ export default function ScheduleBlock(props: ScheduleBlockProps) {
 
   useEffect(() => {
     if (cardPreview !== null) {
-      setTimeout(function () {
+      const timer = setTimeout(function () {
         setCardPreview(null)
       }, 5000)
+      return () => {
+        clearTimeout(timer)
+      }
     }
   }, [cardPreview])
 
@@ -79,7 +82,6 @@ export default function ScheduleBlock(props: ScheduleBlockProps) {
         >
           {IsPreview(item, 3) ? <CreateProcedureCard /> : <></>}
         </TouchableOpacity>
-        {/* <Text style={styles.Title}>{item}</Text> */}
       </View>
     )
   }

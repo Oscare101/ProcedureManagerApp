@@ -8,8 +8,8 @@ export default {
   emailError: 'Invalid email',
   passwordError: `Password min length is ${rules.passwordMinLengh}`,
   logoutButton: 'Log out',
-  calendarTitle: 'Calendar',
-  customersTitle: 'Customers',
+  calendarTitle: 'Календар',
+  customersTitle: 'Клієнти',
   weekDaysShort: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Нд'],
   months: [
     'Січень',
@@ -28,4 +28,5 @@ export default {
   working: 'Працює',
   dayOff: 'Вихідний',
   createProcedure: 'Створити запис',
+  searchClient: 'пошук клієнта(-ки)',
 }

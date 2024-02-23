@@ -10,23 +10,21 @@ import { store } from './redux/store'
 import { useEffect } from 'react'
 import { auth } from './firebase'
 import { getDatabase, onValue, ref } from 'firebase/database'
-import { updateMasters } from './redux/masters'
-import { Master } from './constants/interfaces'
+import { Customer } from './constants/interfaces'
+import { updateCustomers } from './redux/customers'
 
 export const storage = new MMKV()
 
-export default function App() {
-  function AppComponent() {
-    return (
-      <StatusBar barStyle={'light-content'} backgroundColor={colors.card1} />
-    )
-  }
+function AppComponent() {
+  return <StatusBar barStyle={'light-content'} backgroundColor={colors.card1} />
+}
 
+export default function App() {
   return (
     <Provider store={store}>
-      <AppComponent />
       <GestureHandlerRootView style={{ flex: 1 }}>
         <NavigationContainer>
+          <AppComponent />
           <MainNavigation />
         </NavigationContainer>
       </GestureHandlerRootView>
