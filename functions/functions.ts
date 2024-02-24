@@ -1,3 +1,7 @@
+import { Linking } from 'react-native'
+import { Customer } from '../constants/interfaces'
+import rules from '../constants/rules'
+
 function GetDatesInMonth(year: number, month: number) {
   const startDate = new Date(year, month - 1, 1)
   const endDate = new Date(year, month, 0).getDate()
@@ -48,4 +52,42 @@ export function IsChosenDate(date: any, chosen: any) {
     new Date(date).getFullYear() === new Date(chosen).getFullYear() &&
     new Date(date).getDate() === new Date(chosen).getDate()
   )
+}
+
+export function ExtractInstagramUsername(url: string) {
+  const regex = /instagram\.com\/([^/?]+)/
+  const match = url.match(regex)
+  if (match && match[1]) {
+    return match[1]
+  } else {
+    return null
+  }
+}
+
+export function ReturnPhoneString(phone: string) {
+  return phone
+    .replace(/\D/g, '')
+    .replace(rules.phoneRegrex, '+$1 ($2) $3 $4 $5')
+}
+
+export function ReturnCustomerMessenger(customer: Customer) {
+  return customer.messenger === 'instagram'
+    ? ExtractInstagramUsername(customer.link)
+    : customer.messenger === 'whatsapp'
+    ? ReturnPhoneString(customer.phone)
+    : customer.messenger === 'telegram'
+    ? customer.link
+    : ReturnPhoneString(customer.phone)
+}
+
+export function OpenMessenger(customer: Customer) {
+  if (customer.messenger === 'viber') {
+    Linking.openURL(`viber://chat?number=${customer.phone.replace('+', '')}`)
+  } else if (customer.messenger === 'instagram') {
+    Linking.openURL(customer.link)
+  } else if (customer.messenger === 'telegram') {
+    Linking.openURL(`https://t.me/${customer.link.replace(/^@/, '')}`)
+  } else {
+    Linking.openURL(`https://wa.me/${customer.phone.replace('+', '')}`)
+  }
 }

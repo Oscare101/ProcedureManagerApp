@@ -13,6 +13,7 @@ const width = Dimensions.get('screen').width
 
 interface HeaderProps {
   title: string
+  action: 'drawer' | 'back'
 }
 
 export default function Header(props: HeaderProps) {
@@ -21,11 +22,17 @@ export default function Header(props: HeaderProps) {
     <View style={styles.header}>
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => navigation.openDrawer()}
+        onPress={() => {
+          if (props.action === 'drawer') {
+            navigation.openDrawer()
+          } else {
+            navigation.goBack()
+          }
+        }}
         style={styles.button}
       >
         <Ionicons
-          name="menu-outline"
+          name={props.action === 'drawer' ? 'menu-outline' : 'chevron-back'}
           size={width * 0.1}
           color={colors.card1Title}
         />

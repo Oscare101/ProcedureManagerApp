@@ -10,6 +10,7 @@ export default {
   logoutButton: 'Log out',
   calendarTitle: 'Календар',
   customersTitle: 'Клієнти',
+  customerInfo: 'Клієнт(-ка)',
   weekDaysShort: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Нд'],
   months: [
     'Січень',
@@ -29,4 +30,8 @@ export default {
   dayOff: 'Вихідний',
   createProcedure: 'Створити запис',
   searchClient: 'пошук клієнта(-ки)',
+  name: "ім'я",
+  phone: 'телефон',
+  messenger: 'месенджер',
+  link: 'посилання',
 }

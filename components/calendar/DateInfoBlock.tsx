@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     width: '92%',
     height: width * 0.2,
     backgroundColor: colors.white,
-    borderRadius: width * 0.05,
+    borderRadius: width * 0.03,
     padding: width * 0.02,
     marginTop: width * 0.02,
     flexDirection: 'row',
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     borderColor: colors.text,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: width * 0.03,
+    borderRadius: width * 0.02,
     marginLeft: width * 0.02,
   },
   addButton: {
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     borderColor: colors.text,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: width * 0.03,
+    borderRadius: width * 0.02,
     marginLeft: width * 0.02,
   },
   masterBlock: {

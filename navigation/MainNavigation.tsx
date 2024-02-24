@@ -11,6 +11,7 @@ import CalendarScreen from '../screens/application/CalendarScreen'
 import CustomDrawerContent from './CustomDrawerContent'
 import LogInScreen from '../screens/login/LogInScreen'
 import CustomersScreen from '../screens/application/CustomersScreen'
+import CustomerInfoScreen from '../screens/application/CustomerInfoScreen'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -61,7 +62,7 @@ export default function MainNavigation() {
         component={DrawerNavigation}
       />
       {/* other screens then must apear without bottom tab navigation */}
-      {/* <Stack.Screen
+      <Stack.Screen
         options={{
           headerShown: false,
           headerLeft: () => null,
@@ -70,9 +71,9 @@ export default function MainNavigation() {
           gestureEnabled: true,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}
-        name="StockScreen"
-        component={StockScreen}
-      /> */}
+        name="CustomerInfoScreen"
+        component={CustomerInfoScreen}
+      />
     </Stack.Navigator>
   )
 

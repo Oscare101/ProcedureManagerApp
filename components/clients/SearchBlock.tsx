@@ -21,7 +21,11 @@ export default function SearchBlock(props: SearchBlockProps) {
           setValue={(value: string) => props.setValue(value)}
           icon="search-outline"
           iconPosittion="right"
-          styles={{ backgroundColor: colors.bg, width: '100%' }}
+          styles={{
+            backgroundColor: colors.bg,
+            width: '100%',
+            borderRadius: width * 0.02,
+          }}
         />
       </View>
     </View>
@@ -34,6 +38,6 @@ const styles = StyleSheet.create({
     padding: width * 0.02,
     backgroundColor: colors.white,
     marginTop: width * 0.02,
-    borderRadius: width * 0.05,
+    borderRadius: width * 0.03,
   },
 })

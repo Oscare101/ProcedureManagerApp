@@ -35,7 +35,7 @@ export default function CustomersScreen({ navigation }: any) {
 
   return (
     <View style={globalStyles.container}>
-      <Header title={text.customersTitle} />
+      <Header title={text.customersTitle} action="drawer" />
       <SearchBlock
         value={search}
         setValue={(value: string) => setSearch(value)}

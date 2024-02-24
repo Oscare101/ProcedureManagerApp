@@ -10,6 +10,8 @@ import { Ionicons } from '@expo/vector-icons'
 import rules from '../../constants/rules'
 import { Customer } from '../../constants/interfaces'
 import RenderMessengerIcon from './RenderMessengerIcon'
+import { useNavigation } from '@react-navigation/native'
+import { ReturnCustomerMessenger } from '../../functions/functions'
 
 interface RenderCustomerItemProps {
   item: Customer
@@ -18,32 +20,16 @@ interface RenderCustomerItemProps {
 const width = Dimensions.get('screen').width
 
 export default function RenderCustomerItem(props: RenderCustomerItemProps) {
-  function ExtractInstagramUsername(url: string) {
-    const regex = /instagram\.com\/([^/?]+)/
-    const match = url.match(regex)
-    if (match && match[1]) {
-      return match[1]
-    } else {
-      return null
-    }
-  }
-
-  function ReturnCustomerMessenger(customer: Customer) {
-    return customer.messenger === 'instagram'
-      ? ExtractInstagramUsername(customer.link)
-      : customer.messenger === 'whatsapp'
-      ? customer.phone
-          .replace(/\D/g, '')
-          .replace(rules.phoneRegrex, '+$1 ($2) $3 $4 $5')
-      : customer.messenger === 'telegram'
-      ? customer.link
-      : customer.phone
-          .replace(/\D/g, '')
-          .replace(rules.phoneRegrex, '+$1 ($2) $3 $4 $5')
-  }
+  const navigation: any = useNavigation()
 
   return (
-    <TouchableOpacity activeOpacity={0.8} style={styles.card}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={() =>
+        navigation.navigate('CustomerInfoScreen', { customer: props.item })
+      }
+      style={styles.card}
+    >
       <View style={styles.rowBetween}>
         <View style={styles.nameBlock}>
           <Text style={styles.name}>{props.item.name}</Text>
@@ -57,18 +43,6 @@ export default function RenderCustomerItem(props: RenderCustomerItemProps) {
       />
       <View style={styles.rowBetween}>
         <View style={styles.column}>
-          {/* <View style={styles.rowStart}>
-            <Ionicons
-              name="call-outline"
-              size={width * 0.05}
-              color={colors.text}
-            />
-            <Text style={styles.customerInfo}>
-              {props.item.phone
-                .replace(/\D/g, '')
-                .replace(rules.phoneRegrex, '+$1 ($2) $3 $4 $5')}
-            </Text>
-          </View> */}
           <View style={styles.rowStart}>
             <RenderMessengerIcon messenger={props.item.messenger} />
             <Text style={styles.customerInfo}>
@@ -127,5 +101,6 @@ const styles = StyleSheet.create({
   customerInfo: {
     fontSize: width * 0.035,
     marginLeft: width * 0.01,
+    color: colors.text,
   },
 })

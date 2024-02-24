@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   scheduleBlock: {
     width: width * 0.92 * 0.85,
     backgroundColor: colors.white,
-    borderRadius: width * 0.05,
+    borderRadius: width * 0.03,
     marginTop: width * 0.02,
   },
   scheduleItem: {

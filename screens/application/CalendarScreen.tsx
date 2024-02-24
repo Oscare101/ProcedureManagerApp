@@ -44,6 +44,7 @@ export default function CalendarScreen({ navigation }: any) {
   function GetMastersData() {
     if (auth.currentUser && auth.currentUser.email) {
       const data = ref(getDatabase(), `business/PoboiskayaSofia/masters`)
+
       onValue(data, (snapshot) => {
         dispatch(updateMasters(Object.values(snapshot.val()) as Master[]))
       })
