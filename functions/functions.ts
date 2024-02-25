@@ -94,14 +94,40 @@ export function ReturnCustomerMessenger(customer: Customer) {
     : ReturnPhoneString(customer.phone)
 }
 
-export function OpenMessenger(customer: Customer) {
+export async function OpenMessenger(customer: Customer) {
   if (customer.messenger === 'viber') {
-    Linking.openURL(`viber://chat?number=${customer.phone.replace('+', '')}`)
+    const canOpen = await Linking.canOpenURL(
+      `viber://chat?number=${customer.phone.replace('+', '')}`
+    )
+    if (canOpen) {
+      Linking.openURL(`viber://chat?number=${customer.phone.replace('+', '')}`)
+    } else {
+      return 'error'
+    }
   } else if (customer.messenger === 'instagram') {
-    Linking.openURL(customer.link)
+    const canOpen = await Linking.canOpenURL(customer.link)
+    if (canOpen) {
+      Linking.openURL(customer.link)
+    } else {
+      return 'error'
+    }
   } else if (customer.messenger === 'telegram') {
-    Linking.openURL(`https://t.me/${customer.link.replace(/^@/, '')}`)
+    const canOpen = await Linking.canOpenURL(
+      `https://t.me/${customer.link.replace(/^@/, '')}`
+    )
+    if (canOpen) {
+      Linking.openURL(`https://t.me/${customer.link.replace(/^@/, '')}`)
+    } else {
+      return 'error'
+    }
   } else {
-    Linking.openURL(`https://wa.me/${customer.phone.replace('+', '')}`)
+    const canOpen = await Linking.canOpenURL(
+      `https://wa.me/${customer.phone.replace('+', '')}`
+    )
+    if (canOpen) {
+      Linking.openURL(`https://wa.me/${customer.phone.replace('+', '')}`)
+    } else {
+      return 'error'
+    }
   }
 }

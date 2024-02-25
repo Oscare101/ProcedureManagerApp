@@ -43,8 +43,10 @@ export default function CustomerInfoScreen({ navigation, route }: any) {
       title: text.messenger,
       value: customer.messenger,
       icon: 'open-outline',
-      onPress: () => {
-        OpenMessenger(customer)
+      onPress: async () => {
+        const response = await OpenMessenger(customer)
+        if (response === 'error') {
+        }
       },
     },
   ]
