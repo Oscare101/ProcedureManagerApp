@@ -6,6 +6,7 @@ export default {
   cardPale: '#6B788B',
   bg: '#F1F3F5',
   white: '#FFFFFF',
+  black: '#000000',
   text: '#5E5E6A',
   comment: '#AAAABA',
   accent: '#3598DC',

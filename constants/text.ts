@@ -39,4 +39,5 @@ export default {
   create: 'Створити',
   edit: 'Редагувати',
   alreadyUsedPhone: 'Цей номер телефону вже використовується',
+  cantOpenLink: 'Неможливо відкрити посилання',
 }

@@ -17,6 +17,7 @@ import ButtonBlock from '../../components/application/ButtonBlock'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux'
 import { Customer } from '../../constants/interfaces'
+import Toast from 'react-native-toast-message'
 
 const width = Dimensions.get('screen').width
 
@@ -46,6 +47,13 @@ export default function CustomerInfoScreen({ navigation, route }: any) {
       onPress: async () => {
         const response = await OpenMessenger(customer)
         if (response === 'error') {
+          Toast.show({
+            type: 'ToastMessage',
+            props: {
+              title: text.cantOpenLink,
+            },
+            position: 'bottom',
+          })
         }
       },
     },

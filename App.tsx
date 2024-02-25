@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import MainNavigation from './navigation/MainNavigation'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { MMKV } from 'react-native-mmkv'
-import { StatusBar } from 'react-native'
+import { Dimensions, StatusBar, Text, View } from 'react-native'
 import colors from './constants/colors'
 import { Provider, useDispatch, useSelector } from 'react-redux'
 import { store } from './redux/store'
@@ -13,6 +13,7 @@ import { auth } from './firebase'
 import { getDatabase, onValue, ref } from 'firebase/database'
 import { updateCustomers } from './redux/customers'
 import { Customer } from './constants/interfaces'
+import Toast from 'react-native-toast-message'
 
 export const storage = new MMKV()
 
@@ -41,7 +42,35 @@ function AppComponent() {
   return <StatusBar barStyle={'light-content'} backgroundColor={colors.card1} />
 }
 
+const width = Dimensions.get('screen').width
+
 export default function App() {
+  const toastConfig = {
+    ToastMessage: ({ props }: any) => (
+      <View
+        style={{
+          width: '92%',
+          backgroundColor: colors.black,
+          padding: width * 0.04,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          borderRadius: width * 0.015,
+        }}
+      >
+        <Text
+          style={{
+            fontSize: width * 0.05,
+            color: colors.white,
+            textAlign: 'left',
+          }}
+        >
+          {props.title}
+        </Text>
+      </View>
+    ),
+  }
+
   return (
     <Provider store={store}>
       <GestureHandlerRootView style={{ flex: 1 }}>
@@ -50,6 +79,7 @@ export default function App() {
           <MainNavigation />
         </NavigationContainer>
       </GestureHandlerRootView>
+      <Toast config={toastConfig} />
     </Provider>
   )
 }
