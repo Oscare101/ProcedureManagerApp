@@ -21,33 +21,46 @@ import { Ionicons } from '@expo/vector-icons'
 import { Customer } from '../../constants/interfaces'
 import RenderMessengerIcon from '../../components/clients/RenderMessengerIcon'
 import ButtonBlock from '../../components/application/ButtonBlock'
-import { CreateCustomer } from '../../functions/actions'
+import { CreateCustomer, UpdateCustomer } from '../../functions/actions'
 import { auth } from '../../firebase'
+import rules from '../../constants/rules'
+import { ReturnPhoneString } from '../../functions/functions'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../redux'
 
 const width = Dimensions.get('screen').width
 
 export default function CreateCustomerScreen({ navigation, route }: any) {
-  const [name, setName] = useState<string>('')
-  const [phone, setPhone] = useState<string>('')
-  const [messenger, setMessenger] = useState<Customer['messenger'] | ''>('')
-  const [link, setLink] = useState<string>('')
+  const customers = useSelector((state: RootState) => state.customers)
+
+  const [name, setName] = useState<string>(route.params?.customer.name || '')
+  const [phone, setPhone] = useState<string>(route.params?.customer.phone || '')
+  const [messenger, setMessenger] = useState<Customer['messenger'] | ''>(
+    route.params?.customer.messenger || ''
+  )
+  const [link, setLink] = useState<string>(route.params?.customer.link || '')
   const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<string>('')
 
   async function CreateCustomerFunc(back: boolean) {
+    if (customers.find((c: Customer) => c.id === phone)) {
+      setError(text.alreadyUsedPhone)
+      return false
+    }
     if (
       messenger &&
       name &&
-      phone &&
+      ClearPhoneString(phone).length === 13 &&
       auth.currentUser &&
       auth.currentUser.email
     ) {
       setLoading(true)
       const customer: Customer = {
         name: name,
-        phone: phone,
+        phone: ClearPhoneString(phone),
         messenger: messenger,
         link: link,
-        id: phone,
+        id: ClearPhoneString(phone),
       }
       await CreateCustomer(customer)
       if (back) {
@@ -62,6 +75,29 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
     }
   }
 
+  async function UpdateCustomerFunc(back: boolean) {
+    if (
+      messenger &&
+      name &&
+      ClearPhoneString(phone).length === 13 &&
+      auth.currentUser &&
+      auth.currentUser.email &&
+      route.params.customer
+    ) {
+      setLoading(true)
+      const customer: Customer = {
+        name: name,
+        phone: ClearPhoneString(phone),
+        messenger: messenger,
+        link: link,
+        id: route.params.customer.id,
+      }
+      await UpdateCustomer(customer)
+
+      navigation.goBack()
+    }
+  }
+
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => [width * 0.6], [])
   const onPresentModal = useCallback(() => {
@@ -70,6 +106,10 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
   const onDismisModal = useCallback(() => {
     bottomSheetModalRef.current?.dismiss()
   }, [])
+
+  function ClearPhoneString(phone: string) {
+    return phone.replaceAll(' ', '').replaceAll('(', '').replaceAll(')', '')
+  }
 
   const data = [
     {
@@ -81,10 +121,12 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
     },
     {
       title: text.phone,
-      value: phone,
+      value: ReturnPhoneString(phone),
       setValue: (value: string) => {
-        if (value.length > 13) return false
-        const formattedPhoneNumber = value.replace(/[^0-9]/g, '')
+        const valueNumber = ClearPhoneString(value)
+
+        if (valueNumber.length > 13) return false
+        const formattedPhoneNumber = valueNumber.replace(/[^0-9]/g, '')
 
         if (
           formattedPhoneNumber.length > 0 &&
@@ -171,17 +213,30 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
   return (
     <BottomSheetModalProvider>
       <View style={globalStyles.container}>
-        <Header action="back" title={text.createCustomer} />
+        <Header
+          action="back"
+          title={
+            route.params?.customer ? text.editCustomer : text.createCustomer
+          }
+        />
         <FlatList
           style={{ width: '100%' }}
           data={data}
           renderItem={RenderItem}
         />
+        {error ? <Text style={styles.error}>{error}</Text> : <></>}
+
         <ButtonBlock
-          title={text.create}
-          disable={!(messenger && name && phone)}
+          title={route.params?.customer ? text.edit : text.create}
+          disable={
+            !(messenger && name && ClearPhoneString(phone).length === 13)
+          }
           action={() => {
-            CreateCustomerFunc(true)
+            if (route.params?.customer) {
+              UpdateCustomerFunc(true)
+            } else {
+              CreateCustomerFunc(true)
+            }
           }}
           onLong={() => {
             CreateCustomerFunc(false)
@@ -231,4 +286,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: width * 0.03,
   },
   messengerTitle: { fontSize: width * 0.05, flex: 1 },
+  error: {
+    fontSize: width * 0.04,
+    color: colors.lightErrorTitle,
+    marginBottom: width * 0.03,
+  },
 })

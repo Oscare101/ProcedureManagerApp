@@ -10,37 +10,41 @@ import {
 import globalStyles from '../../constants/globalStyles'
 import Header from '../../components/application/Header'
 import text from '../../constants/text'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../redux'
 import colors from '../../constants/colors'
 import { OpenMessenger, ReturnPhoneString } from '../../functions/functions'
 import { Ionicons } from '@expo/vector-icons'
+import ButtonBlock from '../../components/application/ButtonBlock'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../redux'
+import { Customer } from '../../constants/interfaces'
 
 const width = Dimensions.get('screen').width
 
 export default function CustomerInfoScreen({ navigation, route }: any) {
   const customers = useSelector((state: RootState) => state.customers)
-  const dispatch = useDispatch()
+  const customer: Customer =
+    customers.find((c: Customer) => c.id === route.params.customer.id) ||
+    route.params.customer
 
   const customerData = [
     {
       title: text.name,
-      value: route.params.customer.name,
+      value: customer.name,
     },
     {
       title: text.phone,
-      value: ReturnPhoneString(route.params.customer.phone),
+      value: ReturnPhoneString(customer.phone),
       icon: 'call-outline',
       onPress: () => {
-        Linking.openURL(`tel:${route.params.customer.phone}`)
+        Linking.openURL(`tel:${customer.phone}`)
       },
     },
     {
       title: text.messenger,
-      value: route.params.customer.messenger,
+      value: customer.messenger,
       icon: 'open-outline',
       onPress: () => {
-        OpenMessenger(route.params.customer)
+        OpenMessenger(customer)
       },
     },
   ]
@@ -81,6 +85,15 @@ export default function CustomerInfoScreen({ navigation, route }: any) {
         style={{ width: '100%' }}
         data={customerData}
         renderItem={RenderCustomerInfoItem}
+      />
+      <ButtonBlock
+        title={text.edit}
+        action={() => {
+          navigation.navigate('CreateCustomerScreen', {
+            customer: customer,
+          })
+        }}
+        buttonStyles={{ marginBottom: width * 0.05 }}
       />
     </View>
   )

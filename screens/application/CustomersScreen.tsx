@@ -29,18 +29,18 @@ export default function CustomersScreen({ navigation }: any) {
 
   const [search, setSearch] = useState<string>('')
 
-  function GetCustomers() {
-    if (auth.currentUser && auth.currentUser.email) {
-      const data = ref(getDatabase(), `business/PoboiskayaSofia/customers`)
-      onValue(data, (snapshot) => {
-        dispatch(updateCustomers(Object.values(snapshot.val()) as Customer[]))
-      })
-    }
-  }
+  // function GetCustomers() {
+  //   if (auth.currentUser && auth.currentUser.email) {
+  //     const data = ref(getDatabase(), `business/PoboiskayaSofia/customers`)
+  //     onValue(data, (snapshot) => {
+  //       dispatch(updateCustomers(Object.values(snapshot.val()) as Customer[]))
+  //     })
+  //   }
+  // }
 
-  useEffect(() => {
-    GetCustomers()
-  }, [])
+  // useEffect(() => {
+  //   GetCustomers()
+  // }, [])
 
   return (
     <View style={globalStyles.container}>

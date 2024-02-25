@@ -35,5 +35,8 @@ export default {
   messenger: 'месенджер',
   link: 'посилання',
   createCustomer: 'Створення користувача',
+  editCustomer: 'Редагувати користувача',
   create: 'Створити',
+  edit: 'Редагувати',
+  alreadyUsedPhone: 'Цей номер телефону вже використовується',
 }

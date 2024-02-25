@@ -65,9 +65,23 @@ export function ExtractInstagramUsername(url: string) {
 }
 
 export function ReturnPhoneString(phone: string) {
-  return phone
-    .replace(/\D/g, '')
-    .replace(rules.phoneRegrex, '+$1 ($2) $3 $4 $5')
+  const cleaned = phone.replace(/\D/g, '')
+
+  const match = cleaned.match(rules.phoneRegrex)
+  if (match) {
+    let formattedPhoneNumber = ''
+    for (let i = 1; i < match.length; i++) {
+      if (match[i]) {
+        if (i === 1) formattedPhoneNumber += '+' + match[i]
+        else if (i === 2) formattedPhoneNumber += ' (' + match[i]
+        else if (i === 3) formattedPhoneNumber += ') ' + match[i]
+        else formattedPhoneNumber += ' ' + match[i]
+      }
+    }
+    return formattedPhoneNumber
+  } else {
+    return phone
+  }
 }
 
 export function ReturnCustomerMessenger(customer: Customer) {

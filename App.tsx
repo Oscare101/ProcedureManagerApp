@@ -5,17 +5,39 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { MMKV } from 'react-native-mmkv'
 import { StatusBar } from 'react-native'
 import colors from './constants/colors'
-import { Provider, useDispatch } from 'react-redux'
+import { Provider, useDispatch, useSelector } from 'react-redux'
 import { store } from './redux/store'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { RootState } from './redux'
 import { auth } from './firebase'
 import { getDatabase, onValue, ref } from 'firebase/database'
-import { Customer } from './constants/interfaces'
 import { updateCustomers } from './redux/customers'
+import { Customer } from './constants/interfaces'
 
 export const storage = new MMKV()
 
 function AppComponent() {
+  const [update, setUpdate] = useState<boolean>(false)
+  const schedule = useSelector((state: RootState) => state.schedule)
+
+  const dispatch = useDispatch()
+
+  function GetCustomers() {
+    if (auth.currentUser && auth.currentUser.email) {
+      const data = ref(getDatabase(), `business/PoboiskayaSofia/customers`)
+      onValue(data, (snapshot) => {
+        setUpdate(true)
+
+        dispatch(updateCustomers(Object.values(snapshot.val()) as Customer[]))
+      })
+    }
+  }
+
+  useEffect(() => {
+    if (!update) {
+      GetCustomers()
+    }
+  }, [schedule])
   return <StatusBar barStyle={'light-content'} backgroundColor={colors.card1} />
 }
 
