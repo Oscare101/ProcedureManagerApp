@@ -3,11 +3,11 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
   View,
-  useColorScheme,
 } from 'react-native'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import colors from '../../constants/colors'
-import MastersScheduleModal from './MastersScheduleModal'
+import MessengerModal from './MessengerModal'
+import MastersScheduleModal from './MastersScheduleModal copy'
 
 const width = Dimensions.get('screen').width
 
@@ -24,6 +24,12 @@ export default function BottomModalBlock(props: BottomModalBlockProps) {
   const contentData: any = {
     mastersSchedule: (
       <MastersScheduleModal
+        date={props.data.date}
+        setDate={(newDate: Date) => props.setDate(newDate)}
+      />
+    ),
+    messengerModal: (
+      <MessengerModal
         date={props.data.date}
         setDate={(newDate: Date) => props.setDate(newDate)}
       />

@@ -19,6 +19,8 @@ interface InputBlockProps {
   styles?: object
   icon?: keyof typeof Ionicons.glyphMap
   iconPosittion?: 'left' | 'right'
+  disable?: boolean
+  keyboard?: any
 }
 
 export default function InputBlock(props: InputBlockProps) {
@@ -38,7 +40,7 @@ export default function InputBlock(props: InputBlockProps) {
       {props.icon ? (
         <Ionicons
           name={props.icon}
-          size={24}
+          size={width * 0.05}
           color={colors.text}
           style={{
             marginRight: props.iconPosittion === 'right' ? 0 : width * 0.03,
@@ -59,6 +61,8 @@ export default function InputBlock(props: InputBlockProps) {
         autoComplete="email"
         autoCorrect={false}
         secureTextEntry={hidden}
+        editable={!props.disable}
+        keyboardType={props.keyboard || 'default'}
       />
       {props.type === 'password' ? (
         <TouchableOpacity
@@ -68,7 +72,7 @@ export default function InputBlock(props: InputBlockProps) {
         >
           <Ionicons
             name={hidden ? 'eye-off-outline' : 'eye-outline'}
-            size={24}
+            size={width * 0.05}
             color={colors.text}
           />
         </TouchableOpacity>
@@ -89,6 +93,7 @@ const styles = StyleSheet.create({
     borderRadius: width * 0.03,
     paddingHorizontal: width * 0.03,
     height: width * 0.12,
+    alignSelf: 'center',
   },
   input: {
     fontSize: width * 0.05,

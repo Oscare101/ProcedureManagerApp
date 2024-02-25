@@ -12,9 +12,11 @@ const width = Dimensions.get('screen').width
 interface InputBlockProps {
   title: string
   action: any
+  onLong?: any
   buttonStyles?: any
   titleStyles?: any
   loading?: boolean
+  disable?: boolean
 }
 
 export default function ButtonBlock(props: InputBlockProps) {
@@ -22,7 +24,17 @@ export default function ButtonBlock(props: InputBlockProps) {
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={props.action}
-      style={[styles.button, props.buttonStyles]}
+      style={[
+        styles.button,
+        props.buttonStyles,
+        { opacity: props.disable ? 0.5 : 1 },
+      ]}
+      onLongPress={() => {
+        if (props.onLong) {
+          props.onLong()
+        }
+      }}
+      disabled={props.disable}
     >
       {props.loading ? (
         <View style={styles.circle} />

@@ -91,7 +91,7 @@ export async function DeleteAgenda(agendaID: Agenda['id']) {
 export async function CreateCustomer(customer: Customer) {
   try {
     await set(
-      ref(getDatabase(), 'business/PoboiskayaSofia/customer/' + customer.id),
+      ref(getDatabase(), 'business/PoboiskayaSofia/customers/' + customer.id),
       customer
     )
     return true
@@ -103,7 +103,7 @@ export async function CreateCustomer(customer: Customer) {
 export async function UpdateCustomer(customer: Customer) {
   try {
     await update(
-      ref(getDatabase(), 'business/PoboiskayaSofia/customer/' + customer.id),
+      ref(getDatabase(), 'business/PoboiskayaSofia/customers/' + customer.id),
       customer
     )
   } catch (error) {

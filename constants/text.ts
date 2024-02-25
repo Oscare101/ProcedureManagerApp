@@ -34,4 +34,6 @@ export default {
   phone: 'телефон',
   messenger: 'месенджер',
   link: 'посилання',
+  createCustomer: 'Створення користувача',
+  create: 'Створити',
 }

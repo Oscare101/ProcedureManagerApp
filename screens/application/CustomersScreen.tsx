@@ -1,4 +1,11 @@
-import { Dimensions, FlatList, Text, View } from 'react-native'
+import {
+  Dimensions,
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import globalStyles from '../../constants/globalStyles'
 import Header from '../../components/application/Header'
 import text from '../../constants/text'
@@ -11,6 +18,8 @@ import { getDatabase, onValue, ref } from 'firebase/database'
 import { updateCustomers } from '../../redux/customers'
 import { Customer } from '../../constants/interfaces'
 import RenderCustomerItem from '../../components/clients/RenserCustomerItem'
+import { Ionicons } from '@expo/vector-icons'
+import colors from '../../constants/colors'
 
 const width = Dimensions.get('screen').width
 
@@ -46,7 +55,31 @@ export default function CustomersScreen({ navigation }: any) {
           c.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
         )}
         renderItem={({ item }) => <RenderCustomerItem item={item} />}
+        ListFooterComponent={() => <View style={{ height: width * 0.2 }} />}
       />
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => {
+          navigation.navigate('CreateCustomerScreen')
+        }}
+        style={styles.createCustomerButton}
+      >
+        <Ionicons name="add" size={width * 0.1} color={colors.card2Title} />
+      </TouchableOpacity>
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  createCustomerButton: {
+    width: width * 0.15,
+    height: width * 0.15,
+    borderRadius: width * 0.15,
+    position: 'absolute',
+    right: width * 0.05,
+    bottom: width * 0.05,
+    backgroundColor: colors.card2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+})

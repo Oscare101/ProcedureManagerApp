@@ -7,9 +7,16 @@ const width = Dimensions.get('screen').width
 
 export default function RenderMessengerIcon(props: {
   messenger: Customer['messenger']
+  color?: string
 }) {
   if (props.messenger === 'viber') {
-    return <FontAwesome5 name="viber" size={width * 0.05} color={colors.text} />
+    return (
+      <FontAwesome5
+        name="viber"
+        size={width * 0.05}
+        color={props.color || colors.text}
+      />
+    )
   }
   return (
     <Ionicons
@@ -23,7 +30,7 @@ export default function RenderMessengerIcon(props: {
           : 'call-outline'
       }
       size={width * 0.05}
-      color={colors.text}
+      color={props.color || colors.text}
     />
   )
 }
