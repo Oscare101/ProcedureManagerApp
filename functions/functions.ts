@@ -86,7 +86,7 @@ export function ReturnPhoneString(phone: string) {
 
 export function ReturnCustomerMessenger(customer: Customer) {
   return customer.messenger === 'instagram'
-    ? ExtractInstagramUsername(customer.link)
+    ? customer.link
     : customer.messenger === 'whatsapp'
     ? ReturnPhoneString(customer.phone)
     : customer.messenger === 'telegram'
@@ -105,9 +105,11 @@ export async function OpenMessenger(customer: Customer) {
       return 'error'
     }
   } else if (customer.messenger === 'instagram') {
-    const canOpen = await Linking.canOpenURL(customer.link)
+    const canOpen = await Linking.canOpenURL(
+      `https://www.instagram.com/${customer.link}`
+    )
     if (canOpen) {
-      Linking.openURL(customer.link)
+      Linking.openURL(`https://www.instagram.com/${customer.link}`)
     } else {
       return 'error'
     }
@@ -130,4 +132,20 @@ export async function OpenMessenger(customer: Customer) {
       return 'error'
     }
   }
+}
+
+export function FilterCustomerSearch(customers: Customer[], search: string) {
+  if (!search) {
+    return customers
+  }
+  return customers.filter(
+    (c: Customer) =>
+      c.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()) ||
+      c.phone.toLocaleLowerCase().includes(search.toLocaleLowerCase()) ||
+      ExtractInstagramUsername(c.link)
+        ?.toLocaleLowerCase()
+        .includes(search.toLocaleLowerCase()) ||
+      (c.messenger === 'telegram' &&
+        c.link?.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+  )
 }

@@ -11,7 +11,10 @@ import rules from '../../constants/rules'
 import { Customer } from '../../constants/interfaces'
 import RenderMessengerIcon from './RenderMessengerIcon'
 import { useNavigation } from '@react-navigation/native'
-import { ReturnCustomerMessenger } from '../../functions/functions'
+import {
+  ReturnCustomerMessenger,
+  ReturnPhoneString,
+} from '../../functions/functions'
 
 interface RenderCustomerItemProps {
   item: Customer
@@ -42,13 +45,21 @@ export default function RenderCustomerItem(props: RenderCustomerItemProps) {
         style={styles.openIcon}
       />
       <View style={styles.rowBetween}>
-        <View style={styles.column}>
-          <View style={styles.rowStart}>
-            <RenderMessengerIcon messenger={props.item.messenger} />
-            <Text style={styles.customerInfo}>
-              {ReturnCustomerMessenger(props.item)}
-            </Text>
-          </View>
+        <View style={styles.rowStart}>
+          <RenderMessengerIcon messenger={props.item.messenger} />
+          <Text style={styles.customerInfo}>
+            {ReturnCustomerMessenger(props.item)}
+          </Text>
+        </View>
+        <View style={styles.rowStart}>
+          <Ionicons
+            name="call-outline"
+            size={width * 0.05}
+            color={colors.text}
+          />
+          <Text style={styles.customerInfo}>
+            {ReturnPhoneString(props.item.phone)}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -92,7 +103,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: width * 0.01,
   },
   rowStart: {
-    width: '100%',
+    width: '50%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',

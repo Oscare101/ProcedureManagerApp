@@ -28,8 +28,9 @@ function AppComponent() {
       const data = ref(getDatabase(), `business/PoboiskayaSofia/customers`)
       onValue(data, (snapshot) => {
         setUpdate(true)
-
-        dispatch(updateCustomers(Object.values(snapshot.val()) as Customer[]))
+        if (snapshot.val()) {
+          dispatch(updateCustomers(Object.values(snapshot.val()) as Customer[]))
+        }
       })
     }
   }
