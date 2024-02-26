@@ -100,6 +100,18 @@ export default function MainNavigation() {
         name="CreateAgendaScreen"
         component={CreateAgendaScreen}
       />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+          headerLeft: () => null,
+          animationEnabled: true,
+          gestureDirection: 'horizontal',
+          gestureEnabled: true,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+        name="CustomersScreen"
+        component={CustomersScreen}
+      />
     </Stack.Navigator>
   )
 

@@ -7,29 +7,41 @@ import {
 } from 'react-native'
 import colors from '../../constants/colors'
 import { Ionicons } from '@expo/vector-icons'
-import { Customer } from '../../constants/interfaces'
+import { Agenda, Customer } from '../../constants/interfaces'
 import RenderMessengerIcon from './RenderMessengerIcon'
 import { useNavigation } from '@react-navigation/native'
 import {
   ReturnCustomerMessenger,
   ReturnPhoneString,
 } from '../../functions/functions'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../redux'
+import { updateAgenda } from '../../redux/agenda'
 
 interface RenderCustomerItemProps {
   item: Customer
+  withoutDrawer: boolean
 }
 
 const width = Dimensions.get('screen').width
 
 export default function RenderCustomerItem(props: RenderCustomerItemProps) {
+  const agenda: Agenda = useSelector((state: RootState) => state.agenda)
+
   const navigation: any = useNavigation()
+  const dispatch = useDispatch()
 
   return (
     <TouchableOpacity
       activeOpacity={0.8}
-      onPress={() =>
-        navigation.navigate('CustomerInfoScreen', { customer: props.item })
-      }
+      onPress={() => {
+        if (props.withoutDrawer) {
+          dispatch(updateAgenda({ ...agenda, customerId: props.item.id }))
+          navigation.goBack()
+        } else {
+          navigation.navigate('CustomerInfoScreen', { customer: props.item })
+        }
+      }}
       style={styles.card}
     >
       <View style={styles.rowBetween}>

@@ -95,7 +95,8 @@ export default function CreateAgendaScreen({ navigation }: any) {
             style={styles.timeBlock}
           >
             {+agenda.time.split(':')[0] < 10 ||
-            +agenda.time.split(':')[0] > 20 ? (
+            +agenda.time.split(':')[0] > 20 ||
+            !agenda.time ? (
               <Ionicons
                 name="alert-circle-outline"
                 size={width * 0.035}
@@ -118,7 +119,33 @@ export default function CreateAgendaScreen({ navigation }: any) {
           </TouchableOpacity>
         </View>
         <Text style={styles.comment}>{text.customer}</Text>
-        <View style={styles.card}></View>
+        <View style={[styles.card, styles.rowBetween]}>
+          <Text style={styles.cardComment}>
+            {agenda.customerId || text.customer}
+            {/* TODO */}
+          </Text>
+          <TouchableOpacity
+            style={[
+              styles.editButton,
+              { backgroundColor: agenda.customerId ? colors.bg : colors.card2 },
+            ]}
+            activeOpacity={0.8}
+            onPress={() =>
+              navigation.navigate('CustomersScreen', { withoutDrawer: true })
+            }
+          >
+            <Text
+              style={[
+                styles.editButtonTitle,
+                {
+                  color: agenda.customerId ? colors.text : colors.card2Title,
+                },
+              ]}
+            >
+              {agenda.customerId ? text.rechoose : text.choose}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
       <BottomModalBlock
         bottomSheetModalRef={bottomSheetModalRef}
@@ -178,5 +205,16 @@ const styles = StyleSheet.create({
     fontSize: width * 0.04,
     color: colors.comment,
     marginVertical: width * 0.01,
+  },
+
+  //
+  cardComment: { fontSize: width * 0.04, color: colors.comment },
+  editButton: {
+    paddingVertical: width * 0.01,
+    paddingHorizontal: width * 0.02,
+    borderRadius: width * 0.02,
+  },
+  editButtonTitle: {
+    fontSize: width * 0.04,
   },
 })

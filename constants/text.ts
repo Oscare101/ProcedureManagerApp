@@ -42,4 +42,6 @@ export default {
   alreadyUsedPhone: 'Цей номер телефону вже використовується',
   cantOpenLink: 'Неможливо відкрити посилання',
   comment: 'коментарій',
+  choose: 'обрати',
+  rechoose: 'змінити',
 }

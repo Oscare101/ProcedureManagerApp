@@ -19,14 +19,17 @@ import { FilterCustomerSearch } from '../../functions/functions'
 
 const width = Dimensions.get('screen').width
 
-export default function CustomersScreen({ navigation }: any) {
+export default function CustomersScreen({ navigation, route }: any) {
   const customers = useSelector((state: RootState) => state.customers)
 
   const [search, setSearch] = useState<string>('')
 
   return (
     <View style={globalStyles.container}>
-      <Header title={text.customersTitle} action="drawer" />
+      <Header
+        title={text.customersTitle}
+        action={route.params?.withoutDrawer ? 'back' : 'drawer'}
+      />
       <SearchBlock
         value={search}
         setValue={(value: string) => setSearch(value)}
@@ -34,7 +37,12 @@ export default function CustomersScreen({ navigation }: any) {
       <FlatList
         style={{ width: '100%', marginTop: width * 0.05 }}
         data={FilterCustomerSearch(customers, search)}
-        renderItem={({ item }) => <RenderCustomerItem item={item} />}
+        renderItem={({ item }) => (
+          <RenderCustomerItem
+            item={item}
+            withoutDrawer={route.params?.withoutDrawer}
+          />
+        )}
         ListFooterComponent={() => <View style={{ height: width * 0.2 }} />}
       />
       <TouchableOpacity
