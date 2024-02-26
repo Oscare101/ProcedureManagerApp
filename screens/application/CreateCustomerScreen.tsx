@@ -263,7 +263,7 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
         dismiss={onDismisModal}
         content="messengerModal"
         data={{ date: messenger }}
-        setDate={(newDate: Customer['messenger']) => setMessenger(newDate)}
+        setData={(newDate: Customer['messenger']) => setMessenger(newDate)}
       />
     </BottomSheetModalProvider>
   )

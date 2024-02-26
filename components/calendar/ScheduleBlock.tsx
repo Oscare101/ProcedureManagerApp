@@ -62,7 +62,11 @@ export default function ScheduleBlock(props: ScheduleBlockProps) {
           }}
           style={[styles.cardPreview, globalStyles.scheduleCardHeight1]}
         >
-          {IsPreview(item, 1) ? <CreateProcedureCard /> : <></>}
+          {IsPreview(item, 1) ? (
+            <CreateProcedureCard date={props.date} time={item} column={1} />
+          ) : (
+            <></>
+          )}
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.8}
@@ -71,7 +75,11 @@ export default function ScheduleBlock(props: ScheduleBlockProps) {
           }}
           style={[styles.cardPreview, globalStyles.scheduleCardHeight1]}
         >
-          {IsPreview(item, 2) ? <CreateProcedureCard /> : <></>}
+          {IsPreview(item, 2) ? (
+            <CreateProcedureCard date={props.date} time={item} column={2} />
+          ) : (
+            <></>
+          )}
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.8}
@@ -80,7 +88,11 @@ export default function ScheduleBlock(props: ScheduleBlockProps) {
           }}
           style={[styles.cardPreview, globalStyles.scheduleCardHeight1]}
         >
-          {IsPreview(item, 3) ? <CreateProcedureCard /> : <></>}
+          {IsPreview(item, 3) ? (
+            <CreateProcedureCard date={props.date} time={item} column={3} />
+          ) : (
+            <></>
+          )}
         </TouchableOpacity>
       </View>
     )

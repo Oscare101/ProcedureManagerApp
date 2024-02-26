@@ -13,6 +13,7 @@ import LogInScreen from '../screens/login/LogInScreen'
 import CustomersScreen from '../screens/application/CustomersScreen'
 import CustomerInfoScreen from '../screens/application/CustomerInfoScreen'
 import CreateCustomerScreen from '../screens/application/CreateCustomerScreen'
+import CreateAgendaScreen from '../screens/application/CreateAgendaScreen'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -86,6 +87,18 @@ export default function MainNavigation() {
         }}
         name="CreateCustomerScreen"
         component={CreateCustomerScreen}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+          headerLeft: () => null,
+          animationEnabled: true,
+          gestureDirection: 'horizontal',
+          gestureEnabled: true,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+        name="CreateAgendaScreen"
+        component={CreateAgendaScreen}
       />
     </Stack.Navigator>
   )

@@ -8,6 +8,7 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import colors from '../../constants/colors'
 import MessengerModal from './MessengerModal'
 import MastersScheduleModal from './MastersScheduleModal copy'
+import TimePickerModal from './TimePickerModal'
 
 const width = Dimensions.get('screen').width
 
@@ -17,7 +18,7 @@ interface BottomModalBlockProps {
   dismiss: any
   content: string
   data?: any
-  setDate?: any
+  setData?: any
 }
 
 export default function BottomModalBlock(props: BottomModalBlockProps) {
@@ -25,13 +26,19 @@ export default function BottomModalBlock(props: BottomModalBlockProps) {
     mastersSchedule: (
       <MastersScheduleModal
         date={props.data.date}
-        setDate={(newDate: Date) => props.setDate(newDate)}
+        setDate={(newDate: Date) => props.setData(newDate)}
       />
     ),
     messengerModal: (
       <MessengerModal
         date={props.data.date}
-        setDate={(newDate: Date) => props.setDate(newDate)}
+        setDate={(newDate: Date) => props.setData(newDate)}
+      />
+    ),
+    timePicker: (
+      <TimePickerModal
+        data={props.data.data}
+        setData={(newData: string) => props.setData(newData)}
       />
     ),
   }
@@ -52,9 +59,7 @@ export default function BottomModalBlock(props: BottomModalBlockProps) {
                 backgroundColor: '#00000066',
               },
             ]}
-          >
-            <StatusBar backgroundColor={colors.white} />
-          </View>
+          ></View>
         </TouchableWithoutFeedback>
       )}
     >

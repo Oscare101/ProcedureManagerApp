@@ -97,7 +97,9 @@ export default function CalendarScreen({ navigation }: any) {
             setDate(date)
           }}
           onEdit={onPresentModal}
-          onAdd={() => {}}
+          onAdd={() => {
+            navigation.navigate('CreateAgendaScreen', { date: date })
+          }}
         />
         <ScheduleBlock date={date} />
         {/* <Button onPress={onPresentModal} title="Present Modal" color="black" /> */}
@@ -109,7 +111,7 @@ export default function CalendarScreen({ navigation }: any) {
         dismiss={onDismisModal}
         content="mastersSchedule"
         data={{ date: date }}
-        setDate={(newDate: Date) => setDate(newDate)}
+        setData={(newDate: Date) => setDate(newDate)}
       />
     </BottomSheetModalProvider>
   )

@@ -2,12 +2,12 @@ import rules from './rules'
 
 export default {
   loginTitle: 'Login',
-  loginButton: 'Log in',
-  emailPlaceHolder: 'email',
-  passwordPlaceHolder: 'password',
-  emailError: 'Invalid email',
-  passwordError: `Password min length is ${rules.passwordMinLengh}`,
-  logoutButton: 'Log out',
+  loginButton: 'Увійти',
+  emailPlaceHolder: 'пошта',
+  passwordPlaceHolder: 'пароль',
+  emailError: 'неправильна пошта',
+  passwordError: `Пароль не може бути менше ніж ${rules.passwordMinLengh} символів`,
+  logoutButton: 'Вийти',
   calendarTitle: 'Календар',
   customersTitle: 'Клієнти',
   customerInfo: 'Клієнт(-ка)',
