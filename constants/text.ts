@@ -40,4 +40,5 @@ export default {
   edit: 'Редагувати',
   alreadyUsedPhone: 'Цей номер телефону вже використовується',
   cantOpenLink: 'Неможливо відкрити посилання',
+  comment: 'коментарій',
 }

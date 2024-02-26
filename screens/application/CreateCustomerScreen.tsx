@@ -39,6 +39,9 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
     route.params?.customer.messenger || ''
   )
   const [link, setLink] = useState<string>(route.params?.customer.link || '')
+  const [comment, setComment] = useState<string>(
+    route.params?.customer.comment || ''
+  )
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string>('')
 
@@ -60,6 +63,7 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
         phone: ClearPhoneString(phone),
         messenger: messenger,
         link: link,
+        comment: comment,
         id: ClearPhoneString(phone),
       }
       await CreateCustomer(customer)
@@ -90,6 +94,7 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
         phone: ClearPhoneString(phone),
         messenger: messenger,
         link: link,
+        comment: comment,
         id: route.params.customer.id,
       }
       await UpdateCustomer(customer)
@@ -153,6 +158,13 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
       icon: 'link-outline',
       placeHolder: text.link,
       disable: messenger === 'viber' || messenger === 'whatsapp' || !messenger,
+    },
+    {
+      title: text.comment,
+      value: comment,
+      setValue: (value: string) => setComment(value),
+      icon: 'chatbubble-ellipses-outline',
+      placeHolder: text.comment,
     },
   ]
 
