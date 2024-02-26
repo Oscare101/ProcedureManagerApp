@@ -11,13 +11,18 @@ import globalStyles from '../../constants/globalStyles'
 import Header from '../../components/application/Header'
 import text from '../../constants/text'
 import colors from '../../constants/colors'
-import { OpenMessenger, ReturnPhoneString } from '../../functions/functions'
+import {
+  OpenMessenger,
+  ReturnCustomerMessenger,
+  ReturnPhoneString,
+} from '../../functions/functions'
 import { Ionicons } from '@expo/vector-icons'
 import ButtonBlock from '../../components/application/ButtonBlock'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux'
 import { Customer } from '../../constants/interfaces'
 import Toast from 'react-native-toast-message'
+import RenderMessengerIcon from '../../components/clients/RenderMessengerIcon'
 
 const width = Dimensions.get('screen').width
 
@@ -42,20 +47,12 @@ export default function CustomerInfoScreen({ navigation, route }: any) {
     },
     {
       title: text.messenger,
-      value: customer.messenger,
+      value: ReturnCustomerMessenger(customer),
       icon: 'open-outline',
       onPress: async () => {
-        const response = await OpenMessenger(customer)
-        if (response === 'error') {
-          Toast.show({
-            type: 'ToastMessage',
-            props: {
-              title: text.cantOpenLink,
-            },
-            position: 'bottom',
-          })
-        }
+        await OpenMessenger(customer)
       },
+      messeger: true,
     },
     {
       title: text.comment,
@@ -75,7 +72,25 @@ export default function CustomerInfoScreen({ navigation, route }: any) {
         style={styles.card}
       >
         <Text style={styles.cardTitle}>{item.title}</Text>
-        <Text style={styles.cardValue}>{item.value}</Text>
+
+        {item.messeger ? (
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+            }}
+          >
+            <RenderMessengerIcon messenger={customer.messenger} />
+            <Text style={[styles.cardValue, { marginLeft: width * 0.02 }]}>
+              {item.value}
+            </Text>
+          </View>
+        ) : (
+          <>
+            <Text style={styles.cardValue}>{item.value}</Text>
+          </>
+        )}
         {item.icon ? (
           <Ionicons
             name={item.icon}
