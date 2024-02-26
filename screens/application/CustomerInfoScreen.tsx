@@ -50,6 +50,15 @@ export default function CustomerInfoScreen({ navigation, route }: any) {
       value: ReturnCustomerMessenger(customer),
       icon: 'open-outline',
       onPress: async () => {
+        if (customer.messenger === 'telegram' && !customer.link) {
+          Toast.show({
+            type: 'ToastMessage',
+            props: {
+              title: text.cantOpenLink,
+            },
+            position: 'bottom',
+          })
+        }
         await OpenMessenger(customer)
       },
       messeger: true,
