@@ -22,7 +22,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../redux'
 import { Customer } from '../../constants/interfaces'
 import Toast from 'react-native-toast-message'
-import RenderMessengerIcon from '../../components/clients/RenderMessengerIcon'
+import RenderMessengerIcon from '../../components/customers/RenderMessengerIcon'
 
 const width = Dimensions.get('screen').width
 

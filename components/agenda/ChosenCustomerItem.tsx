@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native'
 import {
   Dimensions,
   StyleSheet,
@@ -5,61 +6,59 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
+import text from '../../constants/text'
 import colors from '../../constants/colors'
-import { Ionicons } from '@expo/vector-icons'
+import { RootState } from '../../redux'
+import { useSelector } from 'react-redux'
 import { Agenda, Customer } from '../../constants/interfaces'
-import RenderMessengerIcon from './RenderMessengerIcon'
-import { useNavigation } from '@react-navigation/native'
+import RenderMessengerIcon from '../customers/RenderMessengerIcon'
 import {
   ReturnCustomerMessenger,
   ReturnPhoneString,
 } from '../../functions/functions'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../redux'
-import { updateAgenda } from '../../redux/agenda'
-
-interface RenderCustomerItemProps {
-  item: Customer
-  withoutDrawer: boolean
-}
+import { Ionicons } from '@expo/vector-icons'
 
 const width = Dimensions.get('screen').width
 
-export default function RenderCustomerItem(props: RenderCustomerItemProps) {
+export default function ChosenCustomerItem() {
   const agenda: Agenda = useSelector((state: RootState) => state.agenda)
+  const customers: Customer[] = useSelector(
+    (state: RootState) => state.customers
+  )
 
   const navigation: any = useNavigation()
-  const dispatch = useDispatch()
+
+  const customer: any = customers.find(
+    (c: Customer) => c.id === agenda.customerId
+  )
 
   return (
-    <TouchableOpacity
-      activeOpacity={0.8}
-      onPress={() => {
-        if (props.withoutDrawer) {
-          dispatch(updateAgenda({ ...agenda, customerId: props.item.id }))
-          navigation.goBack()
-        } else {
-          navigation.navigate('CustomerInfoScreen', { customer: props.item })
-        }
-      }}
-      style={styles.card}
-    >
+    <View style={styles.card}>
       <View style={styles.rowBetween}>
         <View style={styles.nameBlock}>
-          <Text style={styles.name}>{props.item.name}</Text>
+          <Text style={styles.name}>{customer?.name}</Text>
         </View>
+        <TouchableOpacity
+          style={styles.editButton}
+          activeOpacity={0.8}
+          onPress={() =>
+            navigation.navigate('CustomersScreen', { withoutDrawer: true })
+          }
+        >
+          <Text style={styles.editButtonTitle}>{text.rechoose}</Text>
+        </TouchableOpacity>
       </View>
-      <Ionicons
+      {/* <Ionicons
         name="open-outline"
         size={width * 0.05}
         color={colors.text}
         style={styles.openIcon}
-      />
+      /> */}
       <View style={styles.rowBetween}>
         <View style={styles.rowStart}>
-          <RenderMessengerIcon messenger={props.item.messenger} />
+          <RenderMessengerIcon messenger={customer?.messenger} />
           <Text style={styles.customerInfo}>
-            {ReturnCustomerMessenger(props.item)}
+            {ReturnCustomerMessenger(customer)}
           </Text>
         </View>
         <View style={styles.rowStart}>
@@ -69,11 +68,11 @@ export default function RenderCustomerItem(props: RenderCustomerItemProps) {
             color={colors.text}
           />
           <Text style={styles.customerInfo}>
-            {ReturnPhoneString(props.item.phone)}
+            {ReturnPhoneString(customer.phone)}
           </Text>
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   )
 }
 
@@ -89,7 +88,7 @@ const styles = StyleSheet.create({
   rowBetween: {
     width: '100%',
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'space-between',
   },
   nameBlock: {
@@ -118,11 +117,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginVertical: width * 0.01,
+    margin: width * 0.01,
   },
   customerInfo: {
     fontSize: width * 0.035,
     marginLeft: width * 0.01,
+    color: colors.text,
+  },
+  editButton: {
+    paddingVertical: width * 0.01,
+    paddingHorizontal: width * 0.02,
+    borderRadius: width * 0.02,
+    backgroundColor: colors.bg,
+    marginTop: width * 0.02,
+    marginRight: width * 0.02,
+  },
+  editButtonTitle: {
+    fontSize: width * 0.04,
     color: colors.text,
   },
 })

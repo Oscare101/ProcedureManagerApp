@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import colors from '../../constants/colors'
 import { Customer } from '../../constants/interfaces'
-import RenderMessengerIcon from '../clients/RenderMessengerIcon'
+import RenderMessengerIcon from '../customers/RenderMessengerIcon'
 import TimePicker from '../TimePicker/TimePicker'
 import { TimePickerProps } from '../TimePicker/constants/interfaces'
 

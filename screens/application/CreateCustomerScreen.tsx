@@ -19,7 +19,7 @@ import {
 import BottomModalBlock from '../../components/bottomSheetModal/BottomModalBlock'
 import { Ionicons } from '@expo/vector-icons'
 import { Customer } from '../../constants/interfaces'
-import RenderMessengerIcon from '../../components/clients/RenderMessengerIcon'
+import RenderMessengerIcon from '../../components/customers/RenderMessengerIcon'
 import ButtonBlock from '../../components/application/ButtonBlock'
 import { CreateCustomer, UpdateCustomer } from '../../functions/actions'
 import { auth } from '../../firebase'

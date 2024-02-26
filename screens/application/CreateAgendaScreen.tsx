@@ -20,6 +20,8 @@ import { Agenda, Customer } from '../../constants/interfaces'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux'
 import { updateAgenda } from '../../redux/agenda'
+import EmptyCustomerItem from '../../components/agenda/EmptyCustomerItem'
+import ChosenCustomerItem from '../../components/agenda/ChosenCustomerItem'
 
 const width = Dimensions.get('screen').width
 
@@ -92,7 +94,12 @@ export default function CreateAgendaScreen({ navigation }: any) {
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={onPresentModal}
-            style={styles.timeBlock}
+            style={[
+              styles.timeBlock,
+              {
+                backgroundColor: agenda.time ? colors.bg : colors.card2,
+              },
+            ]}
           >
             {+agenda.time.split(':')[0] < 10 ||
             +agenda.time.split(':')[0] > 20 ||
@@ -113,39 +120,13 @@ export default function CreateAgendaScreen({ navigation }: any) {
             <Ionicons
               name="time-outline"
               size={width * 0.06}
-              color={colors.text}
+              color={agenda.time ? colors.text : colors.card2Title}
             />
             <Text style={styles.timeTitle}>{agenda.time}</Text>
           </TouchableOpacity>
         </View>
         <Text style={styles.comment}>{text.customer}</Text>
-        <View style={[styles.card, styles.rowBetween]}>
-          <Text style={styles.cardComment}>
-            {agenda.customerId || text.customer}
-            {/* TODO */}
-          </Text>
-          <TouchableOpacity
-            style={[
-              styles.editButton,
-              { backgroundColor: agenda.customerId ? colors.bg : colors.card2 },
-            ]}
-            activeOpacity={0.8}
-            onPress={() =>
-              navigation.navigate('CustomersScreen', { withoutDrawer: true })
-            }
-          >
-            <Text
-              style={[
-                styles.editButtonTitle,
-                {
-                  color: agenda.customerId ? colors.text : colors.card2Title,
-                },
-              ]}
-            >
-              {agenda.customerId ? text.rechoose : text.choose}
-            </Text>
-          </TouchableOpacity>
-        </View>
+        {agenda.customerId ? <ChosenCustomerItem /> : <EmptyCustomerItem />}
       </View>
       <BottomModalBlock
         bottomSheetModalRef={bottomSheetModalRef}
@@ -196,7 +177,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    backgroundColor: colors.bg,
     borderRadius: width * 0.02,
   },
   timeTitle: { fontSize: width * 0.04, color: colors.text },
@@ -206,15 +186,10 @@ const styles = StyleSheet.create({
     color: colors.comment,
     marginVertical: width * 0.01,
   },
-
   //
-  cardComment: { fontSize: width * 0.04, color: colors.comment },
-  editButton: {
-    paddingVertical: width * 0.01,
-    paddingHorizontal: width * 0.02,
-    borderRadius: width * 0.02,
-  },
-  editButtonTitle: {
-    fontSize: width * 0.04,
+  columnStart: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
   },
 })
