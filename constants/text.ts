@@ -30,6 +30,7 @@ export default {
   dayOff: 'Вихідний',
   createProcedure: 'Створити запис',
   searchClient: 'пошук клієнта(-ки)',
+  customer: 'клієнт(-ка)',
   name: "ім'я",
   phone: 'телефон',
   messenger: 'месенджер',

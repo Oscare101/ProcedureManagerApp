@@ -1,4 +1,4 @@
-import { Button, Dimensions, Text, View } from 'react-native'
+import { Dimensions, View } from 'react-native'
 import globalStyles from '../../constants/globalStyles'
 import {
   BottomSheetModal,
@@ -10,22 +10,25 @@ import text from '../../constants/text'
 import CalendarBlock from '../../components/calendar/CalendarBlock'
 import CalendarHeader from '../../components/application/CalendarHeader'
 import DateInfoBlock from '../../components/calendar/DateInfoBlock'
-
-import { Provider, useDispatch, useSelector } from 'react-redux'
-import { store } from '../../redux/store'
+import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { auth } from '../../firebase'
 import { getDatabase, onValue, ref } from 'firebase/database'
 import { updateMasters } from '../../redux/masters'
-import { Master } from '../../constants/interfaces'
+import { Agenda, Master } from '../../constants/interfaces'
 import { clearSchedule, updateSchedule } from '../../redux/schedule'
-import { RootState } from '../../redux'
 import ScheduleBlock from '../../components/calendar/ScheduleBlock'
+import {
+  clearAgenda,
+  initialStateAgenda,
+  updateAgenda,
+} from '../../redux/agenda'
+import { RootState } from '../../redux'
 
 const width = Dimensions.get('screen').width
 
 export default function CalendarScreen({ navigation }: any) {
-  const schedule = useSelector((state: RootState) => state.schedule)
+  const agenda: Agenda = useSelector((state: RootState) => state.agenda)
 
   const [openCalendar, setOpenCalendar] = useState<boolean>(false)
   const [date, setDate] = useState<Date>(new Date())
@@ -98,7 +101,10 @@ export default function CalendarScreen({ navigation }: any) {
           }}
           onEdit={onPresentModal}
           onAdd={() => {
-            navigation.navigate('CreateAgendaScreen', { date: date })
+            dispatch(
+              updateAgenda({ ...initialStateAgenda, date: date.getTime() })
+            )
+            navigation.navigate('CreateAgendaScreen')
           }}
         />
         <ScheduleBlock date={date} />

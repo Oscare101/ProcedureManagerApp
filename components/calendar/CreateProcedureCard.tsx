@@ -10,6 +10,8 @@ import text from '../../constants/text'
 import colors from '../../constants/colors'
 import { Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
+import { useDispatch } from 'react-redux'
+import { initialStateAgenda, updateAgenda } from '../../redux/agenda'
 const width = Dimensions.get('screen').width
 
 export default function CreateProcedureCard(props: {
@@ -17,15 +19,20 @@ export default function CreateProcedureCard(props: {
   time: string
   column: number
 }) {
+  const dispatch = useDispatch()
   const navigation: any = useNavigation()
   return (
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={() => {
-        navigation.navigate('CreateAgendaScreen', {
-          date: props.date,
-          time: props.time,
-        })
+        dispatch(
+          updateAgenda({
+            ...initialStateAgenda,
+            date: props.date.getTime(),
+            time: props.time,
+          })
+        )
+        navigation.navigate('CreateAgendaScreen')
       }}
       style={[styles.card, globalStyles.scheduleCardHeight1]}
     >

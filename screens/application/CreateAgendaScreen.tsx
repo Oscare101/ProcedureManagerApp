@@ -16,12 +16,19 @@ import {
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
 import BottomModalBlock from '../../components/bottomSheetModal/BottomModalBlock'
+import { Agenda, Customer } from '../../constants/interfaces'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../redux'
+import { updateAgenda } from '../../redux/agenda'
 
 const width = Dimensions.get('screen').width
 
-export default function CreateAgendaScreen({ navigation, route }: any) {
-  const [date, setDate] = useState<Date>(route.params?.date || new Date())
-  const [time, setTime] = useState<string>(route.params?.time || '00:00')
+export default function CreateAgendaScreen({ navigation }: any) {
+  const customers: Customer[] = useSelector(
+    (state: RootState) => state.customers
+  )
+  const agenda: Agenda = useSelector((state: RootState) => state.agenda)
+  const dispatch = useDispatch()
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => [width * 1.3], [])
@@ -33,15 +40,16 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
   }, [])
 
   function OnNextDate() {
-    const newDate = new Date(date)
+    const newDate = new Date(agenda.date)
     newDate.setDate(newDate.getDate() + 1)
-    setDate(newDate)
+
+    dispatch(updateAgenda({ ...agenda, date: newDate.getTime() }))
   }
 
   function OnPreviousDate() {
-    const newDate = new Date(date)
+    const newDate = new Date(agenda.date)
     newDate.setDate(newDate.getDate() - 1)
-    setDate(newDate)
+    dispatch(updateAgenda({ ...agenda, date: newDate.getTime() }))
   }
 
   return (
@@ -62,10 +70,12 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
               />
             </TouchableOpacity>
             <Text style={styles.dateTitle}>
-              {date.getDate().toString().padStart(2, '0')}.
-              {(date.getMonth() + 1).toString().padStart(2, '0')}.
-              {date.getFullYear()} (
-              {text.weekDaysShort[(date.getDay() || 7) - 1]})
+              {new Date(agenda.date).getDate().toString().padStart(2, '0')}.
+              {(new Date(agenda.date).getMonth() + 1)
+                .toString()
+                .padStart(2, '0')}
+              .{new Date(agenda.date).getFullYear()} (
+              {text.weekDaysShort[(new Date(agenda.date).getDay() || 7) - 1]})
             </Text>
             <TouchableOpacity
               activeOpacity={0.8}
@@ -84,22 +94,41 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
             onPress={onPresentModal}
             style={styles.timeBlock}
           >
+            {+agenda.time.split(':')[0] < 10 ||
+            +agenda.time.split(':')[0] > 20 ? (
+              <Ionicons
+                name="alert-circle-outline"
+                size={width * 0.035}
+                color={colors.lightErrorTitle}
+                style={{
+                  position: 'absolute',
+                  left: width * 0.01,
+                  top: width * 0.01,
+                }}
+              />
+            ) : (
+              <></>
+            )}
             <Ionicons
               name="time-outline"
               size={width * 0.06}
               color={colors.text}
             />
-            <Text style={styles.timeTitle}>{time}</Text>
+            <Text style={styles.timeTitle}>{agenda.time}</Text>
           </TouchableOpacity>
         </View>
+        <Text style={styles.comment}>{text.customer}</Text>
+        <View style={styles.card}></View>
       </View>
       <BottomModalBlock
         bottomSheetModalRef={bottomSheetModalRef}
         snapPoints={snapPoints}
         dismiss={onDismisModal}
         content="timePicker"
-        data={{ data: time }}
-        setData={(newTime: string) => setTime(newTime)}
+        data={{ data: agenda.time }}
+        setData={(newTime: string) =>
+          dispatch(updateAgenda({ ...agenda, time: newTime }))
+        }
       />
     </BottomSheetModalProvider>
   )
@@ -144,4 +173,10 @@ const styles = StyleSheet.create({
     borderRadius: width * 0.02,
   },
   timeTitle: { fontSize: width * 0.04, color: colors.text },
+  comment: {
+    width: '92%',
+    fontSize: width * 0.04,
+    color: colors.comment,
+    marginVertical: width * 0.01,
+  },
 })

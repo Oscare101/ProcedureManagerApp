@@ -7,7 +7,6 @@ import {
 } from 'react-native'
 import colors from '../../constants/colors'
 import { Ionicons } from '@expo/vector-icons'
-import rules from '../../constants/rules'
 import { Customer } from '../../constants/interfaces'
 import RenderMessengerIcon from './RenderMessengerIcon'
 import { useNavigation } from '@react-navigation/native'

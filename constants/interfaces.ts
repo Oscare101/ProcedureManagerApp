@@ -1,14 +1,14 @@
 export interface Agenda {
-  date: string
+  date: number
   time: string
   duration: string
-  customer: Customer
+  customerId: Customer['id']
   id: string
   procedure: any
   comment: string
   lastUpdated: number
   created: number
-  master: Master
+  masterId: Master['id']
 }
 
 export interface Customer {
