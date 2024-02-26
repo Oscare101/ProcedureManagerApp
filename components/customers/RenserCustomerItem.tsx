@@ -17,6 +17,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux'
 import { updateAgenda } from '../../redux/agenda'
+import text from '../../constants/text'
 
 interface RenderCustomerItemProps {
   item: Customer
@@ -49,17 +50,36 @@ export default function RenderCustomerItem(props: RenderCustomerItemProps) {
           <Text style={styles.name}>{props.item.name}</Text>
         </View>
       </View>
-      <Ionicons
-        name="open-outline"
-        size={width * 0.05}
-        color={colors.text}
-        style={styles.openIcon}
-      />
+      {props.withoutDrawer ? (
+        <></>
+      ) : (
+        <Ionicons
+          name="open-outline"
+          size={width * 0.05}
+          color={colors.text}
+          style={styles.openIcon}
+        />
+      )}
+
       <View style={styles.rowBetween}>
         <View style={styles.rowStart}>
-          <RenderMessengerIcon messenger={props.item.messenger} />
-          <Text style={styles.customerInfo}>
-            {ReturnCustomerMessenger(props.item)}
+          <RenderMessengerIcon
+            messenger={props.item.messenger}
+            color={
+              ReturnCustomerMessenger(props.item) ? colors.text : colors.comment
+            }
+          />
+          <Text
+            style={[
+              styles.customerInfo,
+              {
+                color: ReturnCustomerMessenger(props.item)
+                  ? colors.text
+                  : colors.comment,
+              },
+            ]}
+          >
+            {ReturnCustomerMessenger(props.item) || text.noLink}
           </Text>
         </View>
         <View style={styles.rowStart}>

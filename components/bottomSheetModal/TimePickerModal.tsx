@@ -24,10 +24,18 @@ export default function TimePickerModal(props: { data: string; setData: any }) {
         initialHours={hours}
         initialMinutes={minutes}
         onSetHours={(value: number) =>
-          props.setData(value.toString().padStart(2, '0') + ':' + minutes)
+          props.setData(
+            value.toString().padStart(2, '0') +
+              ':' +
+              minutes?.toString().padStart(2, '0')
+          )
         }
         onSetMinutes={(value: number) =>
-          props.setData(hours + ':' + value.toString().padStart(2, '0'))
+          props.setData(
+            hours?.toString().padStart(2, '0') +
+              ':' +
+              value.toString().padStart(2, '0')
+          )
         }
       />
     </>

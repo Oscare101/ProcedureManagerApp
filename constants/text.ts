@@ -44,4 +44,5 @@ export default {
   comment: 'коментарій',
   choose: 'обрати',
   rechoose: 'змінити',
+  noLink: 'без посилання',
 }

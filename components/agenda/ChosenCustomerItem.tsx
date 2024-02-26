@@ -48,17 +48,25 @@ export default function ChosenCustomerItem() {
           <Text style={styles.editButtonTitle}>{text.rechoose}</Text>
         </TouchableOpacity>
       </View>
-      {/* <Ionicons
-        name="open-outline"
-        size={width * 0.05}
-        color={colors.text}
-        style={styles.openIcon}
-      /> */}
       <View style={styles.rowBetween}>
         <View style={styles.rowStart}>
-          <RenderMessengerIcon messenger={customer?.messenger} />
-          <Text style={styles.customerInfo}>
-            {ReturnCustomerMessenger(customer)}
+          <RenderMessengerIcon
+            messenger={customer?.messenger}
+            color={
+              ReturnCustomerMessenger(customer) ? colors.text : colors.comment
+            }
+          />
+          <Text
+            style={[
+              styles.customerInfo,
+              {
+                color: ReturnCustomerMessenger(customer)
+                  ? colors.text
+                  : colors.comment,
+              },
+            ]}
+          >
+            {ReturnCustomerMessenger(customer) || text.noLink}
           </Text>
         </View>
         <View style={styles.rowStart}>

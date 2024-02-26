@@ -1,6 +1,7 @@
 import { Linking } from 'react-native'
 import { Customer } from '../constants/interfaces'
 import rules from '../constants/rules'
+import text from '../constants/text'
 
 function GetDatesInMonth(year: number, month: number) {
   const startDate = new Date(year, month - 1, 1)
