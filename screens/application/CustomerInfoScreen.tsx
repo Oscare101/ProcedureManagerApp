@@ -57,9 +57,16 @@ export default function CustomerInfoScreen({ navigation, route }: any) {
         }
       },
     },
+    {
+      title: text.comment,
+      value: customer?.comment,
+    },
   ]
 
   function RenderCustomerInfoItem({ item }: any) {
+    if (!item.value) {
+      return <></>
+    }
     return (
       <TouchableOpacity
         disabled={!item.onPress}
