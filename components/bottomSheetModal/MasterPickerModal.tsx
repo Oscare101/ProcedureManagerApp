@@ -14,6 +14,7 @@ import {
 } from 'react-native'
 import colors from '../../constants/colors'
 import text from '../../constants/text'
+import { updateAgenda } from '../../redux/agenda'
 
 const width = Dimensions.get('screen').width
 
@@ -51,7 +52,10 @@ export default function MasterPickerModal() {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => {}}
+        disabled={!isWorking}
+        onPress={() => {
+          dispatch(updateAgenda({ ...agenda, masterId: item.id }))
+        }}
         style={[
           styles.button,
           {
@@ -83,7 +87,7 @@ export default function MasterPickerModal() {
             { color: !isWorking || !chosen ? colors.comment : colors.white },
           ]}
         >
-          {isWorking ? text.working : text.dayOff}
+          {chosen ? text.chosen : isWorking ? text.working : text.dayOff}
         </Text>
       </TouchableOpacity>
     )

@@ -46,4 +46,5 @@ export default {
   rechoose: 'змінити',
   noLink: 'без посилання',
   master: 'майстер',
+  chosen: 'Обрано',
 }

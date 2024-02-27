@@ -7,12 +7,31 @@ import {
 } from 'react-native'
 import text from '../../constants/text'
 import colors from '../../constants/colors'
+import { Agenda, Master } from '../../constants/interfaces'
+import { RootState } from '../../redux'
+import { useSelector } from 'react-redux'
 
 const width = Dimensions.get('screen').width
 
 export default function ChosenMasterItem(props: { action: any }) {
+  const masters: Master[] = useSelector((state: RootState) => state.masters)
+  const agenda: Agenda = useSelector((state: RootState) => state.agenda)
   return (
-    <View>
+    <View style={[styles.card, styles.rowBetween]}>
+      <View
+        style={[
+          styles.nameBlock,
+          {
+            backgroundColor: masters.find(
+              (m: Master) => m.id === agenda.masterId
+            )?.color,
+          },
+        ]}
+      >
+        <Text style={styles.name}>
+          {masters.find((m: Master) => m.id === agenda.masterId)?.name}
+        </Text>
+      </View>
       <TouchableOpacity
         style={styles.editButton}
         activeOpacity={0.8}
@@ -25,13 +44,32 @@ export default function ChosenMasterItem(props: { action: any }) {
 }
 
 const styles = StyleSheet.create({
+  card: {
+    width: '92%',
+    padding: width * 0.02,
+    backgroundColor: colors.white,
+    marginTop: width * 0.02,
+    borderRadius: width * 0.03,
+    height: width * 0.12,
+  },
+  rowBetween: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  nameBlock: {
+    width: '40%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+    borderRadius: width * 0.02,
+  },
+  name: { fontSize: width * 0.05, color: colors.white },
   editButton: {
     paddingVertical: width * 0.01,
     paddingHorizontal: width * 0.02,
     borderRadius: width * 0.02,
     backgroundColor: colors.bg,
-    marginTop: width * 0.02,
-    marginRight: width * 0.02,
   },
   editButtonTitle: {
     fontSize: width * 0.04,
