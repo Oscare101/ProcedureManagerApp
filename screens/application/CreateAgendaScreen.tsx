@@ -2,7 +2,7 @@ import { Dimensions, StyleSheet, Text, View } from 'react-native'
 import globalStyles from '../../constants/globalStyles'
 import Header from '../../components/application/Header'
 import text from '../../constants/text'
-import { useCallback, useMemo, useRef } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import colors from '../../constants/colors'
 import {
   BottomSheetModal,
@@ -13,15 +13,18 @@ import { Agenda } from '../../constants/interfaces'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux'
 import { updateAgenda } from '../../redux/agenda'
-import EmptyCustomerItem from '../../components/agenda/EmptyCustomerItem'
 import ChosenCustomerItem from '../../components/agenda/ChosenCustomerItem'
 import DateTimeBlock from '../../components/agenda/DateTimeBlock'
+import EmptyItem from '../../components/agenda/EmptyItem'
+import ChosenMasterItem from '../../components/agenda/ChosenMasterItem'
 
 const width = Dimensions.get('screen').width
 
 export default function CreateAgendaScreen({ navigation }: any) {
   const agenda: Agenda = useSelector((state: RootState) => state.agenda)
   const dispatch = useDispatch()
+
+  const [modalData, setModalData] = useState<string>('timePicker')
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => [width * 1.3], [])
@@ -36,15 +39,46 @@ export default function CreateAgendaScreen({ navigation }: any) {
     <BottomSheetModalProvider>
       <View style={globalStyles.center}>
         <Header title={text.createProcedure} action="back" />
-        <DateTimeBlock onModal={onPresentModal} />
+        <DateTimeBlock
+          onModal={() => {
+            setModalData('timePicker')
+            onPresentModal()
+          }}
+        />
         <Text style={styles.comment}>{text.customer}</Text>
-        {agenda.customerId ? <ChosenCustomerItem /> : <EmptyCustomerItem />}
+        {agenda.customerId ? (
+          <ChosenCustomerItem />
+        ) : (
+          <EmptyItem
+            title={text.customer}
+            action={() =>
+              navigation.navigate('CustomersScreen', { withoutDrawer: true })
+            }
+          />
+        )}
+        <Text style={styles.comment}>{text.master}</Text>
+        {agenda.masterId ? (
+          <ChosenMasterItem
+            action={() => {
+              setModalData('masterPicker')
+              onPresentModal()
+            }}
+          />
+        ) : (
+          <EmptyItem
+            title={text.master}
+            action={() => {
+              setModalData('masterPicker')
+              onPresentModal()
+            }}
+          />
+        )}
       </View>
       <BottomModalBlock
         bottomSheetModalRef={bottomSheetModalRef}
         snapPoints={snapPoints}
         dismiss={onDismisModal}
-        content="timePicker"
+        content={modalData}
         data={{ data: agenda.time }}
         setData={(newTime: string) =>
           dispatch(updateAgenda({ ...agenda, time: newTime }))

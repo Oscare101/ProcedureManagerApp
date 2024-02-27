@@ -9,6 +9,7 @@ import colors from '../../constants/colors'
 import MessengerModal from './MessengerModal'
 import MastersScheduleModal from './MastersScheduleModal copy'
 import TimePickerModal from './TimePickerModal'
+import MasterPickerModal from './MasterPickerModal'
 
 const width = Dimensions.get('screen').width
 
@@ -41,6 +42,7 @@ export default function BottomModalBlock(props: BottomModalBlockProps) {
         setData={(newData: string) => props.setData(newData)}
       />
     ),
+    masterPicker: <MasterPickerModal />,
   }
 
   return (
