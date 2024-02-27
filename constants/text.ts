@@ -47,4 +47,5 @@ export default {
   noLink: 'без посилання',
   master: 'майстер',
   chosen: 'Обрано',
+  procedure: 'процедура',
 }

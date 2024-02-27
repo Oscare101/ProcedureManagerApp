@@ -17,6 +17,7 @@ import ChosenCustomerItem from '../../components/agenda/ChosenCustomerItem'
 import DateTimeBlock from '../../components/agenda/DateTimeBlock'
 import EmptyItem from '../../components/agenda/EmptyItem'
 import ChosenMasterItem from '../../components/agenda/ChosenMasterItem'
+import InputBlock from '../../components/application/InputBlock'
 
 const width = Dimensions.get('screen').width
 
@@ -73,6 +74,42 @@ export default function CreateAgendaScreen({ navigation }: any) {
             }}
           />
         )}
+        <Text style={styles.comment}>{text.procedure}</Text>
+        {agenda.procedure.length ? (
+          <ChosenMasterItem
+            action={() => {
+              setModalData('masterPicker')
+              onPresentModal()
+            }}
+          />
+        ) : (
+          <EmptyItem
+            title={text.procedure}
+            action={() => {
+              // setModalData('masterPicker')
+              // onPresentModal()
+            }}
+          />
+        )}
+
+        <View style={styles.card}>
+          <Text style={styles.title}>{text.comment}</Text>
+
+          <InputBlock
+            value={agenda.comment}
+            setValue={(value: string) =>
+              dispatch(updateAgenda({ ...agenda, comment: value }))
+            }
+            icon={'chatbubble-ellipses-outline'}
+            type="text"
+            placeHolder={text.comment}
+            styles={{
+              backgroundColor: colors.bg,
+              width: '100%',
+              borderRadius: width * 0.02,
+            }}
+          />
+        </View>
       </View>
       <BottomModalBlock
         bottomSheetModalRef={bottomSheetModalRef}
@@ -100,5 +137,22 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
+  },
+
+  card: {
+    width: '92%',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    padding: width * 0.02,
+    borderRadius: width * 0.03,
+    backgroundColor: colors.white,
+    marginTop: width * 0.02,
+    alignSelf: 'center',
+  },
+  title: {
+    fontSize: width * 0.04,
+    color: colors.comment,
+    marginBottom: width * 0.02,
   },
 })

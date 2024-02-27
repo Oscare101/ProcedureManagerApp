@@ -142,7 +142,7 @@ export default function CustomerInfoScreen({ navigation, route }: any) {
 
 const styles = StyleSheet.create({
   card: {
-    width: '95%',
+    width: '92%',
     borderRadius: width * 0.03,
     padding: width * 0.02,
     backgroundColor: colors.white,

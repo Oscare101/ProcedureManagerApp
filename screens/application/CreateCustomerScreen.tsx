@@ -271,7 +271,7 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
 
 const styles = StyleSheet.create({
   card: {
-    width: '95%',
+    width: '92%',
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'center',
