@@ -1,7 +1,7 @@
 export interface Agenda {
   date: number
   time: string
-  duration: string
+  duration: number
   customerId: Customer['id']
   id: string
   procedures: any[]

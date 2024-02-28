@@ -1,5 +1,5 @@
 import { Linking } from 'react-native'
-import { Customer } from '../constants/interfaces'
+import { Customer, Procedure } from '../constants/interfaces'
 import rules from '../constants/rules'
 import text from '../constants/text'
 
@@ -121,4 +121,17 @@ export function FilterCustomerSearch(customers: Customer[], search: string) {
       (c.messenger === 'telegram' &&
         c.link?.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
   )
+}
+
+export function CalculateProceduresDurstion(
+  proceduresIds: string[],
+  procedures: Procedure[]
+) {
+  const proceduresArr = procedures.filter((p: Procedure) =>
+    proceduresIds.includes(p.id)
+  )
+  const theLongest: Procedure = proceduresArr.sort(
+    (a: Procedure, b: Procedure) => b.time - a.time
+  )[0]
+  return theLongest.time
 }

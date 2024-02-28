@@ -15,11 +15,16 @@ import { useDispatch, useSelector } from 'react-redux'
 import { updateAgenda } from '../../redux/agenda'
 import { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'
+import { CalculateProceduresDurstion } from '../../functions/functions'
 
 const width = Dimensions.get('screen').width
 
 export default function ProceduresCard(props: { procedures: Procedure[] }) {
   const agenda: Agenda = useSelector((state: RootState) => state.agenda)
+  const procedures: Procedure[] = useSelector(
+    (state: RootState) => state.procedures
+  )
+
   const dispatch = useDispatch()
 
   const [open, setOpen] = useState<boolean>(false)
@@ -34,6 +39,7 @@ export default function ProceduresCard(props: { procedures: Procedure[] }) {
         updateAgenda({
           ...agenda,
           procedures: newProceduresArr,
+          duration: CalculateProceduresDurstion(newProceduresArr, procedures),
         })
       )
     } else {
@@ -41,6 +47,10 @@ export default function ProceduresCard(props: { procedures: Procedure[] }) {
         updateAgenda({
           ...agenda,
           procedures: [...agenda.procedures, procedureId],
+          duration: CalculateProceduresDurstion(
+            [...agenda.procedures, procedureId],
+            procedures
+          ),
         })
       )
     }

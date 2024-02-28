@@ -4,7 +4,7 @@ import { Agenda } from '../constants/interfaces'
 export const initialStateAgenda: Agenda = {
   date: new Date().getTime(),
   time: '',
-  duration: '',
+  duration: 0,
   customerId: '',
   id: '',
   procedures: [],

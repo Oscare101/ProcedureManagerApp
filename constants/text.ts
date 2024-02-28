@@ -56,4 +56,5 @@ export default {
   meso: 'Мезотерапія',
   other: 'Інші',
   duration: 'тривальість',
+  minutesShort: 'хв',
 }

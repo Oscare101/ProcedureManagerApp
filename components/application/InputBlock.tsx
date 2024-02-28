@@ -14,7 +14,7 @@ const width = Dimensions.get('screen').width
 interface InputBlockProps {
   value: string
   setValue: any
-  type: 'email' | 'password' | 'text'
+  type: 'email' | 'password' | 'text' | 'number'
   placeHolder: string
   styles?: object
   icon?: keyof typeof Ionicons.glyphMap

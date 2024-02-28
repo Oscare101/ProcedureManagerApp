@@ -10,7 +10,11 @@ import text from '../../constants/text'
 import colors from '../../constants/colors'
 import { Agenda, Master, Procedure } from '../../constants/interfaces'
 import { RootState } from '../../redux'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { CalculateProceduresDurstion } from '../../functions/functions'
+import { useState } from 'react'
+import { Ionicons } from '@expo/vector-icons'
+import { updateAgenda } from '../../redux/agenda'
 
 const width = Dimensions.get('screen').width
 
@@ -19,6 +23,13 @@ export default function ChosenProceduresItem(props: { action: any }) {
   const procedures: Procedure[] = useSelector(
     (state: RootState) => state.procedures
   )
+  const dispatch = useDispatch()
+
+  function SetProceduresDuration(margin: number) {
+    if (agenda.duration + margin > 0) {
+      dispatch(updateAgenda({ ...agenda, duration: agenda.duration + margin }))
+    }
+  }
 
   function RenderProcedureItem({ item }: any) {
     return (
@@ -29,6 +40,7 @@ export default function ChosenProceduresItem(props: { action: any }) {
       </View>
     )
   }
+
   return (
     <View style={[styles.card, styles.rowBetween]}>
       <View style={styles.proceduresBlock}>
@@ -39,8 +51,37 @@ export default function ChosenProceduresItem(props: { action: any }) {
 
       <View style={styles.line} />
       <View style={styles.editBlock}>
-        <Text>{text.duration}</Text>
-        {/* <Text>{CalculateProceduresDurstion(agenda.procedures)}</Text> */}
+        <View style={styles.rowBetween}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => {
+              SetProceduresDuration(-5)
+            }}
+            style={styles.durationButton}
+          >
+            <Ionicons name="remove" size={width * 0.04} color={colors.text} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => {
+              SetProceduresDuration(+5)
+            }}
+            style={styles.durationButton}
+          >
+            <Ionicons name="add" size={width * 0.04} color={colors.text} />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.durationBlock}>
+          <Ionicons
+            name="timer-outline"
+            size={width * 0.04}
+            color={colors.text}
+          />
+          <Text style={styles.durationTitle}>
+            {agenda.duration} {text.minutesShort}
+          </Text>
+        </View>
+
         <TouchableOpacity
           style={styles.editButton}
           activeOpacity={0.8}
@@ -100,5 +141,24 @@ const styles = StyleSheet.create({
   procedureTitle: {
     fontSize: width * 0.035,
     color: colors.card2Title,
+  },
+  durationButton: {
+    width: width * 0.07,
+    height: width * 0.07,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.bg,
+    marginHorizontal: width * 0.01,
+    borderRadius: width * 0.02,
+  },
+  durationBlock: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  durationTitle: {
+    fontSize: width * 0.04,
+    color: colors.text,
+    marginLeft: width * 0.02,
   },
 })
