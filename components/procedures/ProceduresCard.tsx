@@ -117,8 +117,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    // backgroundColor: 'red',
-    // paddingVertical: width * 0.02,
     height: width * 0.12,
   },
   cardTitle: { fontSize: width * 0.04, color: colors.text },

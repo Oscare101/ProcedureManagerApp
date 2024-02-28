@@ -55,4 +55,5 @@ export default {
   additional: 'Додаткові',
   meso: 'Мезотерапія',
   other: 'Інші',
+  duration: 'тривальість',
 }

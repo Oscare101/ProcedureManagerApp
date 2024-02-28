@@ -18,6 +18,7 @@ import DateTimeBlock from '../../components/agenda/DateTimeBlock'
 import EmptyItem from '../../components/agenda/EmptyItem'
 import ChosenMasterItem from '../../components/agenda/ChosenMasterItem'
 import InputBlock from '../../components/application/InputBlock'
+import ChosenProceduresItem from '../../components/agenda/ChosenProceduresItem'
 
 const width = Dimensions.get('screen').width
 
@@ -76,10 +77,9 @@ export default function CreateAgendaScreen({ navigation }: any) {
         )}
         <Text style={styles.comment}>{text.procedure}</Text>
         {agenda.procedures.length ? (
-          <ChosenMasterItem
+          <ChosenProceduresItem
             action={() => {
-              setModalData('masterPicker')
-              onPresentModal()
+              navigation.navigate('ProceduresScreen')
             }}
           />
         ) : (

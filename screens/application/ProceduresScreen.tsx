@@ -1,10 +1,9 @@
-import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, ScrollView, View } from 'react-native'
 import globalStyles from '../../constants/globalStyles'
 import Header from '../../components/application/Header'
 import text from '../../constants/text'
 import { RootState } from '../../redux'
 import { useSelector } from 'react-redux'
-import colors from '../../constants/colors'
 import { Procedure } from '../../constants/interfaces'
 import ProceduresCard from '../../components/procedures/ProceduresCard'
 
@@ -45,20 +44,3 @@ export default function ProceduresScreen({ navigation }: any) {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  card: {
-    width: '92%',
-    padding: width * 0.02,
-    backgroundColor: colors.white,
-    marginTop: width * 0.02,
-    borderRadius: width * 0.03,
-  },
-  cardHeader: {
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  cardTitle: { fontSize: width * 0.04, color: colors.text },
-})
