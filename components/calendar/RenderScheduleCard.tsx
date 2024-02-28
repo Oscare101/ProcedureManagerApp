@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import CreateProcedureCard from './CreateProcedureCard'
 import globalStyles from '../../constants/globalStyles'
-import { Agenda, Procedure } from '../../constants/interfaces'
+import { Agenda, Customer, Procedure } from '../../constants/interfaces'
 import agenda from '../../redux/agenda'
 import colors from '../../constants/colors'
 import procedures from '../../redux/procedures'
@@ -22,6 +22,7 @@ export default function RenderScheduleCard(props: {
   isPreview: boolean
   agenda: Agenda
   procedures: Procedure[]
+  customers: Customer[]
 }) {
   if (props.agenda) {
     return (
@@ -43,13 +44,20 @@ export default function RenderScheduleCard(props: {
             },
           ]}
         >
-          <Text>
-            {
-              props.procedures.find(
-                (p: Procedure) => p.id === props.agenda.procedures[0]
-              )?.short
-            }
-          </Text>
+          <View style={styles.procedureHeader}>
+            <Text style={styles.customer}>
+              {
+                props.customers.find(
+                  (c: Customer) => c.id === props.agenda.customerId
+                )?.name
+              }
+            </Text>
+          </View>
+          {props.agenda.procedures.map((item: any, index: number) => (
+            <Text key={index} style={styles.procedureTitle}>
+              {props.procedures.find((p: Procedure) => p.id === item)?.short}
+            </Text>
+          ))}
         </TouchableOpacity>
       </View>
     )
@@ -82,5 +90,20 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     position: 'absolute',
     bottom: 0,
+    overflow: 'hidden',
   },
+  procedureHeader: {
+    width: '100%',
+    height: width * 0.05,
+    backgroundColor: colors.card2,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingHorizontal: '5%',
+  },
+  customer: {
+    fontSize: width * 0.035,
+    color: colors.card2Title,
+  },
+  procedureTitle: { fontSize: width * 0.035, color: colors.text },
 })

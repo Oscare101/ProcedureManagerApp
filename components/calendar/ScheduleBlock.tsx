@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react'
 import CreateProcedureCard from './CreateProcedureCard'
 import { RootState } from '../../redux'
 import { useSelector } from 'react-redux'
-import { Agenda, Master, Procedure } from '../../constants/interfaces'
+import { Agenda, Customer, Master, Procedure } from '../../constants/interfaces'
 import { DateTimeBlockAgenda } from '../../functions/functions'
 import RenderScheduleCard from './RenderScheduleCard'
 
@@ -29,6 +29,9 @@ export default function ScheduleBlock(props: ScheduleBlockProps) {
   const masters: Master[] = useSelector((state: RootState) => state.masters)
   const procedures: Procedure[] = useSelector(
     (state: RootState) => state.procedures
+  )
+  const customers: Customer[] = useSelector(
+    (state: RootState) => state.customers
   )
 
   const [cardPreview, setCardPreview] = useState<{
@@ -89,6 +92,7 @@ export default function ScheduleBlock(props: ScheduleBlockProps) {
               masters
             )}
             procedures={procedures}
+            customers={customers}
           />
         ))}
       </View>
