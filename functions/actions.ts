@@ -56,7 +56,14 @@ export async function LogOut() {
 export async function CreateAgenda(agenda: Agenda) {
   try {
     await set(
-      ref(getDatabase(), 'business/PoboiskayaSofia/agenda/' + agenda.id),
+      ref(
+        getDatabase(),
+        `business/PoboiskayaSofia/agendas/year-${new Date(
+          agenda.date
+        ).getFullYear()}/month-${
+          new Date(agenda.date).getMonth() + 1
+        }/date-${new Date(agenda.date).getDate()}/${agenda.id}`
+      ),
       agenda
     )
     return true
@@ -68,7 +75,7 @@ export async function CreateAgenda(agenda: Agenda) {
 export async function UpdateAgenda(agenda: Agenda) {
   try {
     await update(
-      ref(getDatabase(), 'business/PoboiskayaSofia/agenda/' + agenda.id),
+      ref(getDatabase(), 'business/PoboiskayaSofia/agendas/' + agenda.id),
       agenda
     )
   } catch (error) {

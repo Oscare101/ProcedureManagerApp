@@ -19,6 +19,9 @@ import EmptyItem from '../../components/agenda/EmptyItem'
 import ChosenMasterItem from '../../components/agenda/ChosenMasterItem'
 import InputBlock from '../../components/application/InputBlock'
 import ChosenProceduresItem from '../../components/agenda/ChosenProceduresItem'
+import ButtonBlock from '../../components/application/ButtonBlock'
+import { CanCreateAgenda } from '../../functions/functions'
+import { CreateAgenda } from '../../functions/actions'
 
 const width = Dimensions.get('screen').width
 
@@ -27,6 +30,7 @@ export default function CreateAgendaScreen({ navigation }: any) {
   const dispatch = useDispatch()
 
   const [modalData, setModalData] = useState<string>('timePicker')
+  const [loading, setLoading] = useState<boolean>(false)
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => [width * 1.3], [])
@@ -37,9 +41,29 @@ export default function CreateAgendaScreen({ navigation }: any) {
     bottomSheetModalRef.current?.dismiss()
   }, [])
 
+  async function CreateAgendaFunc() {
+    setLoading(true)
+    const agendaData: Agenda = {
+      ...agenda,
+      created: new Date().getTime(),
+      lastUpdated: new Date().getTime(),
+      id: `${new Date(agenda.date).getFullYear()}-${(
+        new Date(agenda.date).getMonth() + 1
+      )
+        .toString()
+        .padStart(2, '0')}-${new Date(agenda.date)
+        .getDate()
+        .toString()
+        .padStart(2, '0')}-${agenda.time}-${agenda.masterId}`,
+    }
+
+    await CreateAgenda(agendaData)
+    navigation.goBack()
+  }
+
   return (
     <BottomSheetModalProvider>
-      <View style={globalStyles.center}>
+      <View style={globalStyles.container}>
         <Header title={text.createProcedure} action="back" />
         <DateTimeBlock
           onModal={() => {
@@ -109,6 +133,23 @@ export default function CreateAgendaScreen({ navigation }: any) {
             }}
           />
         </View>
+        <View style={{ flex: 1 }} />
+        <ButtonBlock
+          disable={
+            !(
+              agenda.time &&
+              agenda.masterId &&
+              agenda.customerId &&
+              agenda.procedures.length &&
+              CanCreateAgenda(agenda, []) &&
+              !loading
+            )
+          }
+          title={text.create}
+          action={CreateAgendaFunc}
+          buttonStyles={{ marginBottom: width * 0.05 }}
+          loading={loading}
+        />
       </View>
       <BottomModalBlock
         bottomSheetModalRef={bottomSheetModalRef}

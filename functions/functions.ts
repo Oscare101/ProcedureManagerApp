@@ -1,5 +1,5 @@
 import { Linking } from 'react-native'
-import { Customer, Procedure } from '../constants/interfaces'
+import { Agenda, Customer, Procedure } from '../constants/interfaces'
 import rules from '../constants/rules'
 import text from '../constants/text'
 
@@ -134,4 +134,8 @@ export function CalculateProceduresDurstion(
     (a: Procedure, b: Procedure) => b.time - a.time
   )[0]
   return theLongest.time
+}
+
+export function CanCreateAgenda(agenda: Agenda, agendas: Agenda[]) {
+  return true // TODO
 }
