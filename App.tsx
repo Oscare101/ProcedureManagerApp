@@ -12,8 +12,9 @@ import { RootState } from './redux'
 import { auth } from './firebase'
 import { getDatabase, onValue, ref } from 'firebase/database'
 import { updateCustomers } from './redux/customers'
-import { Customer } from './constants/interfaces'
+import { Customer, Procedure } from './constants/interfaces'
 import Toast from 'react-native-toast-message'
+import { updateProcedures } from './redux/procedures'
 
 export const storage = new MMKV()
 
@@ -35,8 +36,23 @@ function AppComponent() {
     }
   }
 
+  function GetProcedures() {
+    if (auth.currentUser && auth.currentUser.email) {
+      const data = ref(getDatabase(), `business/PoboiskayaSofia/procedures`)
+      onValue(data, (snapshot) => {
+        setUpdate(true)
+        if (snapshot.val()) {
+          dispatch(
+            updateProcedures(Object.values(snapshot.val()) as Procedure[])
+          )
+        }
+      })
+    }
+  }
+
   useEffect(() => {
     if (!update) {
+      GetProcedures()
       GetCustomers()
     }
   }, [schedule])

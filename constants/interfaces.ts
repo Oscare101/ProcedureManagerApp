@@ -4,7 +4,7 @@ export interface Agenda {
   duration: string
   customerId: Customer['id']
   id: string
-  procedure: any[]
+  procedures: any[]
   comment: string
   lastUpdated: number
   created: number
@@ -28,4 +28,14 @@ export interface Master {
   color: string
   id: string
   name: string
+}
+
+export interface Procedure {
+  id: string
+  name: string
+  priority: number
+  type: 'cleaning' | 'peeling' | 'care' | 'additional' | 'meso' | 'other'
+  short: string
+  time: number
+  price: number
 }

@@ -75,7 +75,7 @@ export default function CreateAgendaScreen({ navigation }: any) {
           />
         )}
         <Text style={styles.comment}>{text.procedure}</Text>
-        {agenda.procedure.length ? (
+        {agenda.procedures.length ? (
           <ChosenMasterItem
             action={() => {
               setModalData('masterPicker')
@@ -86,8 +86,7 @@ export default function CreateAgendaScreen({ navigation }: any) {
           <EmptyItem
             title={text.procedure}
             action={() => {
-              // setModalData('masterPicker')
-              // onPresentModal()
+              navigation.navigate('ProceduresScreen')
             }}
           />
         )}
@@ -131,12 +130,6 @@ const styles = StyleSheet.create({
     fontSize: width * 0.04,
     color: colors.comment,
     marginVertical: width * 0.01,
-  },
-  //
-  columnStart: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
   },
 
   card: {

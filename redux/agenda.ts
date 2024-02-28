@@ -7,7 +7,7 @@ export const initialStateAgenda: Agenda = {
   duration: '',
   customerId: '',
   id: '',
-  procedure: [],
+  procedures: [],
   comment: '',
   lastUpdated: 0,
   created: 0,

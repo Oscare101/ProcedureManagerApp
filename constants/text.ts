@@ -48,4 +48,11 @@ export default {
   master: 'майстер',
   chosen: 'Обрано',
   procedure: 'процедура',
+  procedures: 'Процедури',
+  cleaning: 'Чистки',
+  peeling: 'Пілінги',
+  care: 'Доглядові',
+  additional: 'Додаткові',
+  meso: 'Мезотерапія',
+  other: 'Інші',
 }
