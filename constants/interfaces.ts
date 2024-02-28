@@ -28,6 +28,7 @@ export interface Master {
   color: string
   id: string
   name: string
+  number: number
 }
 
 export interface Procedure {

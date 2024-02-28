@@ -12,9 +12,11 @@ import { RootState } from './redux'
 import { auth } from './firebase'
 import { getDatabase, onValue, ref } from 'firebase/database'
 import { updateCustomers } from './redux/customers'
-import { Customer, Procedure } from './constants/interfaces'
+import { Agenda, Customer, Master, Procedure } from './constants/interfaces'
 import Toast from 'react-native-toast-message'
 import { updateProcedures } from './redux/procedures'
+import { updateMasters } from './redux/masters'
+import { clearAgendas, updateAgendas } from './redux/agendas'
 
 export const storage = new MMKV()
 
@@ -50,8 +52,45 @@ function AppComponent() {
     }
   }
 
+  function GetMastersData() {
+    if (auth.currentUser && auth.currentUser.email) {
+      const data = ref(getDatabase(), `business/PoboiskayaSofia/masters`)
+      onValue(data, (snapshot) => {
+        dispatch(updateMasters(Object.values(snapshot.val()) as Master[]))
+      })
+    }
+  }
+
+  function GetAgendas() {
+    if (auth.currentUser && auth.currentUser.email) {
+      const data = ref(getDatabase(), `business/PoboiskayaSofia/agendas/`)
+      // year-${date.getFullYear()}/month-${date.getMonth() + 1}/date-${date.getDate()}
+
+      onValue(data, (snapshot) => {
+        if (snapshot.val()) {
+          let arr: Agenda[] = []
+          Object.values(snapshot.val()).map((year: any, index: number) =>
+            Object.values(year).map((month: any, index: number) =>
+              Object.values(month).map(
+                (date: any, index: number) =>
+                  (arr = [...arr, ...(Object.values(date) as Agenda[])])
+              )
+            )
+          )
+          console.log(arr)
+
+          dispatch(updateAgendas(arr))
+        } else {
+          dispatch(clearAgendas())
+        }
+      })
+    }
+  }
+
   useEffect(() => {
     if (!update) {
+      GetAgendas()
+      GetMastersData()
       GetProcedures()
       GetCustomers()
     }

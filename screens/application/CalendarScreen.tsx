@@ -24,12 +24,11 @@ import {
   updateAgenda,
 } from '../../redux/agenda'
 import { RootState } from '../../redux'
+import { clearAgendas, updateAgendas } from '../../redux/agendas'
 
 const width = Dimensions.get('screen').width
 
 export default function CalendarScreen({ navigation }: any) {
-  const agenda: Agenda = useSelector((state: RootState) => state.agenda)
-
   const [openCalendar, setOpenCalendar] = useState<boolean>(false)
   const [date, setDate] = useState<Date>(new Date())
 
@@ -43,20 +42,6 @@ export default function CalendarScreen({ navigation }: any) {
   }, [])
 
   const dispatch = useDispatch()
-
-  function GetMastersData() {
-    if (auth.currentUser && auth.currentUser.email) {
-      const data = ref(getDatabase(), `business/PoboiskayaSofia/masters`)
-
-      onValue(data, (snapshot) => {
-        dispatch(updateMasters(Object.values(snapshot.val()) as Master[]))
-      })
-    }
-  }
-
-  useEffect(() => {
-    GetMastersData()
-  }, [])
 
   function GetSchedule(date: Date) {
     if (auth.currentUser && auth.currentUser.email) {

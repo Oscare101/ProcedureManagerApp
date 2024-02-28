@@ -12,6 +12,7 @@ import text from '../../constants/text'
 import colors from '../../constants/colors'
 import { UpdateSchedule } from '../../functions/actions'
 import { Ionicons } from '@expo/vector-icons'
+import { Master } from '../../constants/interfaces'
 
 const width = Dimensions.get('screen').width
 
@@ -117,7 +118,10 @@ export default function MastersScheduleModal(props: {
           />
         </TouchableOpacity>
       </View>
-      <FlatList data={masters} renderItem={RenderMasterItem} />
+      <FlatList
+        data={[...masters].sort((a: Master, b: Master) => a.number - b.number)}
+        renderItem={RenderMasterItem}
+      />
     </>
   )
 }

@@ -72,24 +72,26 @@ export default function DateInfoBlock(props: DateInfoBlockProps) {
           justifyContent: 'space-between',
         }}
       >
-        {masters.map((master: Master, index: number) => (
-          <View
-            key={index}
-            style={[
-              styles.masterBlock,
-              {
-                backgroundColor: master.color,
-                opacity: Object.values(
-                  schedule['date-' + props.date.getDate()] || []
-                ).find((m: string) => m === master.id)
-                  ? 1
-                  : 0,
-              },
-            ]}
-          >
-            <Text style={styles.masterBlockTitle}>{master.name}</Text>
-          </View>
-        ))}
+        {[...masters]
+          .sort((a: Master, b: Master) => a.number - b.number)
+          .map((master: Master, index: number) => (
+            <View
+              key={index}
+              style={[
+                styles.masterBlock,
+                {
+                  backgroundColor: master.color,
+                  opacity: Object.values(
+                    schedule['date-' + props.date.getDate()] || []
+                  ).find((m: string) => m === master.id)
+                    ? 1
+                    : 0,
+                },
+              ]}
+            >
+              <Text style={styles.masterBlockTitle}>{master.name}</Text>
+            </View>
+          ))}
       </View>
       <TouchableOpacity
         style={styles.editButton}

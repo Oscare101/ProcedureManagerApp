@@ -12,6 +12,10 @@ import colors from '../../constants/colors'
 import globalStyles from '../../constants/globalStyles'
 import { useEffect, useState } from 'react'
 import CreateProcedureCard from './CreateProcedureCard'
+import { RootState } from '../../redux'
+import { useSelector } from 'react-redux'
+import { Agenda, Master } from '../../constants/interfaces'
+import { DateTimeBlockAgenda } from '../../functions/functions'
 
 interface ScheduleBlockProps {
   date: Date
@@ -20,6 +24,9 @@ interface ScheduleBlockProps {
 const width = Dimensions.get('screen').width
 
 export default function ScheduleBlock(props: ScheduleBlockProps) {
+  const agendas: Agenda[] = useSelector((state: RootState) => state.agendas)
+  const masters: Master[] = useSelector((state: RootState) => state.masters)
+
   const [cardPreview, setCardPreview] = useState<{
     date: Date
     time: string
@@ -52,9 +59,26 @@ export default function ScheduleBlock(props: ScheduleBlockProps) {
       column === cardPreview?.column
     )
   }
+
   function RenderScheduleItem({ item }: any) {
+    const currentBlock: any = DateTimeBlockAgenda(props.date, item, agendas)
+
+    if (currentBlock && masters.length) {
+      // console.log(item, currentBlock)
+      const column = masters.find(
+        (m: Master) => m.id === currentBlock.masterId
+      )?.number
+      console.log(column)
+    }
+
     return (
-      <View style={[styles.scheduleItem, globalStyles.scheduleCardHeight1]}>
+      <View
+        style={[
+          styles.scheduleItem,
+          globalStyles.scheduleCardHeight1,
+          { backgroundColor: currentBlock ? 'green' : '#00000000' },
+        ]}
+      >
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {

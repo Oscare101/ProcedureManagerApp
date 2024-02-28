@@ -142,3 +142,20 @@ export function CalculateProceduresDurstion(
 export function CanCreateAgenda(agenda: Agenda, agendas: Agenda[]) {
   return true // TODO
 }
+
+export function DateTimeBlockAgenda(
+  date: Date,
+  time: string,
+  agendas: Agenda[]
+) {
+  const todaysAgendas = agendas.find(
+    (a: Agenda) =>
+      new Date(a.date).getFullYear() === date.getFullYear() &&
+      new Date(a.date).getMonth() === date.getMonth() &&
+      new Date(a.date).getDate() === date.getDate() &&
+      a.time.split(':')[0] === time.split(':')[0] &&
+      a.time.split(':')[1] >= time.split(':')[1] &&
+      a.time.split(':')[1] < time.split(':')[1] + 30
+  )
+  return todaysAgendas as Agenda
+}

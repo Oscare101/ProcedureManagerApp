@@ -95,7 +95,10 @@ export default function MasterPickerModal() {
 
   return (
     <>
-      <FlatList data={masters} renderItem={RenderMasterItem} />
+      <FlatList
+        data={[...masters].sort((a: Master, b: Master) => a.number - b.number)}
+        renderItem={RenderMasterItem}
+      />
     </>
   )
 }
