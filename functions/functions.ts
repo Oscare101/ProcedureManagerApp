@@ -1,5 +1,5 @@
 import { Linking } from 'react-native'
-import { Agenda, Customer, Procedure } from '../constants/interfaces'
+import { Agenda, Customer, Master, Procedure } from '../constants/interfaces'
 import rules from '../constants/rules'
 import text from '../constants/text'
 
@@ -146,16 +146,38 @@ export function CanCreateAgenda(agenda: Agenda, agendas: Agenda[]) {
 export function DateTimeBlockAgenda(
   date: Date,
   time: string,
-  agendas: Agenda[]
+  column: number,
+  agendas: Agenda[],
+  masters: Master[]
 ) {
+  // const endMinuts = Math.floor((+a.time.split(':')[1] + a.duration) % 60)
+  // const endHours =
+  //   +a.time.split(':')[0] +
+  //   Math.floor((a.duration + +a.time.split(':')[1]) / 60) -
+  //   (endMinuts ? 1 : 0)
+  // console.log(
+  //   +a.time.split(':')[0],
+  //   +time.split(':')[0],
+  //   endHours,
+  //   endMinuts,
+  //   time
+  // )
+
   const todaysAgendas = agendas.find(
     (a: Agenda) =>
       new Date(a.date).getFullYear() === date.getFullYear() &&
       new Date(a.date).getMonth() === date.getMonth() &&
       new Date(a.date).getDate() === date.getDate() &&
-      a.time.split(':')[0] === time.split(':')[0] &&
-      a.time.split(':')[1] >= time.split(':')[1] &&
-      a.time.split(':')[1] < time.split(':')[1] + 30
+      +a.time.split(':')[0] +
+        Math.floor((a.duration + +a.time.split(':')[1]) / 60) -
+        (Math.floor(+a.time.split(':')[1] + a.duration) % 60 ? 0 : 1) ===
+        +time.split(':')[0] &&
+      (Math.floor((+a.time.split(':')[1] + a.duration) % 60) || 60) >
+        +time.split(':')[1] &&
+      (Math.floor((+a.time.split(':')[1] + a.duration) % 60) || 60) <=
+        +time.split(':')[1] + 30 &&
+      masters.find((m: Master) => m.id === a.masterId)?.number === column
   )
+
   return todaysAgendas as Agenda
 }
