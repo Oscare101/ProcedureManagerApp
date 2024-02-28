@@ -57,4 +57,5 @@ export default {
   other: 'Інші',
   duration: 'тривальість',
   minutesShort: 'хв',
+  UAHshort: 'грн',
 }

@@ -17,7 +17,10 @@ export default function ProceduresScreen({ navigation }: any) {
   return (
     <View style={globalStyles.container}>
       <Header title={text.procedures} action="back" />
-      <ScrollView style={{ width: '100%' }}>
+      <ScrollView
+        style={{ width: '100%' }}
+        showsVerticalScrollIndicator={false}
+      >
         <ProceduresCard
           procedures={procedures.filter(
             (p: Procedure) => p.type === 'cleaning'

@@ -127,6 +127,9 @@ export function CalculateProceduresDurstion(
   proceduresIds: string[],
   procedures: Procedure[]
 ) {
+  if (!proceduresIds.length) {
+    return 0
+  }
   const proceduresArr = procedures.filter((p: Procedure) =>
     proceduresIds.includes(p.id)
   )

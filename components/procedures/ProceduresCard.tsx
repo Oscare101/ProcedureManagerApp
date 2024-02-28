@@ -1,4 +1,5 @@
 import {
+  Animated,
   Dimensions,
   FlatList,
   StyleSheet,
@@ -13,7 +14,7 @@ import RenderProcedureItem from './RenderProcedureItem'
 import { RootState } from '../../redux'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateAgenda } from '../../redux/agenda'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import { CalculateProceduresDurstion } from '../../functions/functions'
 
@@ -24,10 +25,18 @@ export default function ProceduresCard(props: { procedures: Procedure[] }) {
   const procedures: Procedure[] = useSelector(
     (state: RootState) => state.procedures
   )
-
   const dispatch = useDispatch()
-
   const [open, setOpen] = useState<boolean>(false)
+
+  const heightAnim = useRef(new Animated.Value(0)).current
+
+  useEffect(() => {
+    Animated.timing(heightAnim, {
+      toValue: open ? width * 0.08 * props.procedures.length + 1 : 0,
+      duration: 100,
+      useNativeDriver: false,
+    }).start()
+  }, [open])
 
   function ToggleProcedureFunc(procedureId: Procedure['id']) {
     if (agenda.procedures.includes(procedureId)) {
@@ -87,28 +96,28 @@ export default function ProceduresCard(props: { procedures: Procedure[] }) {
           color={colors.text}
         />
       </TouchableOpacity>
-      {open ? (
-        <>
-          <View style={styles.line} />
-          <FlatList
-            style={{ paddingBottom: width * 0.02 }}
-            scrollEnabled={false}
-            data={props.procedures}
-            renderItem={({ item }) => (
-              <RenderProcedureItem
-                procedure={item}
-                toggleProcedure={(value: Procedure['id']) =>
-                  ToggleProcedureFunc(value)
-                }
-                chosenProcedures={agenda.procedures}
-              />
-            )}
-            initialNumToRender={props.procedures.length}
-          />
-        </>
-      ) : (
-        <></>
-      )}
+
+      <Animated.View style={{ height: heightAnim }}>
+        <View style={styles.line} />
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          style={{ paddingBottom: width * 0.02 }}
+          scrollEnabled={false}
+          data={props.procedures.sort(
+            (a: Procedure, b: Procedure) => a.priority - b.priority
+          )}
+          renderItem={({ item }) => (
+            <RenderProcedureItem
+              procedure={item}
+              toggleProcedure={(value: Procedure['id']) =>
+                ToggleProcedureFunc(value)
+              }
+              chosenProcedures={agenda.procedures}
+            />
+          )}
+          initialNumToRender={props.procedures.length}
+        />
+      </Animated.View>
     </View>
   )
 }
@@ -121,6 +130,7 @@ const styles = StyleSheet.create({
     marginTop: width * 0.02,
     borderRadius: width * 0.03,
     alignSelf: 'center',
+    overflow: 'hidden',
   },
   cardHeader: {
     width: '100%',

@@ -1,6 +1,7 @@
 import { Dimensions, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import colors from '../../constants/colors'
 import { Agenda, Procedure } from '../../constants/interfaces'
+import text from '../../constants/text'
 
 const width = Dimensions.get('screen').width
 
@@ -44,7 +45,7 @@ export default function RenderProcedureItem(props: {
           },
         ]}
       >
-        {props.procedure.price}
+        {props.procedure.price} {text.UAHshort}
       </Text>
     </TouchableOpacity>
   )
@@ -59,10 +60,12 @@ const styles = StyleSheet.create({
     padding: width * 0.01,
     borderRadius: width * 0.02,
     marginVertical: width * 0.005,
+    height: width * 0.07,
   },
   title: {
-    fontSize: width * 0.04,
+    fontSize: width * 0.035,
     flex: 1,
+    flexWrap: 'wrap',
   },
-  price: { fontSize: width * 0.04 },
+  price: { fontSize: width * 0.035 },
 })
