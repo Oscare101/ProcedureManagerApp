@@ -17,12 +17,12 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   scheduleCardHeight1: {
-    height: width * 0.1,
+    height: width * 0.07,
   },
   scheduleCardHeight2: {
-    height: width * 0.2,
+    height: width * 0.14,
   },
   scheduleCardHeight3: {
-    height: width * 0.3,
+    height: width * 0.21,
   },
 })

@@ -27,6 +27,7 @@ const width = Dimensions.get('screen').width
 export default function ScheduleBlock(props: ScheduleBlockProps) {
   const agendas: Agenda[] = useSelector((state: RootState) => state.agendas)
   const masters: Master[] = useSelector((state: RootState) => state.masters)
+  const schedule = useSelector((state: RootState) => state.schedule)
   const procedures: Procedure[] = useSelector(
     (state: RootState) => state.procedures
   )
@@ -94,6 +95,7 @@ export default function ScheduleBlock(props: ScheduleBlockProps) {
             procedures={procedures}
             customers={customers}
             masters={masters}
+            schedule={schedule}
           />
         ))}
       </View>

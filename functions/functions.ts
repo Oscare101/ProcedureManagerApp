@@ -163,3 +163,13 @@ export function DateTimeBlockAgenda(
 
   return todaysAgendas as Agenda
 }
+
+export function CalculateIsEnoughtTimeForProcedure(
+  agends: Agenda,
+  schedule: any
+) {
+  console.log(agends)
+  console.log(schedule)
+
+  return false
+}

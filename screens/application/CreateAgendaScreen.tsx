@@ -2,7 +2,7 @@ import { Dimensions, StyleSheet, Text, View } from 'react-native'
 import globalStyles from '../../constants/globalStyles'
 import Header from '../../components/application/Header'
 import text from '../../constants/text'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import colors from '../../constants/colors'
 import {
   BottomSheetModal,
@@ -20,13 +20,18 @@ import ChosenMasterItem from '../../components/agenda/ChosenMasterItem'
 import InputBlock from '../../components/application/InputBlock'
 import ChosenProceduresItem from '../../components/agenda/ChosenProceduresItem'
 import ButtonBlock from '../../components/application/ButtonBlock'
-import { CanCreateAgenda } from '../../functions/functions'
+import {
+  CalculateIsEnoughtTimeForProcedure,
+  CanCreateAgenda,
+} from '../../functions/functions'
 import { CreateAgenda } from '../../functions/actions'
 
 const width = Dimensions.get('screen').width
 
 export default function CreateAgendaScreen({ navigation }: any) {
   const agenda: Agenda = useSelector((state: RootState) => state.agenda)
+  const schedule = useSelector((state: RootState) => state.schedule)
+
   const dispatch = useDispatch()
 
   const [modalData, setModalData] = useState<string>('timePicker')
@@ -60,6 +65,10 @@ export default function CreateAgendaScreen({ navigation }: any) {
     await CreateAgenda(agendaData)
     navigation.goBack()
   }
+
+  useEffect(() => {
+    const isEnoughtTime = CalculateIsEnoughtTimeForProcedure(agenda, schedule)
+  }, [agenda.date, agenda.time, agenda.masterId, agenda.duration])
 
   return (
     <BottomSheetModalProvider>
