@@ -40,16 +40,16 @@ export default function ScheduleBlock(props: ScheduleBlockProps) {
     column: number
   } | null>()
 
-  useEffect(() => {
-    if (cardPreview !== null) {
-      const timer = setTimeout(function () {
-        setCardPreview(null)
-      }, 5000)
-      return () => {
-        clearTimeout(timer)
-      }
-    }
-  }, [cardPreview])
+  // useEffect(() => {
+  //   if (cardPreview !== null) {
+  //     const timer = setTimeout(function () {
+  //       setCardPreview(null)
+  //     }, 5000)
+  //     return () => {
+  //       clearTimeout(timer)
+  //     }
+  //   }
+  // }, [cardPreview])
 
   function RenderTimesItem({ item }: any) {
     return (
@@ -93,6 +93,7 @@ export default function ScheduleBlock(props: ScheduleBlockProps) {
             )}
             procedures={procedures}
             customers={customers}
+            masters={masters}
           />
         ))}
       </View>
@@ -101,16 +102,24 @@ export default function ScheduleBlock(props: ScheduleBlockProps) {
   return (
     <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
+        {/* <View style={styles.timesBlock}> */}
+        {/* {rules.timesArrReversed.map((item: any, index: number) => (
+            <RenderTimesItem key={index} item={item} />
+          ))} */}
         <FlatList
+          inverted
           scrollEnabled={false}
           style={styles.timesBlock}
-          data={rules.timesArr}
+          data={rules.timesArrReversed}
           renderItem={RenderTimesItem}
         />
+        {/* </View> */}
+
         <FlatList
+          inverted
           scrollEnabled={false}
           style={styles.scheduleBlock}
-          data={rules.timesArrFull}
+          data={rules.timesArrFullReversed}
           renderItem={RenderScheduleItem}
         />
       </View>
@@ -134,6 +143,7 @@ const styles = StyleSheet.create({
   },
   timesBlock: {
     width: width * 0.92 * 0.15,
+    flexDirection: 'column-reverse',
   },
   timesItem: { height: width * 0.2, alignItems: 'center' },
   timesTitle: { fontSize: width * 0.04, color: colors.text, height: '50%' },
@@ -142,6 +152,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderRadius: width * 0.03,
     marginTop: width * 0.02,
+    flexDirection: 'column-reverse',
   },
   scheduleItem: {
     borderBottomWidth: 1,

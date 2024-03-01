@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import CreateProcedureCard from './CreateProcedureCard'
 import globalStyles from '../../constants/globalStyles'
-import { Agenda, Customer, Procedure } from '../../constants/interfaces'
+import { Agenda, Customer, Master, Procedure } from '../../constants/interfaces'
 import agenda from '../../redux/agenda'
 import colors from '../../constants/colors'
 import procedures from '../../redux/procedures'
@@ -23,6 +23,7 @@ export default function RenderScheduleCard(props: {
   agenda: Agenda
   procedures: Procedure[]
   customers: Customer[]
+  masters: Master[]
 }) {
   if (props.agenda) {
     return (
@@ -52,6 +53,16 @@ export default function RenderScheduleCard(props: {
                 )?.name
               }
             </Text>
+            <View
+              style={[
+                styles.masterColor,
+                {
+                  backgroundColor: props.masters.find(
+                    (m: Master) => m.id === props.agenda.masterId
+                  )?.color,
+                },
+              ]}
+            />
           </View>
           {props.agenda.procedures.map((item: any, index: number) => (
             <Text key={index} style={styles.procedureTitle}>
@@ -89,7 +100,7 @@ const styles = StyleSheet.create({
     borderRadius: width * 0.02,
     backgroundColor: colors.white,
     position: 'absolute',
-    bottom: 0,
+    top: 0,
     overflow: 'hidden',
   },
   procedureHeader: {
@@ -98,12 +109,17 @@ const styles = StyleSheet.create({
     backgroundColor: colors.card2,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     paddingHorizontal: '5%',
   },
   customer: {
     fontSize: width * 0.035,
     color: colors.card2Title,
+  },
+  masterColor: {
+    width: width * 0.02,
+    height: width * 0.02,
+    borderRadius: width * 0.02,
   },
   procedureTitle: { fontSize: width * 0.035, color: colors.text },
 })
