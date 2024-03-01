@@ -12,12 +12,14 @@ import { Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch } from 'react-redux'
 import { initialStateAgenda, updateAgenda } from '../../redux/agenda'
+import { Master } from '../../constants/interfaces'
 const width = Dimensions.get('screen').width
 
 export default function CreateProcedureCard(props: {
   date: Date
   time: string
   column: number
+  masters: Master[]
 }) {
   const dispatch = useDispatch()
   const navigation: any = useNavigation()
@@ -30,6 +32,9 @@ export default function CreateProcedureCard(props: {
             ...initialStateAgenda,
             date: props.date.getTime(),
             time: props.time,
+            masterId:
+              props.masters.find((m: Master) => m.number === props.column)
+                ?.id || '',
           })
         )
         navigation.navigate('CreateAgendaScreen')

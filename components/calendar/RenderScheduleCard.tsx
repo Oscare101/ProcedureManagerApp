@@ -56,7 +56,12 @@ export default function RenderScheduleCard(props: {
       ]}
     >
       {props.isPreview ? (
-        <CreateProcedureCard date={props.date} time={props.time} column={1} />
+        <CreateProcedureCard
+          date={props.date}
+          time={props.time}
+          column={props.column}
+          masters={props.masters}
+        />
       ) : (
         <Ionicons
           name={isMasterWorking ? 'create-outline' : 'close-outline'}

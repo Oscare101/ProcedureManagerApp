@@ -139,10 +139,6 @@ export function CalculateProceduresDurstion(
   return theLongest.time
 }
 
-export function CanCreateAgenda(agenda: Agenda, agendas: Agenda[]) {
-  return true // TODO
-}
-
 export function DateTimeBlockAgenda(
   date: Date,
   time: string,
@@ -164,12 +160,60 @@ export function DateTimeBlockAgenda(
   return todaysAgendas as Agenda
 }
 
-export function CalculateIsEnoughtTimeForProcedure(
-  agends: Agenda,
-  schedule: any
-) {
-  console.log(agends)
-  console.log(schedule)
+export function CalculateProcedureFinishTime(time: string, duration: number) {
+  const hours =
+    +time.split(':')[0] + Math.floor((+time.split(':')[1] + duration) / 60)
+  const minutes = (+time.split(':')[1] + duration) % 60
+  return `${hours}:${minutes.toString().padStart(2, '0')}`
+}
 
+export function IsTimeBetweenTimes(
+  timeStart: string,
+  timeFinish: string,
+  start: string,
+  finish: string
+) {
+  const timeStartNumber =
+    +timeStart.split(':')[0] + +timeStart.split(':')[1] / 60
+  const timeFinishNumber =
+    +timeFinish.split(':')[0] + +timeFinish.split(':')[1] / 60
+  const startNumber = +start.split(':')[0] + +start.split(':')[1] / 60
+  const finishNumber = +finish.split(':')[0] + +finish.split(':')[1] / 60
+  if (
+    (timeStartNumber > startNumber && timeStartNumber < finishNumber) ||
+    (timeFinishNumber > startNumber && timeFinishNumber < finishNumber)
+  ) {
+    return true
+  }
   return false
+}
+
+export function CalculateIsEnoughtTimeForProcedure(
+  agenda: Agenda,
+  agendas: Agenda[]
+) {
+  if (!agenda.time || !agenda.duration) return true
+  const todaysMastersAgendas: Agenda[] = []
+  agendas.map((a: Agenda) => {
+    if (
+      a.masterId === agenda.masterId &&
+      new Date(a.date).toISOString().split('T')[0] ===
+        new Date(agenda.date).toISOString().split('T')[0]
+    ) {
+      todaysMastersAgendas.push(a)
+    }
+  })
+
+  const isEnoughTime: boolean = !todaysMastersAgendas.length
+    ? true
+    : !todaysMastersAgendas.find((a: Agenda) =>
+        IsTimeBetweenTimes(
+          agenda.time,
+          CalculateProcedureFinishTime(agenda.time, agenda.duration),
+          a.time,
+          CalculateProcedureFinishTime(a.time, a.duration)
+        )
+      )
+
+  return isEnoughTime
 }

@@ -20,22 +20,22 @@ import ChosenMasterItem from '../../components/agenda/ChosenMasterItem'
 import InputBlock from '../../components/application/InputBlock'
 import ChosenProceduresItem from '../../components/agenda/ChosenProceduresItem'
 import ButtonBlock from '../../components/application/ButtonBlock'
-import {
-  CalculateIsEnoughtTimeForProcedure,
-  CanCreateAgenda,
-} from '../../functions/functions'
+import { CalculateIsEnoughtTimeForProcedure } from '../../functions/functions'
 import { CreateAgenda } from '../../functions/actions'
 
 const width = Dimensions.get('screen').width
 
 export default function CreateAgendaScreen({ navigation }: any) {
   const agenda: Agenda = useSelector((state: RootState) => state.agenda)
+  const agendas: Agenda[] = useSelector((state: RootState) => state.agendas)
+
   const schedule = useSelector((state: RootState) => state.schedule)
 
   const dispatch = useDispatch()
 
   const [modalData, setModalData] = useState<string>('timePicker')
   const [loading, setLoading] = useState<boolean>(false)
+  const [isEnoughtTime, setIsEnoughtTime] = useState<boolean>(true)
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => [width * 1.3], [])
@@ -67,7 +67,8 @@ export default function CreateAgendaScreen({ navigation }: any) {
   }
 
   useEffect(() => {
-    const isEnoughtTime = CalculateIsEnoughtTimeForProcedure(agenda, schedule)
+    const isEnoughtTime = CalculateIsEnoughtTimeForProcedure(agenda, agendas)
+    setIsEnoughtTime(isEnoughtTime)
   }, [agenda.date, agenda.time, agenda.masterId, agenda.duration])
 
   return (
@@ -143,6 +144,14 @@ export default function CreateAgendaScreen({ navigation }: any) {
           />
         </View>
         <View style={{ flex: 1 }} />
+        {!isEnoughtTime ? (
+          <Text style={styles.error}>
+            {text.cantCreateAgendaBeacauseOfTime}
+          </Text>
+        ) : (
+          <></>
+        )}
+
         <ButtonBlock
           disable={
             !(
@@ -150,8 +159,8 @@ export default function CreateAgendaScreen({ navigation }: any) {
               agenda.masterId &&
               agenda.customerId &&
               agenda.procedures.length &&
-              CanCreateAgenda(agenda, []) &&
-              !loading
+              !loading &&
+              isEnoughtTime
             )
           }
           title={text.create}
@@ -197,5 +206,10 @@ const styles = StyleSheet.create({
     fontSize: width * 0.04,
     color: colors.comment,
     marginBottom: width * 0.02,
+  },
+  error: {
+    fontSize: width * 0.04,
+    color: colors.lightErrorTitle,
+    marginTop: width * 0.03,
   },
 })

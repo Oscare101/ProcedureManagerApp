@@ -78,7 +78,8 @@ export default function ChosenProceduresItem(props: { action: any }) {
             color={colors.text}
           />
           <Text style={styles.durationTitle}>
-            {agenda.duration} {text.minutesShort}
+            {Math.floor(agenda.duration / 60)}:
+            {(agenda.duration % 60).toString().padStart(2, '0')}
           </Text>
         </View>
 

@@ -58,4 +58,6 @@ export default {
   duration: 'тривальість',
   minutesShort: 'хв',
   UAHshort: 'грн',
+  cantCreateAgendaBeacauseOfTime:
+    'Неможливо створити процедуру, так як вона перетинається з іншими процедурами',
 }
