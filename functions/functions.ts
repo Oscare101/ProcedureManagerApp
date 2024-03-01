@@ -176,8 +176,10 @@ export function IsTimeBetweenTimes(
   const startNumber = +start.split(':')[0] + +start.split(':')[1] / 60
   const finishNumber = +finish.split(':')[0] + +finish.split(':')[1] / 60
   if (
-    (timeStartNumber > startNumber && timeStartNumber < finishNumber) ||
-    (timeFinishNumber > startNumber && timeFinishNumber < finishNumber)
+    (timeStartNumber >= startNumber && timeStartNumber < finishNumber) ||
+    (timeFinishNumber > startNumber && timeFinishNumber <= finishNumber) ||
+    (startNumber >= timeStartNumber && startNumber < timeFinishNumber) ||
+    (finishNumber > timeStartNumber && finishNumber <= timeFinishNumber)
   ) {
     return true
   }
