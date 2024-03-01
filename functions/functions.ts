@@ -150,15 +150,6 @@ export function DateTimeBlockAgenda(
   agendas: Agenda[],
   masters: Master[]
 ) {
-  //  +a.time.split(':')[0] +
-  //       Math.floor((a.duration + +a.time.split(':')[1]) / 60) -
-  //       (Math.floor(+a.time.split(':')[1] + a.duration) % 60 ? 0 : 1) ===
-  //       +time.split(':')[0] &&
-  //     (Math.floor((+a.time.split(':')[1] + a.duration) % 60) || 60) >
-  //       +time.split(':')[1] &&
-  //     (Math.floor((+a.time.split(':')[1] + a.duration) % 60) || 60) <=
-  //       +time.split(':')[1] + 30 &&
-
   const todaysAgendas = agendas.find(
     (a: Agenda) =>
       new Date(a.date).getFullYear() === date.getFullYear() &&

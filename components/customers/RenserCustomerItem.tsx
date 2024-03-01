@@ -100,7 +100,6 @@ export default function RenderCustomerItem(props: RenderCustomerItemProps) {
 const styles = StyleSheet.create({
   card: {
     width: '92%',
-    // padding: width * 0.02,
     backgroundColor: colors.white,
     alignSelf: 'center',
     borderRadius: width * 0.03,

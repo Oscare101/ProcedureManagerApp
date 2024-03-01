@@ -40,16 +40,16 @@ export default function ScheduleBlock(props: ScheduleBlockProps) {
     column: number
   } | null>()
 
-  // useEffect(() => {
-  //   if (cardPreview !== null) {
-  //     const timer = setTimeout(function () {
-  //       setCardPreview(null)
-  //     }, 5000)
-  //     return () => {
-  //       clearTimeout(timer)
-  //     }
-  //   }
-  // }, [cardPreview])
+  useEffect(() => {
+    if (cardPreview !== null) {
+      const timer = setTimeout(function () {
+        setCardPreview(null)
+      }, 5000)
+      return () => {
+        clearTimeout(timer)
+      }
+    }
+  }, [cardPreview])
 
   function RenderTimesItem({ item }: any) {
     return (
@@ -102,10 +102,6 @@ export default function ScheduleBlock(props: ScheduleBlockProps) {
   return (
     <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
-        {/* <View style={styles.timesBlock}> */}
-        {/* {rules.timesArrReversed.map((item: any, index: number) => (
-            <RenderTimesItem key={index} item={item} />
-          ))} */}
         <FlatList
           inverted
           scrollEnabled={false}
@@ -113,7 +109,6 @@ export default function ScheduleBlock(props: ScheduleBlockProps) {
           data={rules.timesArrReversed}
           renderItem={RenderTimesItem}
         />
-        {/* </View> */}
 
         <FlatList
           inverted
@@ -143,7 +138,6 @@ const styles = StyleSheet.create({
   },
   timesBlock: {
     width: width * 0.92 * 0.15,
-    flexDirection: 'column-reverse',
   },
   timesItem: { height: width * 0.2, alignItems: 'center' },
   timesTitle: { fontSize: width * 0.04, color: colors.text, height: '50%' },

@@ -2,7 +2,6 @@ import { Dimensions, FlatList } from 'react-native'
 import rules from '../../constants/rules'
 import text from '../../constants/text'
 import { RenderWeekDayItem } from './RenderWeekDayItem'
-// import { RenderWeekDayItem } from './RenderWeekDayItem'
 
 const width = Dimensions.get('screen').width
 

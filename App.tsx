@@ -77,7 +77,6 @@ function AppComponent() {
               )
             )
           )
-          console.log(arr)
 
           dispatch(updateAgendas(arr))
         } else {
