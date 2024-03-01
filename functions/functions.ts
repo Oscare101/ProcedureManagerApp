@@ -115,11 +115,7 @@ export function FilterCustomerSearch(customers: Customer[], search: string) {
     (c: Customer) =>
       c.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()) ||
       c.phone.toLocaleLowerCase().includes(search.toLocaleLowerCase()) ||
-      ExtractInstagramUsername(c.link)
-        ?.toLocaleLowerCase()
-        .includes(search.toLocaleLowerCase()) ||
-      (c.messenger === 'telegram' &&
-        c.link?.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+      c.link?.toLocaleLowerCase().includes(search.toLocaleLowerCase())
   )
 }
 
