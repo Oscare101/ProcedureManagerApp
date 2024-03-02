@@ -27,6 +27,7 @@ const width = Dimensions.get('screen').width
 
 export default function CreateAgendaScreen({ navigation, route }: any) {
   const agenda: Agenda = useSelector((state: RootState) => state.agenda)
+  const schedule: any = useSelector((state: RootState) => state.schedule)
   const agendas: Agenda[] = useSelector((state: RootState) => state.agendas)
 
   const dispatch = useDispatch()
@@ -43,8 +44,6 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
   const onDismisModal = useCallback(() => {
     bottomSheetModalRef.current?.dismiss()
   }, [])
-
-  console.log('create', agenda)
 
   async function CreateAgendaFunc() {
     setLoading(true)
@@ -72,8 +71,13 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
   }
 
   useEffect(() => {
-    // console.log(schedule) // TODO
-
+    if (
+      !schedule['year-' + new Date(agenda.date).getFullYear()]?.[
+        `month-${new Date(agenda.date).getMonth() + 1}`
+      ]?.['date-' + new Date(agenda.date).getDate()].includes(agenda.masterId)
+    ) {
+      dispatch(updateAgenda({ ...agenda, masterId: '' }))
+    }
     const isEnoughtTime = CalculateIsEnoughtTimeForProcedure(agenda, agendas)
     setIsEnoughtTime(isEnoughtTime)
   }, [agenda.date, agenda.time, agenda.masterId, agenda.duration])
