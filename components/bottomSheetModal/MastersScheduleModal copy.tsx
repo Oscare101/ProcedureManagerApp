@@ -21,14 +21,17 @@ export default function MastersScheduleModal(props: {
   setDate: any
 }) {
   const masters = useSelector((state: RootState) => state.masters)
-  const schedule = useSelector((state: RootState) => state.schedule)
+  const schedule: any = useSelector((state: RootState) => state.schedule)
 
   function onlyUnique(value: any, index: any, array: any) {
     return array.indexOf(value) === index
   }
 
   async function SetSchedule(masterId: string) {
-    let newSchedule = schedule['date-' + props.date.getDate()] || []
+    let newSchedule =
+      schedule['year-' + props.date.getFullYear()]?.[
+        'month-' + (props.date.getMonth() + 1)
+      ]?.['date-' + props.date.getDate()] || []
     if (newSchedule.includes(masterId)) {
       newSchedule = newSchedule.filter((master: string) => master !== masterId)
     } else {
@@ -50,7 +53,9 @@ export default function MastersScheduleModal(props: {
   }
 
   function RenderMasterItem({ item }: any) {
-    const isWorking: boolean = !!schedule['date-' + props.date.getDate()]?.find(
+    const isWorking: boolean = !!schedule['year-' + props.date.getFullYear()]?.[
+      'month-' + (props.date.getMonth() + 1)
+    ]?.['date-' + props.date.getDate()]?.find(
       (master: string) => master === item.id
     )
     return (

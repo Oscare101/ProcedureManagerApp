@@ -28,6 +28,7 @@ const width = Dimensions.get('screen').width
 export default function CreateAgendaScreen({ navigation, route }: any) {
   const agenda: Agenda = useSelector((state: RootState) => state.agenda)
   const agendas: Agenda[] = useSelector((state: RootState) => state.agendas)
+
   const dispatch = useDispatch()
 
   const [modalData, setModalData] = useState<string>('timePicker')
@@ -43,20 +44,15 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
     bottomSheetModalRef.current?.dismiss()
   }, [])
 
+  console.log('create', agenda)
+
   async function CreateAgendaFunc() {
     setLoading(true)
     const agendaData: Agenda = {
       ...agenda,
       created: new Date().getTime(),
       lastUpdated: new Date().getTime(),
-      id: `${new Date(agenda.date).getFullYear()}-${(
-        new Date(agenda.date).getMonth() + 1
-      )
-        .toString()
-        .padStart(2, '0')}-${new Date(agenda.date)
-        .getDate()
-        .toString()
-        .padStart(2, '0')}-${agenda.time}-${agenda.masterId}`,
+      id: new Date().getTime().toString(),
     }
 
     await CreateAgenda(agendaData)
@@ -70,20 +66,14 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
     const agendaData: Agenda = {
       ...agenda,
       lastUpdated: new Date().getTime(),
-      id: `${new Date(agenda.date).getFullYear()}-${(
-        new Date(agenda.date).getMonth() + 1
-      )
-        .toString()
-        .padStart(2, '0')}-${new Date(agenda.date)
-        .getDate()
-        .toString()
-        .padStart(2, '0')}-${agenda.time}-${agenda.masterId}`,
     }
     await CreateAgenda(agendaData)
     navigation.goBack()
   }
 
   useEffect(() => {
+    // console.log(schedule) // TODO
+
     const isEnoughtTime = CalculateIsEnoughtTimeForProcedure(agenda, agendas)
     setIsEnoughtTime(isEnoughtTime)
   }, [agenda.date, agenda.time, agenda.masterId, agenda.duration])

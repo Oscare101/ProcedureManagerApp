@@ -36,7 +36,7 @@ export default function ProcedureCard(props: {
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => {
-          navigation.navigate('AgendaInfoScreen', { agenda: props.agenda })
+          navigation.navigate('AgendaInfoScreen', { agendaId: props.agenda.id })
         }}
         style={[
           styles.card,

@@ -23,7 +23,7 @@ interface DateInfoBlockProps {
 
 export default function DateInfoBlock(props: DateInfoBlockProps) {
   const masters = useSelector((state: RootState) => state.masters)
-  const schedule = useSelector((state: RootState) => state.schedule)
+  const schedule: any = useSelector((state: RootState) => state.schedule)
 
   function OnNextDate() {
     const date = new Date(props.date)
@@ -82,8 +82,10 @@ export default function DateInfoBlock(props: DateInfoBlockProps) {
                 {
                   backgroundColor: master.color,
                   opacity: Object.values(
-                    schedule['date-' + props.date.getDate()] || []
-                  ).find((m: string) => m === master.id)
+                    schedule['year-' + props.date.getFullYear()]?.[
+                      `month-${props.date.getMonth() + 1}`
+                    ]?.['date-' + props.date.getDate()] || []
+                  ).find((m: any) => m === master.id)
                     ? 1
                     : 0,
                 },

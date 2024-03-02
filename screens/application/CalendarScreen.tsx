@@ -45,12 +45,7 @@ export default function CalendarScreen({ navigation }: any) {
 
   function GetSchedule(date: Date) {
     if (auth.currentUser && auth.currentUser.email) {
-      const data = ref(
-        getDatabase(),
-        `business/PoboiskayaSofia/schedule/year-${date.getFullYear()}/month-${
-          date.getMonth() + 1
-        }`
-      )
+      const data = ref(getDatabase(), `business/PoboiskayaSofia/schedule/`)
       onValue(data, (snapshot) => {
         dispatch(clearSchedule())
         if (snapshot.val()) {

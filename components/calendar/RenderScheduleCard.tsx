@@ -37,9 +37,11 @@ export default function RenderScheduleCard(props: {
     )
   }
 
-  const isMasterWorking = props.schedule[
-    `date-${props.date.getDate()}`
-  ]?.includes(props.masters.find((m: Master) => m.number === props.column)?.id)
+  const isMasterWorking = props.schedule['year-' + props.date.getFullYear()]?.[
+    'month-' + (props.date.getMonth() + 1)
+  ]?.['date-' + props.date.getDate()]?.includes(
+    props.masters.find((m: Master) => m.number === props.column)?.id
+  )
 
   return (
     <TouchableOpacity

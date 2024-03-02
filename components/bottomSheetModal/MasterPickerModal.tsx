@@ -45,7 +45,7 @@ export default function MasterPickerModal() {
   }, [])
 
   function RenderMasterItem({ item }: any) {
-    const isWorking: boolean = !!todayMasters.find(
+    const isWorking: boolean = !!todayMasters?.find(
       (master: string) => master === item.id
     )
     const chosen = agenda.masterId === item.id

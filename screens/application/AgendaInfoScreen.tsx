@@ -8,59 +8,69 @@ import ChosenCustomerItem from '../../components/agenda/ChosenCustomerItem'
 import ChosenMasterItem from '../../components/agenda/ChosenMasterItem'
 import ChosenProceduresItem from '../../components/agenda/ChosenProceduresItem'
 import ButtonBlock from '../../components/application/ButtonBlock'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { updateAgenda } from '../../redux/agenda'
+import { Agenda } from '../../constants/interfaces'
+import { RootState } from '../../redux'
 
 const width = Dimensions.get('screen').width
 
 export default function AgendaInfoScreen({ navigation, route }: any) {
+  const agendas: Agenda[] = useSelector((state: RootState) => state.agendas)
+  const agenda: Agenda = agendas.find(
+    (a: Agenda) => a.id === route.params.agendaId
+  ) as Agenda
+
   const dispatch = useDispatch()
   return (
     <View style={globalStyles.container}>
       <Header title={text.agenda} action="back" />
-      <DateTimeBlock
-        date={route.params.agenda.date}
-        time={route.params.agenda.time}
-        static={true}
-        onModal={false}
-      />
-      <Text style={styles.comment}>{text.customer}</Text>
-      <ChosenCustomerItem
-        customerId={route.params.agenda.customerId}
-        static={true}
-      />
-      <Text style={styles.comment}>{text.master}</Text>
-      <ChosenMasterItem
-        action={false}
-        static={true}
-        masterId={route.params.agenda.masterId}
-      />
-      <Text style={styles.comment}>{text.procedure}</Text>
-      <ChosenProceduresItem
-        action={false}
-        static={true}
-        procedures={route.params.agenda.procedures}
-        duration={route.params.agenda.duration}
-      />
-      {route.params.agenda.comment ? (
+      {agenda?.date ? (
         <>
-          <Text style={styles.comment}>{text.comment}</Text>
-          <Text style={styles.text}>{route.params.agenda.comment}</Text>
+          <DateTimeBlock
+            date={agenda.date}
+            time={agenda.time}
+            static={true}
+            onModal={false}
+          />
+          <Text style={styles.comment}>{text.customer}</Text>
+          <ChosenCustomerItem customerId={agenda.customerId} static={true} />
+          <Text style={styles.comment}>{text.master}</Text>
+          <ChosenMasterItem
+            action={false}
+            static={true}
+            masterId={agenda.masterId}
+          />
+          <Text style={styles.comment}>{text.procedure}</Text>
+          <ChosenProceduresItem
+            action={false}
+            static={true}
+            procedures={agenda.procedures}
+            duration={agenda.duration}
+          />
+          {agenda.comment ? (
+            <>
+              <Text style={styles.comment}>{text.comment}</Text>
+              <Text style={styles.text}>{agenda.comment}</Text>
+            </>
+          ) : (
+            <></>
+          )}
+          <View style={{ flex: 1 }} />
+          <ButtonBlock
+            title={text.edit}
+            action={() => {
+              dispatch(updateAgenda(agenda))
+              navigation.navigate('CreateAgendaScreen', {
+                agenda: agenda,
+              })
+            }}
+            buttonStyles={{ marginBottom: width * 0.05 }}
+          />
         </>
       ) : (
         <></>
       )}
-      <View style={{ flex: 1 }} />
-      <ButtonBlock
-        title={text.edit}
-        action={() => {
-          dispatch(updateAgenda(route.params.agenda))
-          navigation.navigate('CreateAgendaScreen', {
-            agenda: route.params.agenda,
-          })
-        }}
-        buttonStyles={{ marginBottom: width * 0.05 }}
-      />
     </View>
   )
 }

@@ -21,7 +21,7 @@ interface DateItemProps {
 
 export function RenderDateItem(props: DateItemProps) {
   const masters = useSelector((state: RootState) => state.masters)
-  const schedule = useSelector((state: RootState) => state.schedule)
+  const schedule: any = useSelector((state: RootState) => state.schedule)
 
   const today = IsDateToday(props.item)
   const inMonth = new Date(props.item).getMonth() === props.date.getMonth()
@@ -29,7 +29,11 @@ export function RenderDateItem(props: DateItemProps) {
 
   function GetDateSchedule() {
     return inMonth
-      ? Object.values(schedule['date-' + props.item.getDate()] || [])
+      ? Object.values(
+          schedule['year-' + props.item.getFullYear()]?.[
+            'month-' + (props.item.getMonth() + 1)
+          ]?.['date-' + props.item.getDate()] || []
+        )
       : []
   }
 
@@ -64,7 +68,7 @@ export function RenderDateItem(props: DateItemProps) {
         {new Date(props.item).getDate()}
       </Text>
       <View style={styles.mastersBlock}>
-        {GetDateSchedule().map((master: string, index: number) => (
+        {GetDateSchedule().map((master: any, index: number) => (
           <View
             key={index}
             style={{
