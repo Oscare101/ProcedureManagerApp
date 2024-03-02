@@ -50,14 +50,10 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
   const [error, setError] = useState<string>('')
 
   async function CreateCustomerFunc(back: boolean) {
-    if (customers.find((c: Customer) => c.id === phone)) {
-      setError(text.alreadyUsedPhone)
-      return false
-    }
     if (
       messenger &&
       name &&
-      ClearPhoneString(phone).length === 13 &&
+      (!phone || ClearPhoneString(phone).length === 13) &&
       auth.currentUser &&
       auth.currentUser.email
     ) {

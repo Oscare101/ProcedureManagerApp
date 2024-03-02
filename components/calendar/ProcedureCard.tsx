@@ -9,7 +9,6 @@ import globalStyles from '../../constants/globalStyles'
 import { Agenda, Customer, Master, Procedure } from '../../constants/interfaces'
 import colors from '../../constants/colors'
 import { useNavigation } from '@react-navigation/native'
-import agenda from '../../redux/agenda'
 
 const width = Dimensions.get('screen').width
 
@@ -29,7 +28,6 @@ export default function ProcedureCard(props: {
   const procedures: any = props.agenda.procedures.map((item: any) => {
     return props.procedures.find((p: Procedure) => p.id === item)
   })
-
   const proceduresString = procedures
     .sort((a: Procedure, b: Procedure) => b.time - a.time)
     .map((item: any) => {
