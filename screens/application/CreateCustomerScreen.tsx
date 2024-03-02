@@ -24,7 +24,11 @@ import ButtonBlock from '../../components/application/ButtonBlock'
 import { CreateCustomer, UpdateCustomer } from '../../functions/actions'
 import { auth } from '../../firebase'
 import rules from '../../constants/rules'
-import { ReturnPhoneString } from '../../functions/functions'
+import {
+  OpenLink,
+  OpenMessenger,
+  ReturnPhoneString,
+} from '../../functions/functions'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux'
 
@@ -64,7 +68,7 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
         messenger: messenger,
         link: link,
         comment: comment,
-        id: ClearPhoneString(phone),
+        id: new Date().getTime().toString(),
       }
       await CreateCustomer(customer)
       if (back) {
@@ -158,6 +162,7 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
       icon: 'link-outline',
       placeHolder: text.link,
       disable: messenger === 'viber' || messenger === 'whatsapp' || !messenger,
+      checkButton: true,
     },
     {
       title: text.comment,
@@ -177,7 +182,25 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
   function RenderItem({ item }: any) {
     return (
       <View style={[styles.card, { opacity: item.disable ? 0.5 : 1 }]}>
-        <Text style={styles.title}>{item.title}</Text>
+        <View style={styles.rowBetween}>
+          <Text style={styles.title}>{item.title}</Text>
+          {item.checkButton && link ? (
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.checkButton}
+              onPress={() => {
+                if (messenger !== '') {
+                  OpenLink(link, messenger)
+                }
+              }}
+            >
+              <Text style={styles.checkButtonTitle}>{text.check}</Text>
+            </TouchableOpacity>
+          ) : (
+            <></>
+          )}
+        </View>
+
         {item.modal ? (
           <TouchableOpacity
             activeOpacity={0.8}
@@ -281,11 +304,21 @@ const styles = StyleSheet.create({
     marginTop: width * 0.02,
     alignSelf: 'center',
   },
+  rowBetween: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
   title: {
     fontSize: width * 0.04,
     color: colors.comment,
     marginBottom: width * 0.02,
   },
+  checkButton: {
+    marginBottom: width * 0.02,
+  },
+  checkButtonTitle: { fontSize: width * 0.04, color: colors.accent },
   messengerButton: {
     width: '100%',
     backgroundColor: colors.bg,

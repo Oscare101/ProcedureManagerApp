@@ -107,6 +107,16 @@ export async function OpenMessenger(customer: Customer) {
   }
 }
 
+export function OpenLink(link: string, messenger: Customer['messenger']) {
+  if (messenger === 'instagram') {
+    Linking.openURL(`https://www.instagram.com/${link}`)
+  } else if (messenger === 'telegram') {
+    Linking.openURL(`https://t.me/${link.replace(/^@/, '')}`)
+  } else {
+    return false
+  }
+}
+
 export function FilterCustomerSearch(customers: Customer[], search: string) {
   if (!search) {
     return customers

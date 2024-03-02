@@ -60,4 +60,5 @@ export default {
   UAHshort: 'грн',
   cantCreateAgendaBeacauseOfTime:
     'Неможливо створити процедуру, так як вона перетинається з іншими процедурами',
+  check: 'перевірити',
 }
