@@ -26,6 +26,17 @@ export default function ProcedureCard(props: {
   const master = props.masters.find(
     (m: Master) => m.id === props.agenda.masterId
   )
+  const procedures: any = props.agenda.procedures.map((item: any) => {
+    return props.procedures.find((p: Procedure) => p.id === item)
+  })
+
+  const proceduresString = procedures
+    .sort((a: Procedure, b: Procedure) => b.time - a.time)
+    .map((item: any) => {
+      return item.short
+    })
+    .join(' ')
+
   return (
     <View
       style={[
@@ -47,7 +58,18 @@ export default function ProcedureCard(props: {
         ]}
       >
         <View style={styles.procedureHeader}>
-          <Text style={styles.customer}>{customer?.name}</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              flex: 1,
+              overflow: 'hidden',
+            }}
+          >
+            <Text numberOfLines={1} style={styles.procedureTitle}>
+              {proceduresString}
+            </Text>
+          </View>
+
           <View
             style={[
               styles.masterColor,
@@ -57,12 +79,12 @@ export default function ProcedureCard(props: {
             ]}
           />
         </View>
-        {props.agenda.procedures.map((item: any, index: number) => (
-          <Text key={index} style={styles.procedureTitle}>
-            {props.procedures.find((p: Procedure) => p.id === item)?.short}
-          </Text>
-        ))}
-        <Text>{customer?.link || customer?.phone}</Text>
+        <Text numberOfLines={1} style={styles.customer}>
+          {customer?.name}
+        </Text>
+        <Text numberOfLines={1} style={styles.link}>
+          {customer?.link || customer?.phone}
+        </Text>
       </TouchableOpacity>
     </View>
   )
@@ -85,15 +107,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: '5%',
+    overflow: 'hidden',
   },
   customer: {
     fontSize: width * 0.035,
-    color: colors.card2Title,
+    color: colors.text,
   },
+  link: { fontSize: width * 0.035, color: colors.comment },
   masterColor: {
     width: width * 0.02,
     height: width * 0.02,
     borderRadius: width * 0.02,
   },
-  procedureTitle: { fontSize: width * 0.035, color: colors.text },
+  procedureTitle: {
+    fontSize: width * 0.035,
+    color: colors.card2Title,
+    flex: 1,
+  },
 })
