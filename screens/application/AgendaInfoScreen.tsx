@@ -8,10 +8,13 @@ import ChosenCustomerItem from '../../components/agenda/ChosenCustomerItem'
 import ChosenMasterItem from '../../components/agenda/ChosenMasterItem'
 import ChosenProceduresItem from '../../components/agenda/ChosenProceduresItem'
 import ButtonBlock from '../../components/application/ButtonBlock'
+import { useDispatch } from 'react-redux'
+import { updateAgenda } from '../../redux/agenda'
 
 const width = Dimensions.get('screen').width
 
 export default function AgendaInfoScreen({ navigation, route }: any) {
+  const dispatch = useDispatch()
   return (
     <View style={globalStyles.container}>
       <Header title={text.agenda} action="back" />
@@ -51,6 +54,7 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
       <ButtonBlock
         title={text.edit}
         action={() => {
+          dispatch(updateAgenda(route.params.agenda))
           navigation.navigate('CreateAgendaScreen', {
             agenda: route.params.agenda,
           })

@@ -21,16 +21,13 @@ import InputBlock from '../../components/application/InputBlock'
 import ChosenProceduresItem from '../../components/agenda/ChosenProceduresItem'
 import ButtonBlock from '../../components/application/ButtonBlock'
 import { CalculateIsEnoughtTimeForProcedure } from '../../functions/functions'
-import { CreateAgenda } from '../../functions/actions'
+import { CreateAgenda, DeleteAgenda } from '../../functions/actions'
 
 const width = Dimensions.get('screen').width
 
-export default function CreateAgendaScreen({ navigation }: any) {
+export default function CreateAgendaScreen({ navigation, route }: any) {
   const agenda: Agenda = useSelector((state: RootState) => state.agenda)
   const agendas: Agenda[] = useSelector((state: RootState) => state.agendas)
-
-  const schedule = useSelector((state: RootState) => state.schedule)
-
   const dispatch = useDispatch()
 
   const [modalData, setModalData] = useState<string>('timePicker')
@@ -66,6 +63,26 @@ export default function CreateAgendaScreen({ navigation }: any) {
     navigation.goBack()
   }
 
+  async function UpdateAgendaFunc() {
+    setLoading(true)
+    await DeleteAgenda(route.params?.agenda)
+
+    const agendaData: Agenda = {
+      ...agenda,
+      lastUpdated: new Date().getTime(),
+      id: `${new Date(agenda.date).getFullYear()}-${(
+        new Date(agenda.date).getMonth() + 1
+      )
+        .toString()
+        .padStart(2, '0')}-${new Date(agenda.date)
+        .getDate()
+        .toString()
+        .padStart(2, '0')}-${agenda.time}-${agenda.masterId}`,
+    }
+    await CreateAgenda(agendaData)
+    navigation.goBack()
+  }
+
   useEffect(() => {
     const isEnoughtTime = CalculateIsEnoughtTimeForProcedure(agenda, agendas)
     setIsEnoughtTime(isEnoughtTime)
@@ -74,7 +91,12 @@ export default function CreateAgendaScreen({ navigation }: any) {
   return (
     <BottomSheetModalProvider>
       <View style={globalStyles.container}>
-        <Header title={text.createProcedure} action="back" />
+        <Header
+          title={
+            route.params?.agenda ? text.editProcedure : text.createProcedure
+          }
+          action="back"
+        />
         <DateTimeBlock
           onModal={() => {
             setModalData('timePicker')
@@ -168,8 +190,8 @@ export default function CreateAgendaScreen({ navigation }: any) {
               isEnoughtTime
             )
           }
-          title={text.create}
-          action={CreateAgendaFunc}
+          title={route.params?.agenda ? text.edit : text.create}
+          action={route.params?.agenda ? UpdateAgendaFunc : CreateAgendaFunc}
           buttonStyles={{ marginBottom: width * 0.05 }}
           loading={loading}
         />

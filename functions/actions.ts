@@ -83,10 +83,17 @@ export async function UpdateAgenda(agenda: Agenda) {
   }
 }
 
-export async function DeleteAgenda(agendaID: Agenda['id']) {
+export async function DeleteAgenda(agenda: Agenda) {
   try {
     await remove(
-      ref(getDatabase(), 'business/PoboiskayaSofia/agenda/' + agendaID)
+      ref(
+        getDatabase(),
+        `business/PoboiskayaSofia/agendas/year-${new Date(
+          agenda.date
+        ).getFullYear()}/month-${
+          new Date(agenda.date).getMonth() + 1
+        }/date-${new Date(agenda.date).getDate()}/${agenda.id}`
+      )
     )
   } catch (error) {
     console.log('DeleteAgenda', error)

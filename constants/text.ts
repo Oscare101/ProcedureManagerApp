@@ -29,6 +29,7 @@ export default {
   working: 'Працює',
   dayOff: 'Вихідний',
   createProcedure: 'Створити запис',
+  editProcedure: 'Редагувати запис',
   searchClient: 'пошук клієнта(-ки)',
   customer: 'клієнт(-ка)',
   name: "ім'я",

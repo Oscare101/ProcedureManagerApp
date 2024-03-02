@@ -202,15 +202,17 @@ export function CalculateIsEnoughtTimeForProcedure(
 ) {
   if (!agenda.time || !agenda.duration) return true
   const todaysMastersAgendas: Agenda[] = []
-  agendas.map((a: Agenda) => {
-    if (
-      a.masterId === agenda.masterId &&
-      new Date(a.date).toISOString().split('T')[0] ===
-        new Date(agenda.date).toISOString().split('T')[0]
-    ) {
-      todaysMastersAgendas.push(a)
-    }
-  })
+  agendas
+    .filter((a: Agenda) => a.id !== agenda.id)
+    .map((a: Agenda) => {
+      if (
+        a.masterId === agenda.masterId &&
+        new Date(a.date).toISOString().split('T')[0] ===
+          new Date(agenda.date).toISOString().split('T')[0]
+      ) {
+        todaysMastersAgendas.push(a)
+      }
+    })
 
   const isEnoughTime: boolean = !todaysMastersAgendas.length
     ? true
