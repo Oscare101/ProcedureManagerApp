@@ -19,7 +19,13 @@ export default function ProcedureCard(props: {
   masters: Master[]
   procedures: Procedure[]
 }) {
-  const navigation = useNavigation()
+  const navigation: any = useNavigation()
+  const customer = props.customers.find(
+    (c: Customer) => c.id === props.agenda.customerId
+  )
+  const master = props.masters.find(
+    (m: Master) => m.id === props.agenda.masterId
+  )
   return (
     <View
       style={[
@@ -30,7 +36,7 @@ export default function ProcedureCard(props: {
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => {
-          // props.setCardPreview()
+          navigation.navigate('AgendaInfoScreen', { agenda: props.agenda })
         }}
         style={[
           styles.card,
@@ -41,20 +47,12 @@ export default function ProcedureCard(props: {
         ]}
       >
         <View style={styles.procedureHeader}>
-          <Text style={styles.customer}>
-            {
-              props.customers.find(
-                (c: Customer) => c.id === props.agenda.customerId
-              )?.name
-            }
-          </Text>
+          <Text style={styles.customer}>{customer?.name}</Text>
           <View
             style={[
               styles.masterColor,
               {
-                backgroundColor: props.masters.find(
-                  (m: Master) => m.id === props.agenda.masterId
-                )?.color,
+                backgroundColor: master?.color,
               },
             ]}
           />
@@ -64,6 +62,7 @@ export default function ProcedureCard(props: {
             {props.procedures.find((p: Procedure) => p.id === item)?.short}
           </Text>
         ))}
+        <Text>{customer?.link || customer?.phone}</Text>
       </TouchableOpacity>
     </View>
   )

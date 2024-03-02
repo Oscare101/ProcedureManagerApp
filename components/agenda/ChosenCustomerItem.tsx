@@ -20,8 +20,10 @@ import { Ionicons } from '@expo/vector-icons'
 
 const width = Dimensions.get('screen').width
 
-export default function ChosenCustomerItem() {
-  const agenda: Agenda = useSelector((state: RootState) => state.agenda)
+export default function ChosenCustomerItem(props: {
+  customerId: string
+  static?: boolean
+}) {
   const customers: Customer[] = useSelector(
     (state: RootState) => state.customers
   )
@@ -29,7 +31,7 @@ export default function ChosenCustomerItem() {
   const navigation: any = useNavigation()
 
   const customer: any = customers.find(
-    (c: Customer) => c.id === agenda.customerId
+    (c: Customer) => c.id === props.customerId
   )
 
   return (
@@ -38,15 +40,20 @@ export default function ChosenCustomerItem() {
         <View style={styles.nameBlock}>
           <Text style={styles.name}>{customer?.name}</Text>
         </View>
-        <TouchableOpacity
-          style={styles.editButton}
-          activeOpacity={0.8}
-          onPress={() =>
-            navigation.navigate('CustomersScreen', { withoutDrawer: true })
-          }
-        >
-          <Text style={styles.editButtonTitle}>{text.rechoose}</Text>
-        </TouchableOpacity>
+        {props.static ? (
+          <></>
+        ) : (
+          <TouchableOpacity
+            style={styles.editButton}
+            activeOpacity={0.8}
+            onPress={() =>
+              navigation.navigate('CustomersScreen', { withoutDrawer: true })
+            }
+            disabled={props.static}
+          >
+            <Text style={styles.editButtonTitle}>{text.rechoose}</Text>
+          </TouchableOpacity>
+        )}
       </View>
       <View style={styles.rowBetween}>
         <View style={styles.rowStart}>

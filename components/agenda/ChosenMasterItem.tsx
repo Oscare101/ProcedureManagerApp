@@ -13,32 +13,37 @@ import { useSelector } from 'react-redux'
 
 const width = Dimensions.get('screen').width
 
-export default function ChosenMasterItem(props: { action: any }) {
+export default function ChosenMasterItem(props: {
+  action: any
+  masterId: Master['id']
+  static?: boolean
+}) {
   const masters: Master[] = useSelector((state: RootState) => state.masters)
-  const agenda: Agenda = useSelector((state: RootState) => state.agenda)
+  const master = masters.find((m: Master) => m.id === props.masterId)
   return (
     <View style={[styles.card, styles.rowBetween]}>
       <View
         style={[
           styles.nameBlock,
           {
-            backgroundColor: masters.find(
-              (m: Master) => m.id === agenda.masterId
-            )?.color,
+            backgroundColor: master?.color,
           },
         ]}
       >
-        <Text style={styles.name}>
-          {masters.find((m: Master) => m.id === agenda.masterId)?.name}
-        </Text>
+        <Text style={styles.name}>{master?.name}</Text>
       </View>
-      <TouchableOpacity
-        style={styles.editButton}
-        activeOpacity={0.8}
-        onPress={props.action}
-      >
-        <Text style={styles.editButtonTitle}>{text.rechoose}</Text>
-      </TouchableOpacity>
+      {props.static ? (
+        <></>
+      ) : (
+        <TouchableOpacity
+          style={styles.editButton}
+          activeOpacity={0.8}
+          onPress={props.action}
+          disabled={props.static}
+        >
+          <Text style={styles.editButtonTitle}>{text.rechoose}</Text>
+        </TouchableOpacity>
+      )}
     </View>
   )
 }

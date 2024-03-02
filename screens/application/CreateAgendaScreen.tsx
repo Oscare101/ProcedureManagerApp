@@ -80,10 +80,12 @@ export default function CreateAgendaScreen({ navigation }: any) {
             setModalData('timePicker')
             onPresentModal()
           }}
+          date={agenda.date}
+          time={agenda.time}
         />
         <Text style={styles.comment}>{text.customer}</Text>
         {agenda.customerId ? (
-          <ChosenCustomerItem />
+          <ChosenCustomerItem customerId={agenda.customerId} />
         ) : (
           <EmptyItem
             title={text.customer}
@@ -99,6 +101,7 @@ export default function CreateAgendaScreen({ navigation }: any) {
               setModalData('masterPicker')
               onPresentModal()
             }}
+            masterId={agenda.masterId}
           />
         ) : (
           <EmptyItem
@@ -115,6 +118,8 @@ export default function CreateAgendaScreen({ navigation }: any) {
             action={() => {
               navigation.navigate('ProceduresScreen')
             }}
+            procedures={agenda.procedures}
+            duration={agenda.duration}
           />
         ) : (
           <EmptyItem

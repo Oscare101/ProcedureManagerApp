@@ -18,7 +18,12 @@ import { updateAgenda } from '../../redux/agenda'
 
 const width = Dimensions.get('screen').width
 
-export default function ChosenProceduresItem(props: { action: any }) {
+export default function ChosenProceduresItem(props: {
+  action: any
+  static?: boolean
+  procedures: Procedure['id'][]
+  duration: Agenda['duration']
+}) {
   const agenda: Agenda = useSelector((state: RootState) => state.agenda)
   const procedures: Procedure[] = useSelector(
     (state: RootState) => state.procedures
@@ -44,33 +49,40 @@ export default function ChosenProceduresItem(props: { action: any }) {
   return (
     <View style={[styles.card, styles.rowBetween]}>
       <View style={styles.proceduresBlock}>
-        {agenda.procedures.map((item: any, index: number) => (
+        {props.procedures.map((item: any, index: number) => (
           <RenderProcedureItem key={index} item={item} />
         ))}
       </View>
 
       <View style={styles.line} />
       <View style={styles.editBlock}>
-        <View style={styles.rowBetween}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => {
-              SetProceduresDuration(-5)
-            }}
-            style={styles.durationButton}
-          >
-            <Ionicons name="remove" size={width * 0.04} color={colors.text} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => {
-              SetProceduresDuration(+5)
-            }}
-            style={styles.durationButton}
-          >
-            <Ionicons name="add" size={width * 0.04} color={colors.text} />
-          </TouchableOpacity>
-        </View>
+        {props.static ? (
+          <></>
+        ) : (
+          <View style={styles.rowBetween}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => {
+                SetProceduresDuration(-5)
+              }}
+              style={styles.durationButton}
+              disabled={props.static}
+            >
+              <Ionicons name="remove" size={width * 0.04} color={colors.text} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => {
+                SetProceduresDuration(+5)
+              }}
+              style={styles.durationButton}
+              disabled={props.static}
+            >
+              <Ionicons name="add" size={width * 0.04} color={colors.text} />
+            </TouchableOpacity>
+          </View>
+        )}
+
         <View style={styles.durationBlock}>
           <Ionicons
             name="timer-outline"
@@ -78,18 +90,22 @@ export default function ChosenProceduresItem(props: { action: any }) {
             color={colors.text}
           />
           <Text style={styles.durationTitle}>
-            {Math.floor(agenda.duration / 60)}:
-            {(agenda.duration % 60).toString().padStart(2, '0')}
+            {Math.floor(props.duration / 60)}:
+            {(props.duration % 60).toString().padStart(2, '0')}
           </Text>
         </View>
-
-        <TouchableOpacity
-          style={styles.editButton}
-          activeOpacity={0.8}
-          onPress={props.action}
-        >
-          <Text style={styles.editButtonTitle}>{text.rechoose}</Text>
-        </TouchableOpacity>
+        {props.static ? (
+          <></>
+        ) : (
+          <TouchableOpacity
+            style={styles.editButton}
+            activeOpacity={0.8}
+            onPress={props.action}
+            disabled={props.static}
+          >
+            <Text style={styles.editButtonTitle}>{text.rechoose}</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   )

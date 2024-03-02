@@ -61,4 +61,5 @@ export default {
   cantCreateAgendaBeacauseOfTime:
     'Неможливо створити процедуру, так як вона перетинається з іншими процедурами',
   check: 'перевірити',
+  agenda: 'Запис',
 }

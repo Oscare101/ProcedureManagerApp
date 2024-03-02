@@ -15,19 +15,24 @@ import { Ionicons } from '@expo/vector-icons'
 
 const width = Dimensions.get('screen').width
 
-export default function DateTimeBlock(props: { onModal: any }) {
+export default function DateTimeBlock(props: {
+  onModal: any
+  date: number
+  time: string
+  static?: boolean
+}) {
   const agenda: Agenda = useSelector((state: RootState) => state.agenda)
   const dispatch = useDispatch()
 
   function OnNextDate() {
-    const newDate = new Date(agenda.date)
+    const newDate = new Date(props.date)
     newDate.setDate(newDate.getDate() + 1)
 
     dispatch(updateAgenda({ ...agenda, date: newDate.getTime() }))
   }
 
   function OnPreviousDate() {
-    const newDate = new Date(agenda.date)
+    const newDate = new Date(props.date)
     newDate.setDate(newDate.getDate() - 1)
     dispatch(updateAgenda({ ...agenda, date: newDate.getTime() }))
   }
@@ -35,48 +40,66 @@ export default function DateTimeBlock(props: { onModal: any }) {
   return (
     <View style={[styles.card, styles.rowBetween]}>
       <View style={styles.dateBlock}>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={OnPreviousDate}
-          style={styles.dateButon}
-        >
-          <Ionicons
-            name="chevron-back"
-            size={width * 0.06}
-            color={colors.text}
-          />
-        </TouchableOpacity>
+        {props.static ? (
+          <View style={styles.dateButon}>
+            <Ionicons
+              name="calendar-outline"
+              size={width * 0.06}
+              color={colors.text}
+            />
+          </View>
+        ) : (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={OnPreviousDate}
+            style={styles.dateButon}
+            disabled={props.static}
+          >
+            <Ionicons
+              name="chevron-back"
+              size={width * 0.06}
+              color={colors.text}
+            />
+          </TouchableOpacity>
+        )}
+
         <Text style={styles.dateTitle}>
-          {new Date(agenda.date).getDate().toString().padStart(2, '0')}.
-          {(new Date(agenda.date).getMonth() + 1).toString().padStart(2, '0')}.
-          {new Date(agenda.date).getFullYear()} (
-          {text.weekDaysShort[(new Date(agenda.date).getDay() || 7) - 1]})
+          {new Date(props.date).getDate().toString().padStart(2, '0')}.
+          {(new Date(props.date).getMonth() + 1).toString().padStart(2, '0')}.
+          {new Date(props.date).getFullYear()} (
+          {text.weekDaysShort[(new Date(props.date).getDay() || 7) - 1]})
         </Text>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={OnNextDate}
-          style={styles.dateButon}
-        >
-          <Ionicons
-            name="chevron-forward"
-            size={width * 0.06}
-            color={colors.text}
-          />
-        </TouchableOpacity>
+        {props.static ? (
+          <View style={styles.dateButon}></View>
+        ) : (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={OnNextDate}
+            style={styles.dateButon}
+            disabled={props.static}
+          >
+            <Ionicons
+              name="chevron-forward"
+              size={width * 0.06}
+              color={colors.text}
+            />
+          </TouchableOpacity>
+        )}
       </View>
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={props.onModal}
+        disabled={props.static}
         style={[
           styles.timeBlock,
           {
-            backgroundColor: agenda.time ? colors.bg : colors.card2,
+            backgroundColor: props.time ? colors.bg : colors.card2,
           },
         ]}
       >
-        {+agenda.time.split(':')[0] < 10 ||
-        +agenda.time.split(':')[0] > 20 ||
-        !agenda.time ? (
+        {+props.time.split(':')[0] < 10 ||
+        +props.time.split(':')[0] > 20 ||
+        !props.time ? (
           <Ionicons
             name="alert-circle-outline"
             size={width * 0.035}
@@ -93,10 +116,10 @@ export default function DateTimeBlock(props: { onModal: any }) {
         <Ionicons
           name="time-outline"
           size={width * 0.06}
-          color={agenda.time ? colors.text : colors.card2Title}
+          color={props.time ? colors.text : colors.card2Title}
         />
-        {agenda.time ? (
-          <Text style={styles.timeTitle}>{agenda.time}</Text>
+        {props.time ? (
+          <Text style={styles.timeTitle}>{props.time}</Text>
         ) : (
           <></>
         )}
