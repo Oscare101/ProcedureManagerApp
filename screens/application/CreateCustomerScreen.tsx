@@ -187,6 +187,8 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
       route.params?.customer.link !== link
     ) {
       setWarning(text.alreadyUsedPhone)
+    } else {
+      setWarning('')
     }
   }, [phone, link])
 
