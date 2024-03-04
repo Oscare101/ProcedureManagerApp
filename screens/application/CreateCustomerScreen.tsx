@@ -1,6 +1,7 @@
 import {
   Dimensions,
   FlatList,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -47,6 +48,7 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
     route.params?.customer.comment || ''
   )
   const [loading, setLoading] = useState<boolean>(false)
+  const [warning, setWarning] = useState<string>('')
 
   async function CreateCustomerFunc(back: boolean) {
     if (
@@ -174,6 +176,20 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
     }
   }, [messenger])
 
+  useEffect(() => {
+    if (
+      customers.find((c: Customer) => c.link === link) &&
+      route.params?.customer.phone !== phone
+    ) {
+      setWarning(text.alreadyUsedLink)
+    } else if (
+      customers.find((c: Customer) => c.phone === ClearPhoneString(phone)) &&
+      route.params?.customer.link !== link
+    ) {
+      setWarning(text.alreadyUsedPhone)
+    }
+  }, [phone, link])
+
   function RenderItem({ item }: any) {
     return (
       <View style={[styles.card, { opacity: item.disable ? 0.5 : 1 }]}>
@@ -249,11 +265,22 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
             route.params?.customer ? text.editCustomer : text.createCustomer
           }
         />
-        <FlatList
-          style={{ width: '100%' }}
-          data={data}
-          renderItem={RenderItem}
-        />
+        <ScrollView style={{ width: '100%', flex: 1 }}>
+          <FlatList
+            scrollEnabled={false}
+            style={{ width: '100%' }}
+            data={data}
+            renderItem={RenderItem}
+          />
+        </ScrollView>
+        {warning ? (
+          <View style={styles.warningBlock}>
+            <Text style={styles.warningTitle}>{warning}</Text>
+          </View>
+        ) : (
+          <></>
+        )}
+
         <ButtonBlock
           title={route.params?.customer ? text.edit : text.create}
           disable={
@@ -327,4 +354,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: width * 0.03,
   },
   messengerTitle: { fontSize: width * 0.05, flex: 1 },
+  warningBlock: {
+    backgroundColor: colors.lightWarningBg,
+    padding: width * 0.01,
+    borderRadius: width * 0.01,
+    maxWidth: '92%',
+    marginVertical: width * 0.02,
+  },
+  warningTitle: {
+    fontSize: width * 0.04,
+    color: colors.lightWarningTitle,
+  },
 })
