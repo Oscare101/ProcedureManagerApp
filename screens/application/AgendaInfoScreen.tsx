@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { updateAgenda } from '../../redux/agenda'
 import { Agenda } from '../../constants/interfaces'
 import { RootState } from '../../redux'
+import PrepaymentBlock from '../../components/agenda/PrepaymentBlock'
 
 const width = Dimensions.get('screen').width
 
@@ -49,6 +50,16 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
             procedures={agenda.procedures}
             duration={agenda.duration}
           />
+          {agenda.prepayment ? (
+            <PrepaymentBlock
+              amount={agenda.prepayment}
+              onChange={false}
+              static={true}
+            />
+          ) : (
+            <></>
+          )}
+
           {agenda.comment ? (
             <>
               <Text style={styles.comment}>{text.comment}</Text>

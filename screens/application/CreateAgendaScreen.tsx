@@ -32,6 +32,7 @@ import { CalculateIsEnoughtTimeForProcedure } from '../../functions/functions'
 import { CreateAgenda, DeleteAgenda } from '../../functions/actions'
 import rules from '../../constants/rules'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import PrepaymentBlock from '../../components/agenda/PrepaymentBlock'
 
 const width = Dimensions.get('screen').width
 
@@ -165,39 +166,12 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
             )}
             <View style={styles.line} />
 
-            <View style={[styles.card, globalStyles.rowBetween]}>
-              <Text style={styles.title}>{text.prepayment}</Text>
-              <InputBlock
-                value={agenda.prepayment}
-                setValue={(value: string) => {
-                  if (rules.amountRegrex.test(value.replace(',', '.'))) {
-                    let num = ''
-                    if (
-                      value.replace(',', '.') === '0' ||
-                      value.replace(',', '.') === '.'
-                    ) {
-                      num = ''
-                    } else {
-                      num = value.replace(',', '.')
-                    }
-                    console.log(num)
-
-                    dispatch(updateAgenda({ ...agenda, prepayment: num }))
-                  } else {
-                    return false
-                  }
-                }}
-                textIcon="₴"
-                type="number"
-                placeHolder={'0.00'}
-                styles={{
-                  backgroundColor: colors.bg,
-                  width: '50%',
-                  borderRadius: width * 0.02,
-                }}
-                keyboard={'numeric'}
-              />
-            </View>
+            <PrepaymentBlock
+              amount={agenda.prepayment}
+              onChange={(num: string) =>
+                dispatch(updateAgenda({ ...agenda, prepayment: num }))
+              }
+            />
 
             <View style={[styles.card, { marginBottom: width * 0.05 }]}>
               <Text style={[styles.title, { marginBottom: width * 0.02 }]}>
@@ -219,14 +193,6 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
                 }}
               />
             </View>
-            <View style={{ flex: 1 }} />
-            {!isEnoughtTime ? (
-              <Text style={styles.error}>
-                {text.cantCreateAgendaBeacauseOfTime}
-              </Text>
-            ) : (
-              <></>
-            )}
           </TouchableWithoutFeedback>
         </ScrollView>
         <ButtonBlock
@@ -240,9 +206,26 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
               isEnoughtTime
             )
           }
-          title={route.params?.agenda ? text.edit : text.create}
+          title={
+            !isEnoughtTime
+              ? text.cantCreateAgendaBeacauseOfTime
+              : route.params?.agenda
+              ? text.edit
+              : text.create
+          }
           action={route.params?.agenda ? UpdateAgendaFunc : CreateAgendaFunc}
-          buttonStyles={{ marginBottom: width * 0.05, alignSelf: 'center' }}
+          buttonStyles={{
+            marginBottom: width * 0.05,
+            alignSelf: 'center',
+            backgroundColor: !isEnoughtTime
+              ? colors.lightErrorBg
+              : colors.card1,
+          }}
+          titleStyles={{
+            fontSize: !isEnoughtTime ? width * 0.035 : width * 0.06,
+            color: !isEnoughtTime ? colors.lightErrorTitle : colors.card1Title,
+            fontWeight: !isEnoughtTime ? '400' : '300',
+          }}
           loading={loading}
         />
       </View>
