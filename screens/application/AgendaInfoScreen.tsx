@@ -35,7 +35,6 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
             onModal={false}
           />
           <Text style={styles.comment}>{text.customer}</Text>
-          {/* TODO open chat + call client */}
           <ChosenCustomerItem customerId={agenda.customerId} static={true} />
           <Text style={styles.comment}>{text.master}</Text>
           <ChosenMasterItem

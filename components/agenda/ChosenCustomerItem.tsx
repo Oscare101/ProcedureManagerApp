@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     alignSelf: 'center',
     borderRadius: width * 0.03,
-    marginBottom: width * 0.02,
+    marginVertical: width * 0.02,
   },
   rowBetween: {
     width: '100%',
