@@ -179,12 +179,14 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
   useEffect(() => {
     if (
       customers.find((c: Customer) => c.link === link) &&
-      route.params?.customer.phone !== phone
+      route.params?.customer.phone !== phone &&
+      phone
     ) {
       setWarning(text.alreadyUsedLink)
     } else if (
       customers.find((c: Customer) => c.phone === ClearPhoneString(phone)) &&
-      route.params?.customer.link !== link
+      route.params?.customer.link !== link &&
+      link
     ) {
       setWarning(text.alreadyUsedPhone)
     } else {

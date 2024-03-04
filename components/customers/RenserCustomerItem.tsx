@@ -86,10 +86,21 @@ export default function RenderCustomerItem(props: RenderCustomerItemProps) {
           <Ionicons
             name="call-outline"
             size={width * 0.05}
-            color={colors.text}
+            color={
+              ReturnPhoneString(props.item.phone) ? colors.text : colors.comment
+            }
           />
-          <Text style={styles.customerInfo}>
-            {ReturnPhoneString(props.item.phone)}
+          <Text
+            style={[
+              styles.customerInfo,
+              {
+                color: ReturnPhoneString(props.item.phone)
+                  ? colors.text
+                  : colors.comment,
+              },
+            ]}
+          >
+            {ReturnPhoneString(props.item.phone) || text.noPhone}
           </Text>
         </View>
       </View>

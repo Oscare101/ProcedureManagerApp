@@ -63,7 +63,7 @@ export default function ChosenCustomerItem(props: {
           onPress={() => {
             OpenMessenger(customer)
           }}
-          disabled={!props.static}
+          disabled={!props.static || !ReturnCustomerMessenger(customer)}
           style={styles.rowStart}
         >
           <RenderMessengerIcon
@@ -91,16 +91,27 @@ export default function ChosenCustomerItem(props: {
           onPress={() => {
             Linking.openURL(`tel:${customer.phone}`)
           }}
-          disabled={!props.static}
+          disabled={!props.static || !ReturnPhoneString(customer.phone)}
           style={styles.rowStart}
         >
           <Ionicons
             name="call-outline"
             size={width * 0.05}
-            color={colors.text}
+            color={
+              ReturnPhoneString(customer.phone) ? colors.text : colors.comment
+            }
           />
-          <Text style={styles.customerInfo}>
-            {ReturnPhoneString(customer.phone)}
+          <Text
+            style={[
+              styles.customerInfo,
+              {
+                color: ReturnPhoneString(customer.phone)
+                  ? colors.text
+                  : colors.comment,
+              },
+            ]}
+          >
+            {ReturnPhoneString(customer.phone) || text.noPhone}
           </Text>
         </TouchableOpacity>
       </View>

@@ -30,8 +30,8 @@ export default function ProcedureCard(props: {
   })
   const proceduresString = procedures
     .sort((a: Procedure, b: Procedure) => b.time - a.time)
-    .map((item: any) => {
-      return item.short
+    .map((item: Procedure) => {
+      return item?.short
     })
     .join(' ')
 

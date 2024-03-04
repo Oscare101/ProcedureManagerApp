@@ -47,6 +47,7 @@ export default {
   choose: 'обрати',
   rechoose: 'змінити',
   noLink: 'без посилання',
+  noPhone: 'без номеру',
   master: 'майстер',
   chosen: 'Обрано',
   procedure: 'процедура',
