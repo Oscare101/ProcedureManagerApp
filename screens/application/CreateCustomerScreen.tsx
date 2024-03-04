@@ -54,7 +54,7 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
     if (
       messenger &&
       name &&
-      (!phone || ClearPhoneString(phone).length === 13) &&
+      ((!phone && link) || ClearPhoneString(phone).length === 13) &&
       auth.currentUser &&
       auth.currentUser.email
     ) {
@@ -84,7 +84,7 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
     if (
       messenger &&
       name &&
-      ClearPhoneString(phone).length === 13 &&
+      ((!phone && link) || ClearPhoneString(phone).length === 13) &&
       auth.currentUser &&
       auth.currentUser.email &&
       route.params.customer
@@ -267,12 +267,18 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
             route.params?.customer ? text.editCustomer : text.createCustomer
           }
         />
-        <ScrollView style={{ width: '100%', flex: 1 }}>
+        <ScrollView
+          style={{ width: '100%', flex: 1 }}
+          showsVerticalScrollIndicator={false}
+        >
           <FlatList
             scrollEnabled={false}
             style={{ width: '100%' }}
             data={data}
             renderItem={RenderItem}
+            ListFooterComponent={() => (
+              <View style={{ height: width * 0.05 }} />
+            )}
           />
         </ScrollView>
         {warning ? (
@@ -286,7 +292,11 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
         <ButtonBlock
           title={route.params?.customer ? text.edit : text.create}
           disable={
-            !(messenger && name && ClearPhoneString(phone).length === 13)
+            !(
+              messenger &&
+              name &&
+              ((!phone && link) || ClearPhoneString(phone).length === 13)
+            )
           }
           action={() => {
             if (route.params?.customer) {
