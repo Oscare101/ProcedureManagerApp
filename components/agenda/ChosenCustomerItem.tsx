@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import {
   Dimensions,
+  Linking,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -13,6 +14,7 @@ import { useSelector } from 'react-redux'
 import { Agenda, Customer } from '../../constants/interfaces'
 import RenderMessengerIcon from '../customers/RenderMessengerIcon'
 import {
+  OpenMessenger,
   ReturnCustomerMessenger,
   ReturnPhoneString,
 } from '../../functions/functions'
@@ -56,7 +58,14 @@ export default function ChosenCustomerItem(props: {
         )}
       </View>
       <View style={styles.rowBetween}>
-        <View style={styles.rowStart}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => {
+            OpenMessenger(customer)
+          }}
+          disabled={!props.static}
+          style={styles.rowStart}
+        >
           <RenderMessengerIcon
             messenger={customer?.messenger}
             color={
@@ -75,8 +84,16 @@ export default function ChosenCustomerItem(props: {
           >
             {ReturnCustomerMessenger(customer) || text.noLink}
           </Text>
-        </View>
-        <View style={styles.rowStart}>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => {
+            Linking.openURL(`tel:${customer.phone}`)
+          }}
+          disabled={!props.static}
+          style={styles.rowStart}
+        >
           <Ionicons
             name="call-outline"
             size={width * 0.05}
@@ -85,7 +102,7 @@ export default function ChosenCustomerItem(props: {
           <Text style={styles.customerInfo}>
             {ReturnPhoneString(customer.phone)}
           </Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   )
