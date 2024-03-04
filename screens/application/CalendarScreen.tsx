@@ -10,21 +10,13 @@ import text from '../../constants/text'
 import CalendarBlock from '../../components/calendar/CalendarBlock'
 import CalendarHeader from '../../components/application/CalendarHeader'
 import DateInfoBlock from '../../components/calendar/DateInfoBlock'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { auth } from '../../firebase'
 import { getDatabase, onValue, ref } from 'firebase/database'
-import { updateMasters } from '../../redux/masters'
-import { Agenda, Master } from '../../constants/interfaces'
 import { clearSchedule, updateSchedule } from '../../redux/schedule'
 import ScheduleBlock from '../../components/calendar/ScheduleBlock'
-import {
-  clearAgenda,
-  initialStateAgenda,
-  updateAgenda,
-} from '../../redux/agenda'
-import { RootState } from '../../redux'
-import { clearAgendas, updateAgendas } from '../../redux/agendas'
+import { initialStateAgenda, updateAgenda } from '../../redux/agenda'
 
 const width = Dimensions.get('screen').width
 

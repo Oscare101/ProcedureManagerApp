@@ -9,6 +9,7 @@ export interface Agenda {
   lastUpdated: number
   created: number
   masterId: Master['id']
+  prepayment: string
 }
 
 export interface Customer {

@@ -2,6 +2,7 @@ export default {
   passwordMinLengh: 6,
   emailCheck: /^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]{2,6}$/,
   phoneRegrex: /^(\d{1,2})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})$/,
+  amountRegrex: /^\d{0,10}(\.\d{0,2})?$/,
   timesArrReversed: [
     '22:00',
     '21:00',

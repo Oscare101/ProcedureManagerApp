@@ -1,6 +1,7 @@
 import {
   Dimensions,
   StyleSheet,
+  Text,
   TextInput,
   TouchableOpacity,
   View,
@@ -21,6 +22,7 @@ interface InputBlockProps {
   iconPosittion?: 'left' | 'right'
   disable?: boolean
   keyboard?: any
+  textIcon?: any
 }
 
 export default function InputBlock(props: InputBlockProps) {
@@ -47,6 +49,21 @@ export default function InputBlock(props: InputBlockProps) {
             marginLeft: props.iconPosittion === 'right' ? width * 0.03 : 0,
           }}
         />
+      ) : (
+        <></>
+      )}
+      {props.textIcon ? (
+        <Text
+          style={[
+            styles.title,
+            {
+              marginRight: props.iconPosittion === 'right' ? 0 : width * 0.03,
+              marginLeft: props.iconPosittion === 'right' ? width * 0.03 : 0,
+            },
+          ]}
+        >
+          {props.textIcon}
+        </Text>
       ) : (
         <></>
       )}
@@ -105,5 +122,9 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  title: {
+    fontSize: width * 0.05,
+    color: colors.text,
   },
 })

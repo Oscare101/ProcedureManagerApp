@@ -1,4 +1,12 @@
-import { Dimensions, StyleSheet, Text, View } from 'react-native'
+import {
+  Dimensions,
+  Keyboard,
+  KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import globalStyles from '../../constants/globalStyles'
 import Header from '../../components/application/Header'
 import text from '../../constants/text'
@@ -22,6 +30,8 @@ import ChosenProceduresItem from '../../components/agenda/ChosenProceduresItem'
 import ButtonBlock from '../../components/application/ButtonBlock'
 import { CalculateIsEnoughtTimeForProcedure } from '../../functions/functions'
 import { CreateAgenda, DeleteAgenda } from '../../functions/actions'
+import rules from '../../constants/rules'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 const width = Dimensions.get('screen').width
 
@@ -91,88 +101,134 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
           }
           action="back"
         />
-        <DateTimeBlock
-          onModal={() => {
-            setModalData('timePicker')
-            onPresentModal()
-          }}
-          date={agenda.date}
-          time={agenda.time}
-        />
-        <Text style={styles.comment}>{text.customer}</Text>
-        {agenda.customerId ? (
-          <ChosenCustomerItem customerId={agenda.customerId} />
-        ) : (
-          <EmptyItem
-            title={text.customer}
-            action={() =>
-              navigation.navigate('CustomersScreen', { withoutDrawer: true })
-            }
-          />
-        )}
-        <Text style={styles.comment}>{text.master}</Text>
-        {agenda.masterId ? (
-          <ChosenMasterItem
-            action={() => {
-              setModalData('masterPicker')
-              onPresentModal()
-            }}
-            masterId={agenda.masterId}
-          />
-        ) : (
-          <EmptyItem
-            title={text.master}
-            action={() => {
-              setModalData('masterPicker')
-              onPresentModal()
-            }}
-          />
-        )}
-        <Text style={styles.comment}>{text.procedure}</Text>
-        {agenda.procedures.length ? (
-          <ChosenProceduresItem
-            action={() => {
-              navigation.navigate('ProceduresScreen')
-            }}
-            procedures={agenda.procedures}
-            duration={agenda.duration}
-          />
-        ) : (
-          <EmptyItem
-            title={text.procedure}
-            action={() => {
-              navigation.navigate('ProceduresScreen')
-            }}
-          />
-        )}
+        <ScrollView
+          style={{ flex: 1, width: '100%' }}
+          keyboardShouldPersistTaps="always"
+          showsVerticalScrollIndicator={false}
+        >
+          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <DateTimeBlock
+              onModal={() => {
+                setModalData('timePicker')
+                onPresentModal()
+              }}
+              date={agenda.date}
+              time={agenda.time}
+            />
+            <Text style={styles.comment}>{text.customer}</Text>
+            {agenda.customerId ? (
+              <ChosenCustomerItem customerId={agenda.customerId} />
+            ) : (
+              <EmptyItem
+                title={text.customer}
+                action={() =>
+                  navigation.navigate('CustomersScreen', {
+                    withoutDrawer: true,
+                  })
+                }
+              />
+            )}
+            <Text style={styles.comment}>{text.master}</Text>
+            {agenda.masterId ? (
+              <ChosenMasterItem
+                action={() => {
+                  setModalData('masterPicker')
+                  onPresentModal()
+                }}
+                masterId={agenda.masterId}
+              />
+            ) : (
+              <EmptyItem
+                title={text.master}
+                action={() => {
+                  setModalData('masterPicker')
+                  onPresentModal()
+                }}
+              />
+            )}
+            <Text style={styles.comment}>{text.procedure}</Text>
+            {agenda.procedures.length ? (
+              <ChosenProceduresItem
+                action={() => {
+                  navigation.navigate('ProceduresScreen')
+                }}
+                procedures={agenda.procedures}
+                duration={agenda.duration}
+              />
+            ) : (
+              <EmptyItem
+                title={text.procedure}
+                action={() => {
+                  navigation.navigate('ProceduresScreen')
+                }}
+              />
+            )}
+            <View style={styles.line} />
 
-        <View style={styles.card}>
-          <Text style={styles.title}>{text.comment}</Text>
+            <View style={[styles.card, globalStyles.rowBetween]}>
+              <Text style={styles.title}>{text.prepayment}</Text>
+              <InputBlock
+                value={agenda.prepayment}
+                setValue={(value: string) => {
+                  if (rules.amountRegrex.test(value.replace(',', '.'))) {
+                    let num = ''
+                    if (
+                      value.replace(',', '.') === '0' ||
+                      value.replace(',', '.') === '.'
+                    ) {
+                      num = ''
+                    } else {
+                      num = value.replace(',', '.')
+                    }
+                    console.log(num)
 
-          <InputBlock
-            value={agenda.comment}
-            setValue={(value: string) =>
-              dispatch(updateAgenda({ ...agenda, comment: value }))
-            }
-            icon={'chatbubble-ellipses-outline'}
-            type="text"
-            placeHolder={text.comment}
-            styles={{
-              backgroundColor: colors.bg,
-              width: '100%',
-              borderRadius: width * 0.02,
-            }}
-          />
-        </View>
-        <View style={{ flex: 1 }} />
-        {!isEnoughtTime ? (
-          <Text style={styles.error}>
-            {text.cantCreateAgendaBeacauseOfTime}
-          </Text>
-        ) : (
-          <></>
-        )}
+                    dispatch(updateAgenda({ ...agenda, prepayment: num }))
+                  } else {
+                    return false
+                  }
+                }}
+                textIcon="₴"
+                type="number"
+                placeHolder={'0.00'}
+                styles={{
+                  backgroundColor: colors.bg,
+                  width: '50%',
+                  borderRadius: width * 0.02,
+                }}
+                keyboard={'numeric'}
+              />
+            </View>
 
+            <View style={[styles.card, { marginBottom: width * 0.05 }]}>
+              <Text style={[styles.title, { marginBottom: width * 0.02 }]}>
+                {text.comment}
+              </Text>
+
+              <InputBlock
+                value={agenda.comment}
+                setValue={(value: string) =>
+                  dispatch(updateAgenda({ ...agenda, comment: value }))
+                }
+                icon={'chatbubble-ellipses-outline'}
+                type="text"
+                placeHolder={text.comment}
+                styles={{
+                  backgroundColor: colors.bg,
+                  width: '100%',
+                  borderRadius: width * 0.02,
+                }}
+              />
+            </View>
+            <View style={{ flex: 1 }} />
+            {!isEnoughtTime ? (
+              <Text style={styles.error}>
+                {text.cantCreateAgendaBeacauseOfTime}
+              </Text>
+            ) : (
+              <></>
+            )}
+          </TouchableWithoutFeedback>
+        </ScrollView>
         <ButtonBlock
           disable={
             !(
@@ -186,7 +242,7 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
           }
           title={route.params?.agenda ? text.edit : text.create}
           action={route.params?.agenda ? UpdateAgendaFunc : CreateAgendaFunc}
-          buttonStyles={{ marginBottom: width * 0.05 }}
+          buttonStyles={{ marginBottom: width * 0.05, alignSelf: 'center' }}
           loading={loading}
         />
       </View>
@@ -209,9 +265,9 @@ const styles = StyleSheet.create({
     width: '92%',
     fontSize: width * 0.04,
     color: colors.comment,
-    marginVertical: width * 0.01,
+    marginTop: width * 0.01,
+    alignSelf: 'center',
   },
-
   card: {
     width: '92%',
     flexDirection: 'column',
@@ -226,11 +282,19 @@ const styles = StyleSheet.create({
   title: {
     fontSize: width * 0.04,
     color: colors.comment,
-    marginBottom: width * 0.02,
   },
   error: {
     fontSize: width * 0.04,
     color: colors.lightErrorTitle,
     marginTop: width * 0.03,
+    alignSelf: 'center',
+  },
+  line: {
+    width: '92%',
+    height: width * 0.005,
+    borderRadius: 10,
+    backgroundColor: colors.comment,
+    marginTop: width * 0.02,
+    alignSelf: 'center',
   },
 })

@@ -47,7 +47,6 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
     route.params?.customer.comment || ''
   )
   const [loading, setLoading] = useState<boolean>(false)
-  const [error, setError] = useState<string>('')
 
   async function CreateCustomerFunc(back: boolean) {
     if (
@@ -255,8 +254,6 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
           data={data}
           renderItem={RenderItem}
         />
-        {error ? <Text style={styles.error}>{error}</Text> : <></>}
-
         <ButtonBlock
           title={route.params?.customer ? text.edit : text.create}
           disable={
@@ -327,9 +324,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: width * 0.03,
   },
   messengerTitle: { fontSize: width * 0.05, flex: 1 },
-  error: {
-    fontSize: width * 0.04,
-    color: colors.lightErrorTitle,
-    marginBottom: width * 0.03,
-  },
 })

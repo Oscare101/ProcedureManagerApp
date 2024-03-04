@@ -135,6 +135,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     marginTop: width * 0.02,
     borderRadius: width * 0.03,
+    alignSelf: 'center',
   },
   rowBetween: {
     flexDirection: 'row',
