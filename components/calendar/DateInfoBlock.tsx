@@ -11,6 +11,7 @@ import text from '../../constants/text'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux'
 import { Master } from '../../constants/interfaces'
+import { IsDateToday } from '../../functions/functions'
 
 const width = Dimensions.get('screen').width
 
@@ -47,8 +48,20 @@ export default function DateInfoBlock(props: DateInfoBlockProps) {
         <Ionicons name="chevron-back" size={width * 0.07} color={colors.text} />
       </TouchableOpacity>
       <View style={styles.dateBlock}>
-        <Text style={styles.date}>{props.date.getDate()}</Text>
-        <Text style={styles.weekDay}>
+        <Text
+          style={[
+            styles.date,
+            { color: IsDateToday(props.date) ? colors.accent : colors.text },
+          ]}
+        >
+          {props.date.getDate()}
+        </Text>
+        <Text
+          style={[
+            styles.weekDay,
+            { color: IsDateToday(props.date) ? colors.accent : colors.text },
+          ]}
+        >
           {text.weekDaysShort[(props.date.getDay() || 7) - 1]}
         </Text>
       </View>
@@ -137,8 +150,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     width: width * 0.1,
   },
-  date: { fontSize: width * 0.07, color: colors.text },
-  weekDay: { fontSize: width * 0.05, color: colors.text },
+  date: { fontSize: width * 0.07 },
+  weekDay: { fontSize: width * 0.05 },
   editButton: {
     height: '100%',
     aspectRatio: 0.7,
