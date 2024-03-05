@@ -18,6 +18,35 @@ export default function RenderCustomerHistoryItem(props: {
         <View style={styles.procedureBlock}>
           <Text style={styles.procedureTitle}>{props.proceduresString}</Text>
         </View>
+        {props.item.prepayment ? (
+          <View
+            style={[
+              styles.infoBlock,
+              { backgroundColor: colors.lightSuccessBg },
+            ]}
+          >
+            <Text
+              style={[styles.infoTitle, { color: colors.lightSuccessTitle }]}
+            >
+              ₴ {props.item.prepayment}
+            </Text>
+          </View>
+        ) : (
+          <></>
+        )}
+        {props.item.canceled ? (
+          <View
+            style={[styles.infoBlock, { backgroundColor: colors.lightErrorBg }]}
+          >
+            <Text style={[styles.infoTitle, { color: colors.lightErrorTitle }]}>
+              {text.canceled}
+            </Text>
+          </View>
+        ) : (
+          <></>
+        )}
+
+        <View style={{ flex: 1 }} />
         <View
           style={[styles.masterBlock, { backgroundColor: props.master.color }]}
         >
@@ -93,5 +122,14 @@ const styles = StyleSheet.create({
     fontSize: width * 0.04,
     color: colors.text,
     marginHorizontal: width * 0.02,
+  },
+  infoBlock: {
+    paddingHorizontal: width * 0.01,
+    paddingVertical: width * 0.005,
+    borderRadius: width * 0.01,
+    marginLeft: width * 0.02,
+  },
+  infoTitle: {
+    fontSize: width * 0.03,
   },
 })
