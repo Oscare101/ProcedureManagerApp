@@ -74,4 +74,6 @@ export default {
   canceledAgendaWillBeSaved:
     'буде збережено в історії скасованих записів клієнта(-ки)',
   Cancel: 'Скасувати',
+  historyAgendas: 'Історія записів',
+  canceled: 'скасовано',
 }
