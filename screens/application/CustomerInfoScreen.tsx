@@ -4,6 +4,7 @@ import {
   Linking,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native'
 import globalStyles from '../../constants/globalStyles'
@@ -22,6 +23,7 @@ import { Agenda, Customer, Master, Procedure } from '../../constants/interfaces'
 import Toast from 'react-native-toast-message'
 import { RenderCustomerInfoItem } from '../../components/customers/RenderCustomerInfoItem'
 import RenderCustomerHistoryItem from '../../components/customers/RenderCustomerHistoryItem'
+import { Ionicons } from '@expo/vector-icons'
 
 const width = Dimensions.get('screen').width
 
@@ -90,11 +92,29 @@ export default function CustomerInfoScreen({ navigation, route }: any) {
           renderItem={RenderCustomerInfoItem}
         />
       </View>
+      <View style={[globalStyles.rowBetween, { width: '92%' }]}>
+        <Text style={styles.comment}>{text.historyAgendas}</Text>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => {
+            navigation.navigate('CustomerHistoryScreen', {
+              history: customerHistory,
+              customer: customer,
+            })
+          }}
+          style={styles.openButton}
+        >
+          <Ionicons
+            name="open-outline"
+            size={width * 0.05}
+            color={colors.text}
+          />
+        </TouchableOpacity>
+      </View>
 
-      <Text style={styles.comment}>{text.historyAgendas}</Text>
       <FlatList
+        showsVerticalScrollIndicator={false}
         style={{ width: '100%' }}
-        scrollEnabled={false}
         data={customerHistory}
         renderItem={({ item }) => (
           <RenderCustomerHistoryItem
@@ -133,5 +153,8 @@ const styles = StyleSheet.create({
     fontSize: width * 0.05,
     color: colors.comment,
     marginVertical: width * 0.01,
+  },
+  openButton: {
+    padding: width * 0.01,
   },
 })
