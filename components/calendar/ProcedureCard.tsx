@@ -56,6 +56,11 @@ export default function ProcedureCard(props: {
         ]}
       >
         <View style={styles.procedureHeader}>
+          {props.agenda.prepayment ? (
+            <Text style={styles.prepaymentTitle}>₴</Text>
+          ) : (
+            <></>
+          )}
           <View
             style={{
               flexDirection: 'row',
@@ -110,8 +115,13 @@ const styles = StyleSheet.create({
   customer: {
     fontSize: width * 0.035,
     color: colors.text,
+    marginLeft: width * 0.005,
   },
-  link: { fontSize: width * 0.035, color: colors.comment },
+  link: {
+    fontSize: width * 0.035,
+    color: colors.comment,
+    marginLeft: width * 0.005,
+  },
   masterColor: {
     width: width * 0.02,
     height: width * 0.02,
@@ -121,5 +131,10 @@ const styles = StyleSheet.create({
     fontSize: width * 0.035,
     color: colors.card2Title,
     flex: 1,
+  },
+  prepaymentTitle: {
+    fontSize: width * 0.03,
+    color: colors.darkSuccessTitle,
+    marginRight: width * 0.01,
   },
 })
