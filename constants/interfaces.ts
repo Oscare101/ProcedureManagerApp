@@ -10,6 +10,7 @@ export interface Agenda {
   created: number
   masterId: Master['id']
   prepayment: string
+  canceled?: boolean
 }
 
 export interface Customer {

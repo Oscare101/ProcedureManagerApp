@@ -160,7 +160,8 @@ export function DateTimeBlockAgenda(
       +a.time.split(':')[0] === +time.split(':')[0] &&
       +a.time.split(':')[1] >= +time.split(':')[1] &&
       +a.time.split(':')[1] < +time.split(':')[1] + 30 &&
-      masters.find((m: Master) => m.id === a.masterId)?.number === column
+      masters.find((m: Master) => m.id === a.masterId)?.number === column &&
+      !a.canceled
   )
 
   return todaysAgendas as Agenda
@@ -203,7 +204,7 @@ export function CalculateIsEnoughtTimeForProcedure(
   if (!agenda.time || !agenda.duration) return true
   const todaysMastersAgendas: Agenda[] = []
   agendas
-    .filter((a: Agenda) => a.id !== agenda.id)
+    .filter((a: Agenda) => a.id !== agenda.id && !a.canceled)
     .map((a: Agenda) => {
       if (
         a.masterId === agenda.masterId &&

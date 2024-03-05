@@ -66,4 +66,12 @@ export default {
   check: 'перевірити',
   agenda: 'Запис',
   prepayment: 'передплата',
+  delete: 'Видалити',
+  deleteAgenda: 'Видалити запис',
+  date: 'дата',
+  time: 'час',
+  absent: 'відсутня',
+  canceledAgendaWillBeSaved:
+    'буде збережено в історії скасованих записів клієнта(-ки)',
+  Cancel: 'Скасувати',
 }

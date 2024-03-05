@@ -1,4 +1,10 @@
-import { Dimensions, StyleSheet, Text, View } from 'react-native'
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import globalStyles from '../../constants/globalStyles'
 import Header from '../../components/application/Header'
 import text from '../../constants/text'
@@ -13,6 +19,9 @@ import { updateAgenda } from '../../redux/agenda'
 import { Agenda } from '../../constants/interfaces'
 import { RootState } from '../../redux'
 import PrepaymentBlock from '../../components/agenda/PrepaymentBlock'
+import { useState } from 'react'
+import DeleteAgendaModal from '../../components/agenda/DeleteAgendaModal'
+import { DeleteAgenda, UpdateAgenda } from '../../functions/actions'
 
 const width = Dimensions.get('screen').width
 
@@ -22,7 +31,20 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
     (a: Agenda) => a.id === route.params.agendaId
   ) as Agenda
 
+  const [deleteModal, setDeleteModal] = useState<boolean>(false)
+
   const dispatch = useDispatch()
+
+  async function CloseAgendaFunc() {
+    await UpdateAgenda({ ...agenda, canceled: true })
+    navigation.goBack()
+  }
+
+  async function DeleteAgendaFunc() {
+    await DeleteAgenda(agenda)
+    navigation.goBack()
+  }
+
   return (
     <View style={globalStyles.container}>
       <Header title={text.agenda} action="back" />
@@ -68,6 +90,15 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
             <></>
           )}
           <View style={{ flex: 1 }} />
+          <TouchableOpacity
+            style={styles.deleteButton}
+            activeOpacity={0.8}
+            onPress={() => {
+              setDeleteModal(true)
+            }}
+          >
+            <Text style={styles.deleteButtonTitle}>{text.delete}</Text>
+          </TouchableOpacity>
           <ButtonBlock
             title={text.edit}
             action={() => {
@@ -77,6 +108,13 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
               })
             }}
             buttonStyles={{ marginBottom: width * 0.05 }}
+          />
+          <DeleteAgendaModal
+            visible={deleteModal}
+            agenda={agenda}
+            onClose={() => setDeleteModal(false)}
+            onCancel={CloseAgendaFunc}
+            onDelete={DeleteAgendaFunc}
           />
         </>
       ) : (
@@ -98,5 +136,16 @@ const styles = StyleSheet.create({
     fontSize: width * 0.04,
     color: colors.text,
     marginVertical: width * 0.01,
+  },
+  deleteButton: {
+    height: width * 0.12,
+    // width: '92%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: width * 0.05,
+  },
+  deleteButtonTitle: {
+    fontSize: width * 0.04,
+    color: colors.lightErrorTitle,
   },
 })
