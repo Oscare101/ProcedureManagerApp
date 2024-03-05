@@ -1,6 +1,7 @@
 import {
   Dimensions,
   FlatList,
+  Linking,
   ScrollView,
   StyleSheet,
   Text,
@@ -199,12 +200,16 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
       <View style={[styles.card, { opacity: item.disable ? 0.5 : 1 }]}>
         <View style={styles.rowBetween}>
           <Text style={styles.title}>{item.title}</Text>
-          {item.checkButton && link ? (
+          {item.checkButton && (link || (phone && messenger === 'viber')) ? (
             <TouchableOpacity
               activeOpacity={0.8}
               style={styles.checkButton}
               onPress={() => {
-                if (messenger !== '') {
+                if (messenger === 'viber' && phone) {
+                  Linking.openURL(
+                    `viber://chat?number=${phone.replace('+', '')}`
+                  )
+                } else if (messenger !== '') {
                   OpenLink(link, messenger)
                 }
               }}
