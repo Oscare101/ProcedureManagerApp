@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import RenderMessengerIcon from '../../components/customers/RenderMessengerIcon'
+import RenderMessengerIcon from './RenderMessengerIcon'
 import colors from '../../constants/colors'
 import { Ionicons } from '@expo/vector-icons'
 

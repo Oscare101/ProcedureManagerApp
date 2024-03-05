@@ -4,7 +4,6 @@ import {
   Linking,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native'
 import globalStyles from '../../constants/globalStyles'
@@ -16,15 +15,13 @@ import {
   ReturnCustomerMessenger,
   ReturnPhoneString,
 } from '../../functions/functions'
-import { Ionicons } from '@expo/vector-icons'
 import ButtonBlock from '../../components/application/ButtonBlock'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux'
 import { Agenda, Customer, Master, Procedure } from '../../constants/interfaces'
 import Toast from 'react-native-toast-message'
-import RenderMessengerIcon from '../../components/customers/RenderMessengerIcon'
-import { RenderCustomerInfoItem } from './RenderCustomerInfoItem'
-import RenderCustomerHistoryItem from './RenderCustomerHistoryItem'
+import { RenderCustomerInfoItem } from '../../components/customers/RenderCustomerInfoItem'
+import RenderCustomerHistoryItem from '../../components/customers/RenderCustomerHistoryItem'
 
 const width = Dimensions.get('screen').width
 
