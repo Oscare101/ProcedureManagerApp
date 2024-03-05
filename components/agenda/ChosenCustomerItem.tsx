@@ -63,7 +63,7 @@ export default function ChosenCustomerItem(props: {
           onPress={() => {
             OpenMessenger(customer)
           }}
-          disabled={!props.static || !ReturnCustomerMessenger(customer)}
+          disabled={!ReturnCustomerMessenger(customer)}
           style={styles.rowStart}
         >
           <RenderMessengerIcon
@@ -91,7 +91,7 @@ export default function ChosenCustomerItem(props: {
           onPress={() => {
             Linking.openURL(`tel:${customer.phone}`)
           }}
-          disabled={!props.static || !ReturnPhoneString(customer.phone)}
+          disabled={!ReturnPhoneString(customer.phone)}
           style={styles.rowStart}
         >
           <Ionicons
