@@ -1,6 +1,6 @@
-import { Animated, Dimensions, StyleSheet, View } from 'react-native'
+import { Animated, Dimensions, FlatList, StyleSheet, View } from 'react-native'
 import colors from '../../constants/colors'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import WeekDaysBlock from './WeekDaysBlock'
 import DatesBlock from './DatesBlock'
 import MonthBlock from './MonthBlock'
@@ -15,6 +15,17 @@ interface CalendarBlockProps {
 
 export default function CalendarBlock(props: CalendarBlockProps) {
   const heightAnim = useRef(new Animated.Value(0)).current
+  const flatListRef: any = useRef(null)
+
+  const [datesMonths, setDatesMonths] = useState<any[]>([
+    new Date(new Date(props.date).setDate(0)),
+    new Date(props.date),
+    new Date(
+      new Date(new Date(props.date).setDate(1)).setMonth(
+        props.date.getMonth() + 1
+      )
+    ),
+  ])
 
   useEffect(() => {
     Animated.timing(heightAnim, {
@@ -24,32 +35,79 @@ export default function CalendarBlock(props: CalendarBlockProps) {
     }).start()
   }, [props.open])
 
+  function SetMonths(date: Date) {
+    setDatesMonths([
+      new Date(new Date(date).setDate(0)),
+      new Date(date),
+      new Date(
+        new Date(new Date(date).setDate(1)).setMonth(date.getMonth() + 1)
+      ),
+    ])
+  }
+
   function OnPreviousMonth() {
-    const date = new Date(props.date)
+    const date = new Date(datesMonths[1])
     date.setDate(0)
     props.setDate(date)
+    SetMonths(date)
   }
 
   function OnNextMonth() {
-    const date = new Date(props.date)
+    const date = new Date(datesMonths[1])
     date.setDate(1)
     date.setMonth(date.getMonth() + 1)
     props.setDate(date)
+    SetMonths(date)
   }
 
   return (
     <Animated.View style={[styles.calendarBlock, { height: heightAnim }]}>
-      <MonthBlock
-        date={props.date}
-        onPreviousMonth={OnPreviousMonth}
-        onNextMonth={OnNextMonth}
-      />
-      <WeekDaysBlock />
-      <DatesBlock
-        date={props.date}
-        setDate={(date: Date) => {
-          props.setDate(date)
+      <FlatList
+        ref={flatListRef}
+        horizontal
+        pagingEnabled
+        data={datesMonths}
+        renderItem={({ item }: any) => (
+          <View
+            style={{
+              width: width,
+            }}
+          >
+            <MonthBlock
+              date={item}
+              onPreviousMonth={OnPreviousMonth}
+              onNextMonth={OnNextMonth}
+            />
+            <WeekDaysBlock />
+            <DatesBlock
+              date={props.date}
+              month={item}
+              setDate={(date: Date) => {
+                props.setDate(date)
+              }}
+            />
+          </View>
+        )}
+        snapToInterval={width}
+        snapToAlignment="start"
+        initialScrollIndex={1}
+        decelerationRate={'fast'}
+        onMomentumScrollEnd={(event: any) => {
+          if (Math.floor((event.nativeEvent.contentOffset.x + 2) / width) < 1) {
+            OnPreviousMonth()
+          } else if (
+            Math.floor((event.nativeEvent.contentOffset.x + 2) / width) > 1
+          ) {
+            OnNextMonth()
+          }
+          const index: number = 1
+          flatListRef.current.scrollToIndex({ animated: false, index })
         }}
+        getItemLayout={(data, index) => ({
+          length: width,
+          offset: width * index,
+          index,
+        })}
       />
     </Animated.View>
   )

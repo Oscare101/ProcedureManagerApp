@@ -15,8 +15,9 @@ const width = Dimensions.get('screen').width
 
 interface DateItemProps {
   item: any
-  date: Date
+  month: Date
   setDate: any
+  date: Date
 }
 
 export function RenderDateItem(props: DateItemProps) {
@@ -24,7 +25,7 @@ export function RenderDateItem(props: DateItemProps) {
   const schedule: any = useSelector((state: RootState) => state.schedule)
 
   const today = IsDateToday(props.item)
-  const inMonth = new Date(props.item).getMonth() === props.date.getMonth()
+  const inMonth = new Date(props.item).getMonth() === props.month.getMonth()
   const isChosenDate = IsChosenDate(props.item, props.date)
 
   function GetDateSchedule() {
