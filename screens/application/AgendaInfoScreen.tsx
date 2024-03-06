@@ -22,6 +22,7 @@ import PrepaymentBlock from '../../components/agenda/PrepaymentBlock'
 import { useState } from 'react'
 import DeleteAgendaModal from '../../components/agenda/DeleteAgendaModal'
 import { DeleteAgenda, UpdateAgenda } from '../../functions/actions'
+import { Ionicons } from '@expo/vector-icons'
 
 const width = Dimensions.get('screen').width
 
@@ -82,10 +83,23 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
           )}
 
           {agenda.comment ? (
-            <>
-              <Text style={styles.comment}>{text.comment}</Text>
-              <Text style={styles.text}>{agenda.comment}</Text>
-            </>
+            <View style={styles.card}>
+              <Text style={[styles.comment, { marginTop: 0 }]}>
+                {text.comment}
+              </Text>
+              <View
+                style={[globalStyles.rowBetween, { alignItems: 'flex-start' }]}
+              >
+                <Ionicons
+                  name="chatbubble-ellipses-outline"
+                  size={width * 0.05}
+                  color={colors.comment}
+                />
+                <Text style={[styles.text, { marginVertical: 0 }]}>
+                  {agenda.comment}
+                </Text>
+              </View>
+            </View>
           ) : (
             <></>
           )}
@@ -139,7 +153,6 @@ const styles = StyleSheet.create({
   },
   deleteButton: {
     height: width * 0.12,
-    // width: '92%',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: width * 0.05,
@@ -147,5 +160,13 @@ const styles = StyleSheet.create({
   deleteButtonTitle: {
     fontSize: width * 0.04,
     color: colors.lightErrorTitle,
+  },
+  card: {
+    width: '92%',
+    padding: width * 0.02,
+    backgroundColor: colors.white,
+    marginTop: width * 0.02,
+    borderRadius: width * 0.03,
+    alignSelf: 'center',
   },
 })

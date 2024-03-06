@@ -2,4 +2,4 @@
 
 TODO
 
-- soft swipe (calendar + agendas block)
+- repeat agenda
