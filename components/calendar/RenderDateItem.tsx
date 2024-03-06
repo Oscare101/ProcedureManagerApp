@@ -29,13 +29,11 @@ export function RenderDateItem(props: DateItemProps) {
   const isChosenDate = IsChosenDate(props.item, props.date)
 
   function GetDateSchedule() {
-    return inMonth
-      ? Object.values(
-          schedule['year-' + props.item.getFullYear()]?.[
-            'month-' + (props.item.getMonth() + 1)
-          ]?.['date-' + props.item.getDate()] || []
-        )
-      : []
+    return Object.values(
+      schedule['year-' + props.item.getFullYear()]?.[
+        'month-' + (props.item.getMonth() + 1)
+      ]?.['date-' + props.item.getDate()] || []
+    )
   }
 
   return (
@@ -73,6 +71,7 @@ export function RenderDateItem(props: DateItemProps) {
           <View
             key={index}
             style={{
+              opacity: inMonth ? 1 : 0.5,
               width: width * 0.012,
               height: width * 0.012,
               borderTopLeftRadius: width * 0.01,
