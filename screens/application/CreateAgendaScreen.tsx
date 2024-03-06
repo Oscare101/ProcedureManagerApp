@@ -91,7 +91,14 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
     }
     const isEnoughtTime = CalculateIsEnoughtTimeForProcedure(agenda, agendas)
     setIsEnoughtTime(isEnoughtTime)
-  }, [agenda.date, agenda.time, agenda.masterId, agenda.duration])
+  }, [
+    agenda.date,
+    agenda.time,
+    agenda.masterId,
+    agenda.duration,
+    agendas,
+    schedule,
+  ])
 
   return (
     <BottomSheetModalProvider>
