@@ -45,6 +45,10 @@ export default function CalendarBlock(props: CalendarBlockProps) {
     ])
   }
 
+  useEffect(() => {
+    SetMonths(props.date)
+  }, [props.date])
+
   function OnPreviousMonth() {
     const date = new Date(datesMonths[1])
     date.setDate(0)
@@ -84,6 +88,7 @@ export default function CalendarBlock(props: CalendarBlockProps) {
               month={item}
               setDate={(date: Date) => {
                 props.setDate(date)
+                SetMonths(date)
               }}
             />
           </View>
