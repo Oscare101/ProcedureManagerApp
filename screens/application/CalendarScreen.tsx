@@ -80,6 +80,7 @@ export default function CalendarScreen({ navigation }: any) {
           date={date}
           setDate={(newDate: Date) => {
             setDate(newDate)
+            SetDates(newDate)
           }}
         />
         <FlatList

@@ -17,9 +17,12 @@ import CreateAgendaScreen from '../screens/application/CreateAgendaScreen'
 import ProceduresScreen from '../screens/application/ProceduresScreen'
 import AgendaInfoScreen from '../screens/application/AgendaInfoScreen'
 import CustomerHistoryScreen from '../screens/application/CustomerHistoryScreen'
+import { Dimensions } from 'react-native'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
+
+const width = Dimensions.get('screen').width
 
 export default function MainNavigation() {
   function DrawerNavigation() {
@@ -27,6 +30,9 @@ export default function MainNavigation() {
       <Drawer.Navigator
         initialRouteName="PortfolioScreen"
         drawerContent={(props) => <CustomDrawerContent {...props} />}
+        screenOptions={{
+          swipeEdgeWidth: width * 0.1,
+        }}
       >
         <Drawer.Screen
           options={{ headerShown: false }}
