@@ -56,10 +56,10 @@ export function RenderDateItem(props: DateItemProps) {
         style={[
           styles.date,
           {
-            color: inMonth
-              ? today
-                ? colors.accent
-                : colors.card2Title
+            color: today
+              ? colors.accent
+              : inMonth
+              ? colors.card2Title
               : colors.cardPale,
           },
         ]}
