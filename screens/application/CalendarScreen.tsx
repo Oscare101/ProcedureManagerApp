@@ -1,4 +1,4 @@
-import { Dimensions, View } from 'react-native'
+import { Dimensions, FlatList, View } from 'react-native'
 import globalStyles from '../../constants/globalStyles'
 import {
   BottomSheetModal,
@@ -23,6 +23,14 @@ const width = Dimensions.get('screen').width
 export default function CalendarScreen({ navigation }: any) {
   const [openCalendar, setOpenCalendar] = useState<boolean>(false)
   const [date, setDate] = useState<Date>(new Date())
+
+  const [dates, setDates] = useState<any[]>([
+    new Date(new Date(date).setDate(date.getDate() - 1)),
+    new Date(date),
+    new Date(new Date(date).setDate(date.getDate() + 1)),
+  ])
+
+  const flatListRef: any = useRef(null)
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => [width * 0.6], [])
@@ -49,7 +57,15 @@ export default function CalendarScreen({ navigation }: any) {
 
   useEffect(() => {
     GetSchedule(date)
-  }, [date])
+  }, [])
+
+  function SetDates(date: Date) {
+    setDates([
+      new Date(new Date(date).setDate(date.getDate() - 1)),
+      new Date(date),
+      new Date(new Date(date).setDate(date.getDate() + 1)),
+    ])
+  }
 
   return (
     <BottomSheetModalProvider>
@@ -66,21 +82,70 @@ export default function CalendarScreen({ navigation }: any) {
             setDate(newDate)
           }}
         />
-        <DateInfoBlock
-          date={date}
-          setDate={(date: Date) => {
-            setDate(date)
+        <FlatList
+          ref={flatListRef}
+          horizontal
+          pagingEnabled
+          data={dates}
+          renderItem={({ item }: any) => (
+            <View
+              style={{
+                width: width,
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <DateInfoBlock
+                date={item}
+                setDate={(date: Date) => {
+                  setDate(date)
+                  SetDates(date)
+                }}
+                onEdit={onPresentModal}
+                onAdd={() => {
+                  dispatch(
+                    updateAgenda({
+                      ...initialStateAgenda,
+                      date: date.getTime(),
+                    })
+                  )
+                  navigation.navigate('CreateAgendaScreen')
+                }}
+              />
+              <ScheduleBlock date={item} />
+            </View>
+          )}
+          snapToInterval={width}
+          snapToAlignment="start"
+          initialScrollIndex={1}
+          decelerationRate={'fast'}
+          onMomentumScrollEnd={(event: any) => {
+            if (
+              Math.floor((event.nativeEvent.contentOffset.x + 2) / width) < 1
+            ) {
+              const newDate = new Date(date)
+              newDate.setDate(newDate.getDate() - 1)
+              setDate(newDate)
+              SetDates(newDate)
+            } else if (
+              Math.floor((event.nativeEvent.contentOffset.x + 2) / width) > 1
+            ) {
+              const newDate = new Date(date)
+              newDate.setDate(newDate.getDate() + 1)
+              setDate(newDate)
+              SetDates(newDate)
+            }
+            const index: number = 1
+            flatListRef.current.scrollToIndex({ animated: false, index })
           }}
-          onEdit={onPresentModal}
-          onAdd={() => {
-            dispatch(
-              updateAgenda({ ...initialStateAgenda, date: date.getTime() })
-            )
-            navigation.navigate('CreateAgendaScreen')
-          }}
+          getItemLayout={(data, index) => ({
+            length: width,
+            offset: width * index,
+            index,
+          })}
         />
-        <ScheduleBlock date={date} />
-        {/* <Button onPress={onPresentModal} title="Present Modal" color="black" /> */}
+        {/* <ScheduleBlock date={date} /> */}
       </View>
 
       <BottomModalBlock
@@ -89,7 +154,10 @@ export default function CalendarScreen({ navigation }: any) {
         dismiss={onDismisModal}
         content="mastersSchedule"
         data={{ date: date }}
-        setData={(newDate: Date) => setDate(newDate)}
+        setData={(newDate: Date) => {
+          setDate(newDate)
+          SetDates(newDate)
+        }}
       />
     </BottomSheetModalProvider>
   )

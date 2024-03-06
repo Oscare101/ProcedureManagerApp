@@ -74,7 +74,10 @@ export function RenderDateItem(props: DateItemProps) {
             style={{
               width: width * 0.012,
               height: width * 0.012,
-              borderRadius: width * 0.01,
+              borderTopLeftRadius: width * 0.01,
+              borderTopRightRadius: width * 0.01,
+              borderBottomLeftRadius: width * 0.01,
+              borderBottomRightRadius: width * 0.01,
               backgroundColor: masters.find((m: Master) => m.id === master)
                 ?.color,
               marginHorizontal: width * 0.002,
