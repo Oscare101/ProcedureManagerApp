@@ -31,7 +31,7 @@ export default function MainNavigation() {
         initialRouteName="PortfolioScreen"
         drawerContent={(props) => <CustomDrawerContent {...props} />}
         screenOptions={{
-          swipeEdgeWidth: width * 0.1,
+          swipeEdgeWidth: width * 0.05,
         }}
       >
         <Drawer.Screen
