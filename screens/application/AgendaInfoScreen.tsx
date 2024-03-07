@@ -15,7 +15,7 @@ import ChosenMasterItem from '../../components/agenda/ChosenMasterItem'
 import ChosenProceduresItem from '../../components/agenda/ChosenProceduresItem'
 import ButtonBlock from '../../components/application/ButtonBlock'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateAgenda } from '../../redux/agenda'
+import { updateAgenda, initialStateAgenda } from '../../redux/agenda'
 import { Agenda } from '../../constants/interfaces'
 import { RootState } from '../../redux'
 import PrepaymentBlock from '../../components/agenda/PrepaymentBlock'
@@ -83,7 +83,18 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
             <></>
           )}
           <AgendaActionsBlock
-            onRepeat={() => {}}
+            onRepeat={() => {
+              dispatch(
+                updateAgenda({
+                  ...initialStateAgenda,
+                  date: agenda.date,
+                  masterId: agenda.masterId,
+                  customerId: agenda.customerId,
+                  procedures: agenda.procedures,
+                })
+              )
+              navigation.navigate('CreateAgendaScreen')
+            }}
             onDelete={() => setDeleteModal(true)}
           />
           {agenda.comment ? (
