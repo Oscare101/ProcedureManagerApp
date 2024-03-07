@@ -37,13 +37,27 @@ export default function ChosenCustomerItem(props: {
   )
 
   return (
-    <View style={styles.card}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={() =>
+        navigation.navigate('CustomerInfoScreen', { customer: customer })
+      }
+      disabled={!props.static}
+      style={styles.card}
+    >
       <View style={styles.rowBetween}>
         <View style={styles.nameBlock}>
           <Text style={styles.name}>{customer?.name}</Text>
         </View>
         {props.static ? (
-          <></>
+          <>
+            <Ionicons
+              name="open-outline"
+              size={width * 0.05}
+              color={colors.text}
+              style={styles.openIcon}
+            />
+          </>
         ) : (
           <TouchableOpacity
             style={styles.editButton}
@@ -115,7 +129,7 @@ export default function ChosenCustomerItem(props: {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
