@@ -1,4 +1,10 @@
-import { Dimensions, StyleSheet, Text, View } from 'react-native'
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { Master } from '../../constants/interfaces'
 import colors from '../../constants/colors'
 import globalStyles from '../../constants/globalStyles'
@@ -11,9 +17,14 @@ export default function RenderCustomerHistoryItem(props: {
   item: any
   master: any
   proceduresString: any
+  navigate: any
 }) {
   return (
-    <View style={styles.card}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={props.navigate}
+      style={styles.card}
+    >
       <View style={globalStyles.rowBetween}>
         <View style={styles.procedureBlock}>
           <Text style={styles.procedureTitle}>{props.proceduresString}</Text>
@@ -86,7 +97,7 @@ export default function RenderCustomerHistoryItem(props: {
       ) : (
         <></>
       )}
-    </View>
+    </TouchableOpacity>
   )
 }
 

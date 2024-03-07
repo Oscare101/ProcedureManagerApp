@@ -30,6 +30,9 @@ export default function CustomerHistoryScreen({ navigation, route }: any) {
                 return item?.short
               })
               .join(' ')}
+            navigate={() =>
+              navigation.navigate('AgendaInfoScreen', { agendaId: item.id })
+            }
           />
         )}
       />
