@@ -67,12 +67,16 @@ export default function CalendarScreen({ navigation }: any) {
     ])
   }
 
+  const openCalendarFunc = useCallback(() => {
+    setOpenCalendar(!openCalendar)
+  }, [openCalendar])
+
   return (
     <BottomSheetModalProvider>
       <View style={globalStyles.container}>
         <CalendarHeader
           title={text.months[date.getMonth()]}
-          toggle={() => setOpenCalendar(!openCalendar)}
+          toggle={openCalendarFunc}
           toggleValue={openCalendar}
         />
         <CalendarBlock
@@ -146,7 +150,6 @@ export default function CalendarScreen({ navigation }: any) {
             index,
           })}
         />
-        {/* <ScheduleBlock date={date} /> */}
       </View>
 
       <BottomModalBlock

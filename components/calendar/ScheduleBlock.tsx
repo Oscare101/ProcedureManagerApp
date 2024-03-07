@@ -10,7 +10,7 @@ import {
 import rules from '../../constants/rules'
 import colors from '../../constants/colors'
 import globalStyles from '../../constants/globalStyles'
-import { useEffect, useState } from 'react'
+import React, { memo, useEffect, useMemo, useState } from 'react'
 import CreateProcedureCard from './CreateProcedureCard'
 import { RootState } from '../../redux'
 import { useSelector } from 'react-redux'
@@ -24,7 +24,7 @@ interface ScheduleBlockProps {
 
 const width = Dimensions.get('screen').width
 
-export default function ScheduleBlock(props: ScheduleBlockProps) {
+const ScheduleBlock = React.memo(function (props: ScheduleBlockProps) {
   const agendas: Agenda[] = useSelector((state: RootState) => state.agendas)
   const masters: Master[] = useSelector((state: RootState) => state.masters)
   const schedule = useSelector((state: RootState) => state.schedule)
@@ -122,7 +122,7 @@ export default function ScheduleBlock(props: ScheduleBlockProps) {
       </View>
     </ScrollView>
   )
-}
+})
 
 const styles = StyleSheet.create({
   scroll: {
@@ -159,3 +159,5 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
 })
+
+export default ScheduleBlock

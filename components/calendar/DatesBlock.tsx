@@ -1,6 +1,6 @@
 import { FlatList } from 'react-native'
 import { GetDaysTable } from '../../functions/functions'
-import { RenderDateItem } from './RenderDateItem'
+import RenderDateItem from './RenderDateItem'
 
 interface DatesBlockProps {
   setDate: any

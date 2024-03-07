@@ -20,7 +20,7 @@ interface DateItemProps {
   date: Date
 }
 
-export function RenderDateItem(props: DateItemProps) {
+export default function RenderDateItem(props: DateItemProps) {
   const masters = useSelector((state: RootState) => state.masters)
   const schedule: any = useSelector((state: RootState) => state.schedule)
 
