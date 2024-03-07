@@ -23,6 +23,7 @@ import { useState } from 'react'
 import DeleteAgendaModal from '../../components/agenda/DeleteAgendaModal'
 import { DeleteAgenda, UpdateAgenda } from '../../functions/actions'
 import { Ionicons } from '@expo/vector-icons'
+import AgendaActionsBlock from '../../components/agenda/AgendaActionsBlock'
 
 const width = Dimensions.get('screen').width
 
@@ -81,7 +82,10 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
           ) : (
             <></>
           )}
-
+          <AgendaActionsBlock
+            onRepeat={() => {}}
+            onDelete={() => setDeleteModal(true)}
+          />
           {agenda.comment ? (
             <View style={styles.card}>
               <Text style={[styles.comment, { marginTop: 0 }]}>
@@ -104,7 +108,7 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
             <></>
           )}
           <View style={{ flex: 1 }} />
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.deleteButton}
             activeOpacity={0.8}
             onPress={() => {
@@ -112,7 +116,7 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
             }}
           >
             <Text style={styles.deleteButtonTitle}>{text.delete}</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <ButtonBlock
             title={text.edit}
             action={() => {
