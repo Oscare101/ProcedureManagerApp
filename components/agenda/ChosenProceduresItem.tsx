@@ -1,6 +1,5 @@
 import {
   Dimensions,
-  FlatList,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -11,8 +10,6 @@ import colors from '../../constants/colors'
 import { Agenda, Master, Procedure } from '../../constants/interfaces'
 import { RootState } from '../../redux'
 import { useDispatch, useSelector } from 'react-redux'
-import { CalculateProceduresDurstion } from '../../functions/functions'
-import { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import { updateAgenda } from '../../redux/agenda'
 
@@ -151,7 +148,8 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   procedureItem: {
-    padding: width * 0.01,
+    paddingVertical: width * 0.01,
+    paddingHorizontal: width * 0.015,
     borderRadius: width * 0.02,
     backgroundColor: colors.card2,
     margin: width * 0.005,
