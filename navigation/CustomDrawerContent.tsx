@@ -10,12 +10,20 @@ export default function CustomDrawerContent(props: any) {
     {
       title: text.calendarTitle,
       icon: 'grid-outline',
+      iconActive: 'grid',
       screen: 'CalendarScreen',
     },
     {
       title: text.customersTitle,
       icon: 'people-outline',
+      iconActive: 'people',
       screen: 'CustomersScreen',
+    },
+    {
+      title: text.Settings,
+      icon: 'settings-outline',
+      iconActive: 'settings-sharp',
+      screen: 'SettingsScreen',
     },
   ]
 

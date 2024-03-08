@@ -18,6 +18,7 @@ import ProceduresScreen from '../screens/application/ProceduresScreen'
 import AgendaInfoScreen from '../screens/application/AgendaInfoScreen'
 import CustomerHistoryScreen from '../screens/application/CustomerHistoryScreen'
 import { Dimensions } from 'react-native'
+import SettingsScreen from '../screens/application/SettingsScreen'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -43,6 +44,11 @@ export default function MainNavigation() {
           options={{ headerShown: false }}
           name="CustomersScreen"
           component={CustomersScreen}
+        />
+        <Drawer.Screen
+          options={{ headerShown: false }}
+          name="SettingsScreen"
+          component={SettingsScreen}
         />
       </Drawer.Navigator>
     )

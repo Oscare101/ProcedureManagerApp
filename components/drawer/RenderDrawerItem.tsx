@@ -30,7 +30,7 @@ export function RenderDrawerItem(props: DrawerItemProps) {
       ]}
     >
       <Ionicons
-        name={props.item.icon}
+        name={isCurrenctScreen ? props.item.iconActive : props.item.icon}
         size={18}
         color={isCurrenctScreen ? colors.white : colors.card2Title}
       />
