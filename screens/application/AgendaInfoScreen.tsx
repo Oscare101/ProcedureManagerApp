@@ -25,6 +25,7 @@ import { DeleteAgenda, UpdateAgenda } from '../../functions/actions'
 import AgendaActionsBlock from '../../components/agenda/AgendaActionsBlock'
 import * as Clipboard from 'expo-clipboard'
 import CommentCardBlock from '../../components/agenda/CommentCardBlock'
+import Toast from 'react-native-toast-message'
 
 const width = Dimensions.get('screen').width
 
@@ -100,6 +101,13 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
               await Clipboard.setStringAsync(
                 text.confirmationAgenda.replace('#', agenda.time)
               )
+              Toast.show({
+                type: 'ToastMessage',
+                props: {
+                  title: text.textCopied,
+                },
+                position: 'bottom',
+              })
             }}
             onDelete={() => setDeleteModal(true)}
           />
@@ -109,15 +117,6 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
             <></>
           )}
           <View style={{ flex: 1 }} />
-          {/* <TouchableOpacity
-            style={styles.deleteButton}
-            activeOpacity={0.8}
-            onPress={() => {
-              setDeleteModal(true)
-            }}
-          >
-            <Text style={styles.deleteButtonTitle}>{text.delete}</Text>
-          </TouchableOpacity> */}
           <ButtonBlock
             title={text.edit}
             action={() => {
