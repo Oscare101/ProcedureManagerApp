@@ -10,6 +10,7 @@ import colors from '../../constants/colors'
 import globalStyles from '../../constants/globalStyles'
 import text from '../../constants/text'
 import { Ionicons } from '@expo/vector-icons'
+import CommentBlock from './CommentBlock'
 
 const width = Dimensions.get('screen').width
 
@@ -86,14 +87,7 @@ export default function RenderCustomerHistoryItem(props: {
         <Text style={styles.values}>{props.item.time}</Text>
       </View>
       {props.item.comment ? (
-        <View style={styles.commentBlock}>
-          <Ionicons
-            name="chatbubble-ellipses-outline"
-            size={width * 0.05}
-            color={colors.comment}
-          />
-          <Text style={styles.comment}>{props.item.comment}</Text>
-        </View>
+        <CommentBlock comment={props.item.comment} />
       ) : (
         <></>
       )}
@@ -154,22 +148,5 @@ const styles = StyleSheet.create({
   },
   infoTitle: {
     fontSize: width * 0.03,
-  },
-  commentBlock: {
-    width: width * 0.92 * 0.96,
-    borderRadius: width * 0.02,
-    backgroundColor: colors.bg,
-    marginBottom: width * 0.02,
-    alignSelf: 'center',
-    padding: width * 0.02,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-  },
-  comment: {
-    fontSize: width * 0.04,
-    color: colors.text,
-    flex: 1,
-    marginLeft: width * 0.02,
   },
 })

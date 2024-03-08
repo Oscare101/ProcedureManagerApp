@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux'
 import { updateAgenda } from '../../redux/agenda'
 import text from '../../constants/text'
+import CommentBlock from './CommentBlock'
 
 interface RenderCustomerItemProps {
   item: Customer
@@ -105,14 +106,7 @@ export default function RenderCustomerItem(props: RenderCustomerItemProps) {
         </View>
       </View>
       {props.item.comment ? (
-        <View style={styles.commentBlock}>
-          <Ionicons
-            name="chatbubble-ellipses-outline"
-            size={width * 0.05}
-            color={colors.comment}
-          />
-          <Text style={styles.comment}>{props.item.comment}</Text>
-        </View>
+        <CommentBlock comment={props.item.comment} />
       ) : (
         <></>
       )}
@@ -166,22 +160,5 @@ const styles = StyleSheet.create({
     fontSize: width * 0.035,
     marginLeft: width * 0.01,
     color: colors.text,
-  },
-  commentBlock: {
-    width: width * 0.92 * 0.96,
-    borderRadius: width * 0.02,
-    backgroundColor: colors.bg,
-    marginBottom: width * 0.02,
-    alignSelf: 'center',
-    padding: width * 0.02,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-  },
-  comment: {
-    fontSize: width * 0.04,
-    color: colors.text,
-    flex: 1,
-    marginLeft: width * 0.02,
   },
 })

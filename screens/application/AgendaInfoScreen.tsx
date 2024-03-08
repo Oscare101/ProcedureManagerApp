@@ -22,9 +22,9 @@ import PrepaymentBlock from '../../components/agenda/PrepaymentBlock'
 import { useState } from 'react'
 import DeleteAgendaModal from '../../components/agenda/DeleteAgendaModal'
 import { DeleteAgenda, UpdateAgenda } from '../../functions/actions'
-import { Ionicons } from '@expo/vector-icons'
 import AgendaActionsBlock from '../../components/agenda/AgendaActionsBlock'
 import * as Clipboard from 'expo-clipboard'
+import CommentCardBlock from '../../components/agenda/CommentCardBlock'
 
 const width = Dimensions.get('screen').width
 
@@ -104,23 +104,7 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
             onDelete={() => setDeleteModal(true)}
           />
           {agenda.comment ? (
-            <View style={styles.card}>
-              <Text style={[styles.comment, { marginTop: 0 }]}>
-                {text.comment}
-              </Text>
-              <View
-                style={[globalStyles.rowBetween, { alignItems: 'flex-start' }]}
-              >
-                <Ionicons
-                  name="chatbubble-ellipses-outline"
-                  size={width * 0.05}
-                  color={colors.comment}
-                />
-                <Text style={[styles.text, { marginVertical: 0 }]}>
-                  {agenda.comment}
-                </Text>
-              </View>
-            </View>
+            <CommentCardBlock comment={agenda.comment} />
           ) : (
             <></>
           )}

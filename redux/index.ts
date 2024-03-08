@@ -5,6 +5,7 @@ import customersReducer from './customers'
 import agendaReducer from './agenda'
 import proceduresReducer from './procedures'
 import agendasReducer from './agendas'
+import themeReducer from './theme'
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     agenda: agendaReducer,
     procedures: proceduresReducer,
     agendas: agendasReducer,
+    theme: themeReducer,
   },
 })
 
