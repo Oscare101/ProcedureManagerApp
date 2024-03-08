@@ -76,4 +76,6 @@ export default {
   Cancel: 'Скасувати',
   historyAgendas: 'Історія записів',
   canceled: 'скасовано',
+  confirmationAgenda:
+    'Доброго дня, нагадую що завтра Ви записані до косметолога на #, Ви будете?',
 }

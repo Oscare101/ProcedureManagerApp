@@ -24,6 +24,7 @@ import DeleteAgendaModal from '../../components/agenda/DeleteAgendaModal'
 import { DeleteAgenda, UpdateAgenda } from '../../functions/actions'
 import { Ionicons } from '@expo/vector-icons'
 import AgendaActionsBlock from '../../components/agenda/AgendaActionsBlock'
+import * as Clipboard from 'expo-clipboard'
 
 const width = Dimensions.get('screen').width
 
@@ -94,6 +95,11 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
                 })
               )
               navigation.navigate('CreateAgendaScreen')
+            }}
+            onCopy={async () => {
+              await Clipboard.setStringAsync(
+                text.confirmationAgenda.replace('#', agenda.time)
+              )
             }}
             onDelete={() => setDeleteModal(true)}
           />
