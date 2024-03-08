@@ -129,6 +129,18 @@ export default function ChosenCustomerItem(props: {
           </Text>
         </TouchableOpacity>
       </View>
+      {customer.comment ? (
+        <View style={styles.commentBlock}>
+          <Ionicons
+            name="chatbubble-ellipses-outline"
+            size={width * 0.05}
+            color={colors.comment}
+          />
+          <Text style={styles.comment}>{customer.comment}</Text>
+        </View>
+      ) : (
+        <></>
+      )}
     </TouchableOpacity>
   )
 }
@@ -192,5 +204,22 @@ const styles = StyleSheet.create({
   editButtonTitle: {
     fontSize: width * 0.04,
     color: colors.text,
+  },
+  commentBlock: {
+    width: width * 0.92 * 0.96,
+    borderRadius: width * 0.02,
+    backgroundColor: colors.bg,
+    marginBottom: width * 0.02,
+    alignSelf: 'center',
+    padding: width * 0.02,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+  },
+  comment: {
+    fontSize: width * 0.04,
+    color: colors.text,
+    flex: 1,
+    marginLeft: width * 0.02,
   },
 })
