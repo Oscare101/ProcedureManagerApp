@@ -41,11 +41,19 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
   const dispatch = useDispatch()
 
   async function CloseAgendaFunc() {
+    setDeleteModal(false)
     await UpdateAgenda({ ...agenda, canceled: true })
     navigation.goBack()
   }
 
+  async function ReOpenAgendaFunc() {
+    setDeleteModal(false)
+    await UpdateAgenda({ ...agenda, canceled: false })
+    navigation.goBack()
+  }
+
   async function DeleteAgendaFunc() {
+    setDeleteModal(false)
     await DeleteAgenda(agenda)
     navigation.goBack()
   }
@@ -134,6 +142,7 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
             onClose={() => setDeleteModal(false)}
             onCancel={CloseAgendaFunc}
             onDelete={DeleteAgendaFunc}
+            onReOpen={ReOpenAgendaFunc}
           />
         </>
       ) : (

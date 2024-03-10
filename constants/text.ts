@@ -81,4 +81,5 @@ export default {
   Settings: 'Налаштування',
   textCopied: 'Текст підтвердження скопійовано',
   noHistoryYet: 'Поки немає історії записів',
+  reOpen: 'Відновити',
 }

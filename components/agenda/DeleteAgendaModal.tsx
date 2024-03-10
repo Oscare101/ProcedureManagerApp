@@ -16,6 +16,7 @@ import { RootState } from '../../redux'
 import { useSelector } from 'react-redux'
 import { Ionicons } from '@expo/vector-icons'
 import ButtonBlock from '../application/ButtonBlock'
+import { GetDateString } from '../../functions/functions'
 
 const { width, height } = Dimensions.get('screen')
 
@@ -25,6 +26,7 @@ export default function DeleteAgendaModal(props: {
   onClose: any
   onCancel: any
   onDelete: any
+  onReOpen: any
 }) {
   const customers: Customer[] = useSelector(
     (state: RootState) => state.customers
@@ -47,12 +49,7 @@ export default function DeleteAgendaModal(props: {
   const data = [
     {
       title: text.date,
-      value: `${new Date(props.agenda.date)
-        .getDate()
-        .toString()
-        .padStart(2, '0')}.${(new Date(props.agenda.date).getMonth() + 1)
-        .toString()
-        .padStart(2, '0')}.${new Date(props.agenda.date).getFullYear()} (${
+      value: `${props.agenda.date} (${
         text.weekDaysShort[(new Date(props.agenda.date).getDay() || 7) - 1]
       })`,
     },
@@ -114,18 +111,29 @@ export default function DeleteAgendaModal(props: {
                 data={data}
                 renderItem={RenderItem}
               />
-              <Text style={styles.canceledTitle}>
-                {text.canceledAgendaWillBeSaved}
-              </Text>
+              {props.agenda.canceled ? (
+                <></>
+              ) : (
+                <Text style={styles.canceledTitle}>
+                  {text.canceledAgendaWillBeSaved}
+                </Text>
+              )}
+
               <ButtonBlock
-                title={text.Cancel}
-                action={props.onCancel}
+                title={props.agenda.canceled ? text.reOpen : text.Cancel}
+                action={props.agenda.canceled ? props.onReOpen : props.onCancel}
                 buttonStyles={{
                   width: '100%',
-                  backgroundColor: colors.lightErrorBg,
+                  backgroundColor: props.agenda.canceled
+                    ? colors.lightSuccessBg
+                    : colors.lightErrorBg,
                   marginVertical: width * 0.02,
                 }}
-                titleStyles={{ color: colors.lightErrorTitle }}
+                titleStyles={{
+                  color: props.agenda.canceled
+                    ? colors.lightSuccessTitle
+                    : colors.lightErrorTitle,
+                }}
               />
               <ButtonBlock
                 title={text.delete}
