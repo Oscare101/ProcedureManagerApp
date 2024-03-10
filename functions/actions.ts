@@ -58,11 +58,11 @@ export async function CreateAgenda(agenda: Agenda) {
     await set(
       ref(
         getDatabase(),
-        `business/PoboiskayaSofia/agendas/year-${new Date(
-          agenda.date
-        ).getFullYear()}/month-${
-          new Date(agenda.date).getMonth() + 1
-        }/date-${new Date(agenda.date).getDate()}/${agenda.id}`
+        `business/PoboiskayaSofia/agendas/year-${+agenda.date.split(
+          '.'
+        )[2]}/month-${+agenda.date.split('.')[1]}/date-${+agenda.date.split(
+          '.'
+        )[0]}/${agenda.id}`
       ),
       agenda
     )
@@ -77,11 +77,11 @@ export async function UpdateAgenda(agenda: Agenda) {
     await update(
       ref(
         getDatabase(),
-        `business/PoboiskayaSofia/agendas/year-${new Date(
-          agenda.date
-        ).getFullYear()}/month-${
-          new Date(agenda.date).getMonth() + 1
-        }/date-${new Date(agenda.date).getDate()}/${agenda.id}`
+        `business/PoboiskayaSofia/agendas/year-${+agenda.date.split(
+          '.'
+        )[2]}/month-${+agenda.date.split('.')[1]}/date-${+agenda.date.split(
+          '.'
+        )[0]}/${agenda.id}`
       ),
       agenda
     )
@@ -95,11 +95,11 @@ export async function DeleteAgenda(agenda: Agenda) {
     await remove(
       ref(
         getDatabase(),
-        `business/PoboiskayaSofia/agendas/year-${new Date(
-          agenda.date
-        ).getFullYear()}/month-${
-          new Date(agenda.date).getMonth() + 1
-        }/date-${new Date(agenda.date).getDate()}/${agenda.id}`
+        `business/PoboiskayaSofia/agendas/year-${+agenda.date.split(
+          '.'
+        )[2]}/month-${+agenda.date.split('.')[1]}/date-${+agenda.date.split(
+          '.'
+        )[0]}/${agenda.id}`
       )
     )
   } catch (error) {

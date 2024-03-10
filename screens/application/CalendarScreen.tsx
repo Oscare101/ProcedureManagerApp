@@ -17,6 +17,7 @@ import { getDatabase, onValue, ref } from 'firebase/database'
 import { clearSchedule, updateSchedule } from '../../redux/schedule'
 import ScheduleBlock from '../../components/calendar/ScheduleBlock'
 import { initialStateAgenda, updateAgenda } from '../../redux/agenda'
+import { GetDateString } from '../../functions/functions'
 
 const width = Dimensions.get('screen').width
 
@@ -112,7 +113,7 @@ export default function CalendarScreen({ navigation }: any) {
                   dispatch(
                     updateAgenda({
                       ...initialStateAgenda,
-                      date: date.getTime(),
+                      date: GetDateString(date),
                     })
                   )
                   navigation.navigate('CreateAgendaScreen')

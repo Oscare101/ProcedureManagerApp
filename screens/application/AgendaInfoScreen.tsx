@@ -26,6 +26,7 @@ import AgendaActionsBlock from '../../components/agenda/AgendaActionsBlock'
 import * as Clipboard from 'expo-clipboard'
 import CommentCardBlock from '../../components/agenda/CommentCardBlock'
 import Toast from 'react-native-toast-message'
+import { GetDateFormateFromString } from '../../functions/functions'
 
 const width = Dimensions.get('screen').width
 
@@ -55,7 +56,7 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
       {agenda?.date ? (
         <>
           <DateTimeBlock
-            date={agenda.date}
+            date={GetDateFormateFromString(agenda.date).getTime()}
             time={agenda.time}
             static={true}
             onModal={false}

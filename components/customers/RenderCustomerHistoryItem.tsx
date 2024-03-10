@@ -11,6 +11,10 @@ import globalStyles from '../../constants/globalStyles'
 import text from '../../constants/text'
 import { Ionicons } from '@expo/vector-icons'
 import CommentBlock from './CommentBlock'
+import {
+  GetDateFormateFromString,
+  GetDateString,
+} from '../../functions/functions'
 
 const width = Dimensions.get('screen').width
 
@@ -72,12 +76,13 @@ export default function RenderCustomerHistoryItem(props: {
           color={colors.comment}
         />
         <Text style={styles.values}>
-          {new Date(props.item.date).getDate().toString().padStart(2, '0')}.
-          {(new Date(props.item.date).getMonth() + 1)
-            .toString()
-            .padStart(2, '0')}
-          .{new Date(props.item.date).getFullYear()} (
-          {text.weekDaysShort[(new Date(props.item.date).getDay() || 7) - 1]})
+          {props.item.date} (
+          {
+            text.weekDaysShort[
+              (GetDateFormateFromString(props.item.date).getDay() || 7) - 1
+            ]
+          }
+          )
         </Text>
         <Ionicons
           name="time-outline"

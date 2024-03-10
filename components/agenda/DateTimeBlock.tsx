@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux'
 import { updateAgenda } from '../../redux/agenda'
 import { Ionicons } from '@expo/vector-icons'
+import { GetDateString } from '../../functions/functions'
 
 const width = Dimensions.get('screen').width
 
@@ -28,13 +29,13 @@ export default function DateTimeBlock(props: {
     const newDate = new Date(props.date)
     newDate.setDate(newDate.getDate() + 1)
 
-    dispatch(updateAgenda({ ...agenda, date: newDate.getTime() }))
+    dispatch(updateAgenda({ ...agenda, date: GetDateString(newDate) }))
   }
 
   function OnPreviousDate() {
     const newDate = new Date(props.date)
     newDate.setDate(newDate.getDate() - 1)
-    dispatch(updateAgenda({ ...agenda, date: newDate.getTime() }))
+    dispatch(updateAgenda({ ...agenda, date: GetDateString(newDate) }))
   }
 
   return (
@@ -64,9 +65,7 @@ export default function DateTimeBlock(props: {
         )}
 
         <Text style={styles.dateTitle}>
-          {new Date(props.date).getDate().toString().padStart(2, '0')}.
-          {(new Date(props.date).getMonth() + 1).toString().padStart(2, '0')}.
-          {new Date(props.date).getFullYear()} (
+          {GetDateString(new Date(props.date))} (
           {text.weekDaysShort[(new Date(props.date).getDay() || 7) - 1]})
         </Text>
         {props.static ? (

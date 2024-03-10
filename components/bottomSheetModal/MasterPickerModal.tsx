@@ -28,11 +28,11 @@ export default function MasterPickerModal() {
     if (auth.currentUser && auth.currentUser.email) {
       const data = ref(
         getDatabase(),
-        `business/PoboiskayaSofia/schedule/year-${new Date(
-          agenda.date
-        ).getFullYear()}/month-${
-          new Date(agenda.date).getMonth() + 1
-        }/date-${new Date(agenda.date).getDate()}`
+        `business/PoboiskayaSofia/schedule/year-${+agenda.date.split(
+          '.'
+        )[2]}/month-${+agenda.date.split('.')[1]}/date-${+agenda.date.split(
+          '.'
+        )[0]}`
       )
       onValue(data, (snapshot) => {
         setTodayMasters(snapshot.val())

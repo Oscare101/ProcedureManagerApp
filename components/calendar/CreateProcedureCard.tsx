@@ -13,6 +13,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useDispatch } from 'react-redux'
 import { initialStateAgenda, updateAgenda } from '../../redux/agenda'
 import { Master } from '../../constants/interfaces'
+import { GetDateString } from '../../functions/functions'
 const width = Dimensions.get('screen').width
 
 export default function CreateProcedureCard(props: {
@@ -30,7 +31,7 @@ export default function CreateProcedureCard(props: {
         dispatch(
           updateAgenda({
             ...initialStateAgenda,
-            date: props.date.getTime(),
+            date: GetDateString(props.date),
             time: props.time,
             masterId:
               props.masters.find((m: Master) => m.number === props.column)

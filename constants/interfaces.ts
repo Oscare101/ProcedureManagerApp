@@ -1,5 +1,5 @@
 export interface Agenda {
-  date: number
+  date: string
   time: string
   duration: number
   customerId: Customer['id']

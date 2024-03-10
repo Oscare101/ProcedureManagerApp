@@ -154,9 +154,9 @@ export function DateTimeBlockAgenda(
 ) {
   const todaysAgendas = agendas.find(
     (a: Agenda) =>
-      new Date(a.date).getFullYear() === date.getFullYear() &&
-      new Date(a.date).getMonth() === date.getMonth() &&
-      new Date(a.date).getDate() === date.getDate() &&
+      +a.date.split('.')[2] === date.getFullYear() &&
+      +a.date.split('.')[1] === date.getMonth() + 1 &&
+      +a.date.split('.')[0] === date.getDate() &&
       +a.time.split(':')[0] === +time.split(':')[0] &&
       +a.time.split(':')[1] >= +time.split(':')[1] &&
       +a.time.split(':')[1] < +time.split(':')[1] + 30 &&
@@ -206,11 +206,7 @@ export function CalculateIsEnoughtTimeForProcedure(
   agendas
     .filter((a: Agenda) => a.id !== agenda.id && !a.canceled)
     .map((a: Agenda) => {
-      if (
-        a.masterId === agenda.masterId &&
-        new Date(a.date).toISOString().split('T')[0] ===
-          new Date(agenda.date).toISOString().split('T')[0]
-      ) {
+      if (a.masterId === agenda.masterId && a.date === agenda.date) {
         todaysMastersAgendas.push(a)
       }
     })
@@ -227,4 +223,17 @@ export function CalculateIsEnoughtTimeForProcedure(
       )
 
   return isEnoughTime
+}
+
+export function GetDateString(date: Date) {
+  const day = date.getDate().toString().padStart(2, '0')
+  const month = (date.getMonth() + 1).toString().padStart(2, '0')
+  const year = date.getFullYear().toString()
+
+  return `${day}.${month}.${year}`
+}
+
+export function GetDateFormateFromString(date: string) {
+  const [day, month, year] = date.split('.').map(Number)
+  return new Date(year, month - 1, day)
 }

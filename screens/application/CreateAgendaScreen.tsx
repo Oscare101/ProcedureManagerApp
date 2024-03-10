@@ -28,7 +28,10 @@ import ChosenMasterItem from '../../components/agenda/ChosenMasterItem'
 import InputBlock from '../../components/application/InputBlock'
 import ChosenProceduresItem from '../../components/agenda/ChosenProceduresItem'
 import ButtonBlock from '../../components/application/ButtonBlock'
-import { CalculateIsEnoughtTimeForProcedure } from '../../functions/functions'
+import {
+  CalculateIsEnoughtTimeForProcedure,
+  GetDateFormateFromString,
+} from '../../functions/functions'
 import { CreateAgenda, DeleteAgenda } from '../../functions/actions'
 import rules from '../../constants/rules'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
@@ -83,9 +86,9 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
 
   useEffect(() => {
     if (
-      !schedule['year-' + new Date(agenda.date).getFullYear()]?.[
-        `month-${new Date(agenda.date).getMonth() + 1}`
-      ]?.['date-' + new Date(agenda.date).getDate()].includes(agenda.masterId)
+      !schedule['year-' + +agenda.date.split('.')[2]]?.[
+        `month-${+agenda.date.split('.')[1]}`
+      ]?.['date-' + +agenda.date.split('.')[0]]?.includes(agenda.masterId)
     ) {
       dispatch(updateAgenda({ ...agenda, masterId: '' }))
     }
@@ -120,7 +123,7 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
                 setModalData('timePicker')
                 onPresentModal()
               }}
-              date={agenda.date}
+              date={GetDateFormateFromString(agenda.date).getTime()}
               time={agenda.time}
             />
             <Text style={styles.comment}>{text.customer}</Text>
