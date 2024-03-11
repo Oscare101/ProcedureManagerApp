@@ -2,11 +2,12 @@ import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native'
 import globalStyles from '../../constants/globalStyles'
 import Header from '../../components/application/Header'
 import RenderCustomerHistoryItem from '../../components/customers/RenderCustomerHistoryItem'
-import { Master, Procedure } from '../../constants/interfaces'
+import { Agenda, Master, Procedure } from '../../constants/interfaces'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux'
 import text from '../../constants/text'
 import colors from '../../constants/colors'
+import { GetDateFormateFromString } from '../../functions/functions'
 
 const width = Dimensions.get('screen').width
 
@@ -25,7 +26,11 @@ export default function CustomerHistoryScreen({ navigation, route }: any) {
       )}
       <FlatList
         style={{ width: '100%' }}
-        data={route.params.history}
+        data={route.params.history.sort(
+          (a: Agenda, b: Agenda) =>
+            GetDateFormateFromString(b.date).getTime() -
+            GetDateFormateFromString(a.date).getTime()
+        )}
         renderItem={({ item }) => (
           <RenderCustomerHistoryItem
             item={item}

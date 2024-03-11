@@ -12,6 +12,7 @@ import Header from '../../components/application/Header'
 import text from '../../constants/text'
 import colors from '../../constants/colors'
 import {
+  GetDateFormateFromString,
   OpenMessenger,
   ReturnCustomerMessenger,
   ReturnPhoneString,
@@ -40,7 +41,7 @@ export default function CustomerInfoScreen({ navigation, route }: any) {
     customers.find((c: Customer) => c.id === route.params.customer.id) ||
     route.params.customer
 
-  const customerHistory = agendas.filter(
+  const customerHistory: Agenda[] = agendas.filter(
     (a: Agenda) => a.customerId === customer.id
   )
 
@@ -115,7 +116,11 @@ export default function CustomerInfoScreen({ navigation, route }: any) {
       <FlatList
         showsVerticalScrollIndicator={false}
         style={{ width: '100%' }}
-        data={customerHistory}
+        data={customerHistory.sort(
+          (a: Agenda, b: Agenda) =>
+            GetDateFormateFromString(b.date).getTime() -
+            GetDateFormateFromString(a.date).getTime()
+        )}
         renderItem={({ item }) => (
           <RenderCustomerHistoryItem
             item={item}
