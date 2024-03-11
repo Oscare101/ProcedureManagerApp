@@ -237,3 +237,7 @@ export function GetDateFormateFromString(date: string) {
   const [day, month, year] = date.split('.').map(Number)
   return new Date(year, month - 1, day)
 }
+
+export function GetNumberFromTime(time: any) {
+  return (+time.split(':')[0] + +time.split(':')[1] / 60) as number
+}

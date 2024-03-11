@@ -10,7 +10,7 @@ import { Ionicons } from '@expo/vector-icons'
 import text from '../../constants/text'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux'
-import { Master } from '../../constants/interfaces'
+import { Agenda, Master } from '../../constants/interfaces'
 import { IsDateToday } from '../../functions/functions'
 
 const width = Dimensions.get('screen').width
@@ -20,11 +20,13 @@ interface DateInfoBlockProps {
   setDate: any
   onEdit: any
   onAdd: any
+  onGetScheule: any
 }
 
 export default function DateInfoBlock(props: DateInfoBlockProps) {
   const masters = useSelector((state: RootState) => state.masters)
   const schedule: any = useSelector((state: RootState) => state.schedule)
+  const agendas: Agenda[] = useSelector((state: RootState) => state.agendas)
 
   function OnNextDate() {
     const date = new Date(props.date)
@@ -111,6 +113,13 @@ export default function DateInfoBlock(props: DateInfoBlockProps) {
       <TouchableOpacity
         style={styles.editButton}
         activeOpacity={0.8}
+        onPress={props.onGetScheule}
+      >
+        <Ionicons name="grid-outline" size={width * 0.06} color={colors.text} />
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.editButton}
+        activeOpacity={0.8}
         onPress={props.onEdit}
       >
         <Ionicons name="pencil" size={width * 0.06} color={colors.text} />
@@ -154,7 +163,7 @@ const styles = StyleSheet.create({
   weekDay: { fontSize: width * 0.05 },
   editButton: {
     height: '100%',
-    aspectRatio: 0.7,
+    aspectRatio: 0.6,
     borderWidth: width * 0.003,
     borderColor: colors.text,
     alignItems: 'center',

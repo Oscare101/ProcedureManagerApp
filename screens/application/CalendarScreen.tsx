@@ -33,6 +33,8 @@ export default function CalendarScreen({ navigation }: any) {
 
   const flatListRef: any = useRef(null)
 
+  const [modalContent, setModalContent] = useState<string>('mastersSchedule')
+
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => [width * 0.6], [])
   const onPresentModal = useCallback(() => {
@@ -108,7 +110,10 @@ export default function CalendarScreen({ navigation }: any) {
                   setDate(date)
                   SetDates(date)
                 }}
-                onEdit={onPresentModal}
+                onEdit={() => {
+                  setModalContent('mastersSchedule')
+                  onPresentModal()
+                }}
                 onAdd={() => {
                   dispatch(
                     updateAgenda({
@@ -117,6 +122,10 @@ export default function CalendarScreen({ navigation }: any) {
                     })
                   )
                   navigation.navigate('CreateAgendaScreen')
+                }}
+                onGetScheule={() => {
+                  setModalContent('getSchedule')
+                  onPresentModal()
                 }}
               />
               <ScheduleBlock date={item} />
@@ -157,7 +166,7 @@ export default function CalendarScreen({ navigation }: any) {
         bottomSheetModalRef={bottomSheetModalRef}
         snapPoints={snapPoints}
         dismiss={onDismisModal}
-        content="mastersSchedule"
+        content={modalContent}
         data={{ date: date }}
         setData={(newDate: Date) => {
           setDate(newDate)

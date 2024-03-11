@@ -84,4 +84,6 @@ export default {
   reOpen: 'Відновити',
   planned: 'заплановано',
   today: 'сьогодні',
+  getSchedule: 'Отримати розклад',
+  noScheduleYet: 'Немає записів',
 }

@@ -7,9 +7,10 @@ import {
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import colors from '../../constants/colors'
 import MessengerModal from './MessengerModal'
-import MastersScheduleModal from './MastersScheduleModal copy'
+import MastersScheduleModal from './GetScheduleModal'
 import TimePickerModal from './TimePickerModal'
 import MasterPickerModal from './MasterPickerModal'
+import GetScheduleModal from './GetScheduleModal'
 
 const width = Dimensions.get('screen').width
 
@@ -26,6 +27,12 @@ export default function BottomModalBlock(props: BottomModalBlockProps) {
   const contentData: any = {
     mastersSchedule: (
       <MastersScheduleModal
+        date={props.data.date}
+        setDate={(newDate: Date) => props.setData(newDate)}
+      />
+    ),
+    getSchedule: (
+      <GetScheduleModal
         date={props.data.date}
         setDate={(newDate: Date) => props.setData(newDate)}
       />
