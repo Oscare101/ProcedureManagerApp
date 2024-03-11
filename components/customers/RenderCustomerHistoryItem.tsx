@@ -90,6 +90,24 @@ export default function RenderCustomerHistoryItem(props: {
           color={colors.comment}
         />
         <Text style={styles.values}>{props.item.time}</Text>
+        {GetDateFormateFromString(props.item.date).getTime() >=
+        GetDateFormateFromString(GetDateString(new Date())).getTime() ? (
+          <View
+            style={[
+              styles.infoBlock,
+              { backgroundColor: colors.accent + '50' },
+            ]}
+          >
+            <Text style={[styles.infoTitle, { color: colors.accent }]}>
+              {GetDateFormateFromString(props.item.date).getTime() ===
+              GetDateFormateFromString(GetDateString(new Date())).getTime()
+                ? text.today
+                : text.planned}
+            </Text>
+          </View>
+        ) : (
+          <></>
+        )}
       </View>
       {props.item.comment ? (
         <CommentBlock comment={props.item.comment} />

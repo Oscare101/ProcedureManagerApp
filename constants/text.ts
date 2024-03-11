@@ -82,4 +82,6 @@ export default {
   textCopied: 'Текст підтвердження скопійовано',
   noHistoryYet: 'Поки немає історії записів',
   reOpen: 'Відновити',
+  planned: 'заплановано',
+  today: 'сьогодні',
 }
