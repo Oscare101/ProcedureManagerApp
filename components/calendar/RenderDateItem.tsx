@@ -10,6 +10,7 @@ import { IsChosenDate, IsDateToday } from '../../functions/functions'
 import { RootState } from '../../redux'
 import { useSelector } from 'react-redux'
 import { Master } from '../../constants/interfaces'
+import { memo, useCallback } from 'react'
 
 const width = Dimensions.get('screen').width
 
@@ -20,7 +21,7 @@ interface DateItemProps {
   date: Date
 }
 
-export default function RenderDateItem(props: DateItemProps) {
+function RenderDateItem(props: DateItemProps) {
   const masters = useSelector((state: RootState) => state.masters)
   const schedule: any = useSelector((state: RootState) => state.schedule)
 
@@ -36,6 +37,10 @@ export default function RenderDateItem(props: DateItemProps) {
     )
   }
 
+  const SetDate = useCallback(() => {
+    props.setDate(props.item)
+  }, [])
+
   return (
     <TouchableOpacity
       style={{
@@ -46,9 +51,7 @@ export default function RenderDateItem(props: DateItemProps) {
         justifyContent: 'center',
       }}
       activeOpacity={0.8}
-      onPress={() => {
-        props.setDate(props.item)
-      }}
+      onPress={SetDate}
     >
       {isChosenDate ? <View style={styles.chosenDate} /> : <></>}
 
@@ -107,3 +110,5 @@ const styles = StyleSheet.create({
     marginBottom: width * 0.01,
   },
 })
+
+export default memo(RenderDateItem)

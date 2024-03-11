@@ -1,6 +1,7 @@
 import { FlatList } from 'react-native'
 import { GetDaysTable } from '../../functions/functions'
 import RenderDateItem from './RenderDateItem'
+import { memo, useCallback } from 'react'
 
 interface DatesBlockProps {
   setDate: any
@@ -8,7 +9,11 @@ interface DatesBlockProps {
   month: Date
 }
 
-export default function DatesBlock(props: DatesBlockProps) {
+function DatesBlock(props: DatesBlockProps) {
+  const setDate = useCallback((newDate: Date) => {
+    props.setDate(newDate)
+  }, [])
+
   return (
     <FlatList
       scrollEnabled={false}
@@ -18,7 +23,7 @@ export default function DatesBlock(props: DatesBlockProps) {
           item={item.item}
           month={props.month}
           date={props.date}
-          setDate={(newDate: Date) => props.setDate(newDate)}
+          setDate={setDate}
         />
       )}
       numColumns={7}
@@ -26,3 +31,5 @@ export default function DatesBlock(props: DatesBlockProps) {
     />
   )
 }
+
+export default memo(DatesBlock)

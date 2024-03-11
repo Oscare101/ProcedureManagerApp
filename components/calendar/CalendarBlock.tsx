@@ -1,6 +1,6 @@
 import { Animated, Dimensions, FlatList, StyleSheet, View } from 'react-native'
 import colors from '../../constants/colors'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import WeekDaysBlock from './WeekDaysBlock'
 import DatesBlock from './DatesBlock'
 import MonthBlock from './MonthBlock'
@@ -35,7 +35,8 @@ export default function CalendarBlock(props: CalendarBlockProps) {
     }).start()
   }, [props.open])
 
-  function SetMonths(date: Date) {
+  const SetMonths = useCallback((date: Date) => {
+    props.setDate(date)
     setDatesMonths([
       new Date(new Date(date).setDate(0)),
       new Date(date),
@@ -43,7 +44,7 @@ export default function CalendarBlock(props: CalendarBlockProps) {
         new Date(new Date(date).setDate(1)).setMonth(date.getMonth() + 1)
       ),
     ])
-  }
+  }, [])
 
   useEffect(() => {
     SetMonths(props.date)
@@ -83,14 +84,7 @@ export default function CalendarBlock(props: CalendarBlockProps) {
               onNextMonth={OnNextMonth}
             />
             <WeekDaysBlock />
-            <DatesBlock
-              date={props.date}
-              month={item}
-              setDate={(date: Date) => {
-                props.setDate(date)
-                SetMonths(date)
-              }}
-            />
+            <DatesBlock date={props.date} month={item} setDate={SetMonths} />
           </View>
         )}
         snapToInterval={width}
