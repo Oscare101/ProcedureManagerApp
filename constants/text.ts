@@ -86,4 +86,5 @@ export default {
   today: 'сьогодні',
   getSchedule: 'Отримати розклад',
   noScheduleYet: 'Немає записів',
+  save: 'Зберегти',
 }

@@ -13,6 +13,9 @@ import colors from '../../constants/colors'
 import { UpdateSchedule } from '../../functions/actions'
 import { Ionicons } from '@expo/vector-icons'
 import { Master } from '../../constants/interfaces'
+import InputBlock from '../application/InputBlock'
+import { useEffect, useState } from 'react'
+import ButtonBlock from '../application/ButtonBlock'
 
 const width = Dimensions.get('screen').width
 
@@ -23,21 +26,42 @@ export default function MastersScheduleModal(props: {
   const masters = useSelector((state: RootState) => state.masters)
   const schedule: any = useSelector((state: RootState) => state.schedule)
 
+  const [comment, setComment] = useState<string>('')
+
   function onlyUnique(value: any, index: any, array: any) {
     return array.indexOf(value) === index
   }
 
-  async function SetSchedule(masterId: string) {
-    let newSchedule =
+  function GetComment() {
+    let scheduleArr =
       schedule['year-' + props.date.getFullYear()]?.[
         'month-' + (props.date.getMonth() + 1)
       ]?.['date-' + props.date.getDate()] || []
+    setComment(scheduleArr.find((i: any) => i?.comment)?.comment)
+  }
+
+  useEffect(() => {
+    GetComment()
+  }, [props.date])
+
+  async function SetSchedule(masterId: string) {
+    let newSchedule = (
+      schedule['year-' + props.date.getFullYear()]?.[
+        'month-' + (props.date.getMonth() + 1)
+      ]?.['date-' + props.date.getDate()] || []
+    ).filter((i: any) => typeof i === 'string')
     if (newSchedule.includes(masterId)) {
       newSchedule = newSchedule.filter((master: string) => master !== masterId)
     } else {
       newSchedule = [...newSchedule, masterId].sort()
     }
-    await UpdateSchedule(props.date, newSchedule.filter(onlyUnique))
+
+    await UpdateSchedule(
+      props.date,
+      comment
+        ? [...newSchedule.filter(onlyUnique), { comment: comment }]
+        : newSchedule.filter(onlyUnique)
+    )
   }
 
   function OnNextDate() {
@@ -50,6 +74,19 @@ export default function MastersScheduleModal(props: {
     const date = new Date(props.date)
     date.setDate(date.getDate() - 1)
     props.setDate(date)
+  }
+
+  async function SaveComment() {
+    let newSchedule = (
+      schedule['year-' + props.date.getFullYear()]?.[
+        'month-' + (props.date.getMonth() + 1)
+      ]?.['date-' + props.date.getDate()] || []
+    ).filter((i: any) => typeof i === 'string')
+
+    await UpdateSchedule(
+      props.date,
+      comment ? [...newSchedule, { comment: comment }] : newSchedule
+    )
   }
 
   function RenderMasterItem({ item }: any) {
@@ -123,9 +160,30 @@ export default function MastersScheduleModal(props: {
           />
         </TouchableOpacity>
       </View>
-      <FlatList
-        data={[...masters].sort((a: Master, b: Master) => a.number - b.number)}
-        renderItem={RenderMasterItem}
+      <View style={{ height: width * 0.36 }}>
+        <FlatList
+          data={[...masters].sort(
+            (a: Master, b: Master) => a.number - b.number
+          )}
+          renderItem={RenderMasterItem}
+        />
+      </View>
+
+      <InputBlock
+        value={comment}
+        setValue={(value: string) => setComment(value)}
+        type="text"
+        placeHolder={text.comment}
+        styles={{
+          backgroundColor: colors.bg,
+          width: '90%',
+          marginBottom: width * 0.02,
+        }}
+      />
+      <ButtonBlock
+        buttonStyles={{ width: '90%' }}
+        title={text.save}
+        action={SaveComment}
       />
     </>
   )

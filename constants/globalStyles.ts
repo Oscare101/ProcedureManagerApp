@@ -1,12 +1,13 @@
 import { Dimensions, StyleSheet } from 'react-native'
 import colors from './colors'
 
-const width = Dimensions.get('screen').width
+const { width, height } = Dimensions.get('screen')
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    width: '100%',
+    height: height,
+    width: width,
     backgroundColor: colors.bg,
     flexDirection: 'column',
     alignItems: 'center',

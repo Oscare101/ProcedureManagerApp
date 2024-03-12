@@ -10,7 +10,7 @@ import MessengerModal from './MessengerModal'
 import TimePickerModal from './TimePickerModal'
 import MasterPickerModal from './MasterPickerModal'
 import GetScheduleModal from './GetScheduleModal'
-import MastersScheduleModal from './MastersScheduleModal copy 2'
+import MastersScheduleModal from './MastersScheduleModal'
 
 const width = Dimensions.get('screen').width
 
