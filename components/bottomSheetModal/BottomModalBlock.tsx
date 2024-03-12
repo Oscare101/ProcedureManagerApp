@@ -7,10 +7,10 @@ import {
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import colors from '../../constants/colors'
 import MessengerModal from './MessengerModal'
-import MastersScheduleModal from './GetScheduleModal'
 import TimePickerModal from './TimePickerModal'
 import MasterPickerModal from './MasterPickerModal'
 import GetScheduleModal from './GetScheduleModal'
+import MastersScheduleModal from './MastersScheduleModal copy 2'
 
 const width = Dimensions.get('screen').width
 

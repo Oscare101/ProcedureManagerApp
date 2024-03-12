@@ -33,7 +33,7 @@ export default function CalendarScreen({ navigation }: any) {
 
   const flatListRef: any = useRef(null)
 
-  const [modalContent, setModalContent] = useState<string>('mastersSchedule')
+  const [modalContent, setModalContent] = useState<string>('')
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => [width * 0.6], [])
