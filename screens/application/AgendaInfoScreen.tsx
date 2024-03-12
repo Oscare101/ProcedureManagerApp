@@ -102,6 +102,7 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
                   masterId: agenda.masterId,
                   customerId: agenda.customerId,
                   procedures: agenda.procedures,
+                  duration: agenda.duration,
                 })
               )
               navigation.navigate('CreateAgendaScreen')
