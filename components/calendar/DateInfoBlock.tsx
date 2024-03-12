@@ -148,9 +148,13 @@ export default function DateInfoBlock(props: DateInfoBlockProps) {
         </TouchableOpacity>
       </View>
       {comment ? (
-        <View style={[styles.commentBlock]}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={props.onEdit}
+          style={[styles.commentBlock]}
+        >
           <CommentBlock comment={comment} />
-        </View>
+        </TouchableOpacity>
       ) : (
         <></>
       )}
