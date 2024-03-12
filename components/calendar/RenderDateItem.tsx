@@ -64,11 +64,10 @@ function RenderDateItem(props: DateItemProps) {
               : inMonth
               ? colors.card2Title
               : colors.cardPale,
-            fontSize: width * 0.04,
           },
         ]}
       >
-        {new Date(props.item).getDate()} {new Date(props.item).getMonth() + 1}
+        {new Date(props.item).getDate()}
       </Text>
       <View style={styles.mastersBlock}>
         {GetDateSchedule().map((master: any, index: number) => (
