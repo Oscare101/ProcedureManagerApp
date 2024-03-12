@@ -41,6 +41,11 @@ export default function ProceduresScreen({ navigation }: any) {
           procedures={procedures.filter((p: Procedure) => p.type === 'care')}
         />
         <ProceduresCard
+          procedures={procedures.filter(
+            (p: Procedure) => p.type === 'rf-lifting'
+          )}
+        />
+        <ProceduresCard
           procedures={procedures.filter((p: Procedure) => p.type === 'other')}
         />
       </ScrollView>

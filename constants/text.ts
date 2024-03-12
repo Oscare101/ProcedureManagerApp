@@ -56,6 +56,7 @@ export default {
   peeling: 'Пілінги',
   care: 'Доглядові',
   additional: 'Додаткові',
+  'rf-lifting': 'RF ліфтінг',
   meso: 'Мезотерапія',
   other: 'Інші',
   duration: 'тривальість',

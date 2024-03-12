@@ -37,7 +37,14 @@ export interface Procedure {
   id: string
   name: string
   priority: number
-  type: 'cleaning' | 'peeling' | 'care' | 'additional' | 'meso' | 'other'
+  type:
+    | 'cleaning'
+    | 'peeling'
+    | 'care'
+    | 'additional'
+    | 'meso'
+    | 'other'
+    | 'rf-lifting'
   short: string
   time: number
   price: number
