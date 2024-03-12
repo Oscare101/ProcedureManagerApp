@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../redux'
 import { Agenda, Master } from '../../constants/interfaces'
 import { IsDateToday } from '../../functions/functions'
+import CommentBlock from '../customers/CommentBlock'
 
 const width = Dimensions.get('screen').width
 
@@ -26,7 +27,6 @@ interface DateInfoBlockProps {
 export default function DateInfoBlock(props: DateInfoBlockProps) {
   const masters = useSelector((state: RootState) => state.masters)
   const schedule: any = useSelector((state: RootState) => state.schedule)
-  const agendas: Agenda[] = useSelector((state: RootState) => state.agendas)
 
   function OnNextDate() {
     const date = new Date(props.date)
@@ -40,98 +40,121 @@ export default function DateInfoBlock(props: DateInfoBlockProps) {
     props.setDate(date)
   }
 
+  const comment = (
+    schedule['year-' + props.date.getFullYear()]?.[
+      `month-${props.date.getMonth() + 1}`
+    ]?.['date-' + props.date.getDate()] || []
+  ).find((i: any) => i?.comment)?.comment
+
   return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={OnPreviousDate}
-        style={styles.dateButton}
-      >
-        <Ionicons name="chevron-back" size={width * 0.07} color={colors.text} />
-      </TouchableOpacity>
-      <View style={styles.dateBlock}>
-        <Text
-          style={[
-            styles.date,
-            { color: IsDateToday(props.date) ? colors.accent : colors.text },
-          ]}
+    <>
+      <View style={styles.container}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={OnPreviousDate}
+          style={styles.dateButton}
         >
-          {props.date.getDate()}
-        </Text>
-        <Text
-          style={[
-            styles.weekDay,
-            { color: IsDateToday(props.date) ? colors.accent : colors.text },
-          ]}
+          <Ionicons
+            name="chevron-back"
+            size={width * 0.07}
+            color={colors.text}
+          />
+        </TouchableOpacity>
+        <View style={styles.dateBlock}>
+          <Text
+            style={[
+              styles.date,
+              { color: IsDateToday(props.date) ? colors.accent : colors.text },
+            ]}
+          >
+            {props.date.getDate()}
+          </Text>
+          <Text
+            style={[
+              styles.weekDay,
+              { color: IsDateToday(props.date) ? colors.accent : colors.text },
+            ]}
+          >
+            {text.weekDaysShort[(props.date.getDay() || 7) - 1]}
+          </Text>
+        </View>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={OnNextDate}
+          style={styles.dateButton}
         >
-          {text.weekDaysShort[(props.date.getDay() || 7) - 1]}
-        </Text>
+          <Ionicons
+            name="chevron-forward"
+            size={width * 0.07}
+            color={colors.text}
+          />
+        </TouchableOpacity>
+        <View
+          style={{
+            flex: 1,
+            height: '100%',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          {[...masters]
+            .sort((a: Master, b: Master) => a.number - b.number)
+            .map((master: Master, index: number) => (
+              <View
+                key={index}
+                style={[
+                  styles.masterBlock,
+                  {
+                    backgroundColor: master.color,
+                    opacity: Object.values(
+                      schedule['year-' + props.date.getFullYear()]?.[
+                        `month-${props.date.getMonth() + 1}`
+                      ]?.['date-' + props.date.getDate()] || []
+                    ).find((m: any) => m === master.id)
+                      ? 1
+                      : 0,
+                  },
+                ]}
+              >
+                <Text style={styles.masterBlockTitle}>{master.name}</Text>
+              </View>
+            ))}
+        </View>
+        <TouchableOpacity
+          style={styles.editButton}
+          activeOpacity={0.8}
+          onPress={props.onGetScheule}
+        >
+          <Ionicons
+            name="grid-outline"
+            size={width * 0.06}
+            color={colors.text}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.editButton}
+          activeOpacity={0.8}
+          onPress={props.onEdit}
+        >
+          <Ionicons name="pencil" size={width * 0.06} color={colors.text} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.addButton}
+          activeOpacity={0.8}
+          onPress={props.onAdd}
+        >
+          <Ionicons name="add" size={width * 0.08} color={colors.text} />
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={OnNextDate}
-        style={styles.dateButton}
-      >
-        <Ionicons
-          name="chevron-forward"
-          size={width * 0.07}
-          color={colors.text}
-        />
-      </TouchableOpacity>
-      <View
-        style={{
-          flex: 1,
-          height: '100%',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        {[...masters]
-          .sort((a: Master, b: Master) => a.number - b.number)
-          .map((master: Master, index: number) => (
-            <View
-              key={index}
-              style={[
-                styles.masterBlock,
-                {
-                  backgroundColor: master.color,
-                  opacity: Object.values(
-                    schedule['year-' + props.date.getFullYear()]?.[
-                      `month-${props.date.getMonth() + 1}`
-                    ]?.['date-' + props.date.getDate()] || []
-                  ).find((m: any) => m === master.id)
-                    ? 1
-                    : 0,
-                },
-              ]}
-            >
-              <Text style={styles.masterBlockTitle}>{master.name}</Text>
-            </View>
-          ))}
-      </View>
-      <TouchableOpacity
-        style={styles.editButton}
-        activeOpacity={0.8}
-        onPress={props.onGetScheule}
-      >
-        <Ionicons name="grid-outline" size={width * 0.06} color={colors.text} />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.editButton}
-        activeOpacity={0.8}
-        onPress={props.onEdit}
-      >
-        <Ionicons name="pencil" size={width * 0.06} color={colors.text} />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.addButton}
-        activeOpacity={0.8}
-        onPress={props.onAdd}
-      >
-        <Ionicons name="add" size={width * 0.08} color={colors.text} />
-      </TouchableOpacity>
-    </View>
+      {comment ? (
+        <View style={[styles.commentBlock]}>
+          <CommentBlock comment={comment} />
+        </View>
+      ) : (
+        <></>
+      )}
+    </>
   )
 }
 
@@ -193,5 +216,17 @@ const styles = StyleSheet.create({
   masterBlockTitle: {
     fontSize: width * 0.035,
     color: colors.white,
+  },
+
+  commentBlock: {
+    width: '92%',
+    backgroundColor: colors.white,
+    borderRadius: width * 0.03,
+    padding: width * 0.02,
+    paddingBottom: 0,
+    marginTop: width * 0.02,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
 })
