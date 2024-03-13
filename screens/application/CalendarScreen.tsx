@@ -36,7 +36,7 @@ export default function CalendarScreen({ navigation }: any) {
   const [modalContent, setModalContent] = useState<string>('')
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
-  const snapPoints = useMemo(() => [width * 0.7, '100%'], [])
+  const snapPoints = useMemo(() => [width * 0.6, '100%'], [])
   const onPresentModal = useCallback(() => {
     bottomSheetModalRef.current?.present()
   }, [])
