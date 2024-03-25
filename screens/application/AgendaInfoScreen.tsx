@@ -26,7 +26,11 @@ import AgendaActionsBlock from '../../components/agenda/AgendaActionsBlock'
 import * as Clipboard from 'expo-clipboard'
 import CommentCardBlock from '../../components/agenda/CommentCardBlock'
 import Toast from 'react-native-toast-message'
-import { GetDateFormateFromString } from '../../functions/functions'
+import {
+  GetDateFormateFromString,
+  GetDateString,
+  TodayOrFuture,
+} from '../../functions/functions'
 import CinfirmationBlock from '../../components/agenda/ConfirmationBlock'
 import ConfirmationBlock from '../../components/agenda/ConfirmationBlock'
 
@@ -60,7 +64,9 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
     navigation.goBack()
   }
 
-  const toggleComfirmation = useCallback(() => {}, [agenda.confirmed])
+  const toggleComfirmation = useCallback(() => {
+    console.log('a')
+  }, [agenda.confirmed])
 
   return (
     <View style={globalStyles.container}>
@@ -88,10 +94,15 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
             procedures={agenda.procedures}
             duration={agenda.duration}
           />
-          <ConfirmationBlock
-            confirmed={!!agenda.confirmed}
-            toggleComfirmation={toggleComfirmation}
-          />
+          {!agenda.canceled && TodayOrFuture(agenda.date) ? (
+            <ConfirmationBlock
+              confirmed={!!agenda.confirmed}
+              toggleComfirmation={toggleComfirmation}
+            />
+          ) : (
+            <></>
+          )}
+
           {agenda.prepayment ? (
             <PrepaymentBlock
               amount={agenda.prepayment}

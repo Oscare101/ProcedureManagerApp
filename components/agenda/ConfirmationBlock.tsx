@@ -5,18 +5,25 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import React from 'react'
+import React, { memo } from 'react'
 import colors from '../../constants/colors'
 import text from '../../constants/text'
 import { Ionicons } from '@expo/vector-icons'
 
 const width = Dimensions.get('screen').width
 
-export default function CinfirmationBlock(props: { confirmed: boolean }) {
+function ConfirmationBlock(props: {
+  confirmed: boolean
+  toggleComfirmation: any
+}) {
   return (
     <View style={styles.card}>
       <Text style={styles.text}>{text.Confirmed}</Text>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={props.toggleComfirmation}
+        style={styles.button}
+      >
         {props.confirmed ? (
           <Ionicons
             name="checkbox-outline"
@@ -59,3 +66,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 })
+
+export default memo(ConfirmationBlock)

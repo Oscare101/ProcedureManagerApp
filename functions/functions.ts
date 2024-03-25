@@ -242,3 +242,10 @@ export function GetDateFormateFromString(date: string) {
 export function GetNumberFromTime(time: any) {
   return (+time.split(':')[0] + +time.split(':')[1] / 60) as number
 }
+
+export function TodayOrFuture(date: any) {
+  return (
+    GetDateFormateFromString(date).getTime() >=
+    GetDateFormateFromString(GetDateString(new Date())).getTime()
+  )
+}
