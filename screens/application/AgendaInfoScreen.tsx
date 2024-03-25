@@ -64,9 +64,9 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
     navigation.goBack()
   }
 
-  const toggleComfirmation = useCallback(() => {
-    console.log('a')
-  }, [agenda.confirmed])
+  async function ToggleComfirmation() {
+    await UpdateAgenda({ ...agenda, confirmed: !agenda.confirmed })
+  }
 
   return (
     <View style={globalStyles.container}>
@@ -97,7 +97,7 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
           {!agenda.canceled && TodayOrFuture(agenda.date) ? (
             <ConfirmationBlock
               confirmed={!!agenda.confirmed}
-              toggleComfirmation={toggleComfirmation}
+              toggleComfirmation={ToggleComfirmation}
             />
           ) : (
             <></>
