@@ -88,4 +88,5 @@ export default {
   getSchedule: 'Отримати розклад',
   noScheduleYet: 'Немає записів',
   save: 'Зберегти',
+  Confirmed: 'Підтвердженно',
 }

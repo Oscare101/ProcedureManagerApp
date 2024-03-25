@@ -19,7 +19,7 @@ import { updateAgenda, initialStateAgenda } from '../../redux/agenda'
 import { Agenda } from '../../constants/interfaces'
 import { RootState } from '../../redux'
 import PrepaymentBlock from '../../components/agenda/PrepaymentBlock'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import DeleteAgendaModal from '../../components/agenda/DeleteAgendaModal'
 import { DeleteAgenda, UpdateAgenda } from '../../functions/actions'
 import AgendaActionsBlock from '../../components/agenda/AgendaActionsBlock'
@@ -27,6 +27,8 @@ import * as Clipboard from 'expo-clipboard'
 import CommentCardBlock from '../../components/agenda/CommentCardBlock'
 import Toast from 'react-native-toast-message'
 import { GetDateFormateFromString } from '../../functions/functions'
+import CinfirmationBlock from '../../components/agenda/ConfirmationBlock'
+import ConfirmationBlock from '../../components/agenda/ConfirmationBlock'
 
 const width = Dimensions.get('screen').width
 
@@ -58,6 +60,8 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
     navigation.goBack()
   }
 
+  const toggleComfirmation = useCallback(() => {}, [agenda.confirmed])
+
   return (
     <View style={globalStyles.container}>
       <Header title={text.agenda} action="back" />
@@ -83,6 +87,10 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
             static={true}
             procedures={agenda.procedures}
             duration={agenda.duration}
+          />
+          <ConfirmationBlock
+            confirmed={!!agenda.confirmed}
+            toggleComfirmation={toggleComfirmation}
           />
           {agenda.prepayment ? (
             <PrepaymentBlock
