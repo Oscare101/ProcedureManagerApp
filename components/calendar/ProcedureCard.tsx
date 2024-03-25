@@ -9,6 +9,7 @@ import globalStyles from '../../constants/globalStyles'
 import { Agenda, Customer, Master, Procedure } from '../../constants/interfaces'
 import colors from '../../constants/colors'
 import { useNavigation } from '@react-navigation/native'
+import { Ionicons } from '@expo/vector-icons'
 
 const width = Dimensions.get('screen').width
 
@@ -56,6 +57,16 @@ export default function ProcedureCard(props: {
         ]}
       >
         <View style={styles.procedureHeader}>
+          {props.agenda.confirmed ? (
+            <Ionicons
+              name="checkbox"
+              size={width * 0.03}
+              color={colors.lightSuccessBg}
+              style={{ marginRight: width * 0.01 }}
+            />
+          ) : (
+            <></>
+          )}
           {props.agenda.prepayment ? (
             <Text style={styles.prepaymentTitle}>₴</Text>
           ) : (
