@@ -14,6 +14,7 @@ import CommentBlock from './CommentBlock'
 import {
   GetDateFormateFromString,
   GetDateString,
+  TodayOrFuture,
 } from '../../functions/functions'
 
 const width = Dimensions.get('screen').width
@@ -90,8 +91,7 @@ export default function RenderCustomerHistoryItem(props: {
           color={colors.comment}
         />
         <Text style={styles.values}>{props.item.time}</Text>
-        {GetDateFormateFromString(props.item.date).getTime() >=
-        GetDateFormateFromString(GetDateString(new Date())).getTime() ? (
+        {TodayOrFuture(props.item.date) ? (
           <View
             style={[
               styles.infoBlock,
