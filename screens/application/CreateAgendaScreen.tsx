@@ -220,7 +220,7 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
             !isEnoughtTime
               ? text.cantCreateAgendaBeacauseOfTime
               : route.params?.agenda
-              ? text.edit
+              ? text.save
               : text.create
           }
           action={route.params?.agenda ? UpdateAgendaFunc : CreateAgendaFunc}
