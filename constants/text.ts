@@ -89,4 +89,5 @@ export default {
   noScheduleYet: 'Немає записів',
   save: 'Зберегти',
   Confirmed: 'Підтвердженно',
+  Statistics: 'Статистика',
 }
