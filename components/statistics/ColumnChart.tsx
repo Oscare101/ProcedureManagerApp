@@ -2,9 +2,10 @@ import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { memo } from 'react'
 import colors from '../../constants/colors'
 import globalStyles from '../../constants/globalStyles'
+import { Agenda } from '../../constants/interfaces'
 
 const width = Dimensions.get('screen').width
-function ColumnChart(props: { date: Date; stat: any[] }) {
+function ColumnChart(props: { date: Date; stat: Agenda[] }) {
   const daysAmount: number = new Date(
     props.date.getFullYear(),
     props.date.getMonth() + 1,

@@ -2,10 +2,11 @@ import { Dimensions, StyleSheet, Text, View } from 'react-native'
 import React, { memo } from 'react'
 import colors from '../../constants/colors'
 import text from '../../constants/text'
+import { Agenda } from '../../constants/interfaces'
 
 const width = Dimensions.get('screen').width
 
-function MonthStatCard(props: { date: Date; stat: any[] }) {
+function MonthStatCard(props: { date: Date; stat: Agenda[] }) {
   return (
     <View style={styles.card}>
       <Text style={styles.title}>{text.AgendasAmount}</Text>

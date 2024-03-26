@@ -11,12 +11,13 @@ import { Agenda } from '../../constants/interfaces'
 import { GenerateStatisticData } from '../../functions/statistics'
 import ColumnChart from '../../components/statistics/ColumnChart'
 import MonthStatCard from '../../components/statistics/MonthStatCard'
+import MasterStatistics from '../../components/statistics/MasterStatistics'
 
 export default function StatisticsScreen({ navigation }: any) {
   const agendas: Agenda[] = useSelector((state: RootState) => state.agendas)
 
   const [date, setDate] = useState<Date>(new Date())
-  const [monthStat, setMonthStat] = useState<any[]>([])
+  const [monthStat, setMonthStat] = useState<Agenda[]>([])
 
   const setNewDate = useCallback(
     (value: Date) => {
@@ -36,6 +37,7 @@ export default function StatisticsScreen({ navigation }: any) {
         <MonthCard date={date} setDate={setNewDate} />
         <MonthStatCard date={date} stat={monthStat} />
         <ColumnChart date={date} stat={monthStat} />
+        <MasterStatistics date={date} stat={monthStat} />
       </ScrollView>
     </View>
   )
