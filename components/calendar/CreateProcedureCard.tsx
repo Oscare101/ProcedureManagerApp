@@ -42,7 +42,7 @@ export default function CreateProcedureCard(props: {
       }}
       style={[styles.card, globalStyles.scheduleCardHeight1]}
     >
-      <Text style={styles.title}>{text.createProcedure}</Text>
+      <Text style={styles.title}>{props.time}</Text>
       <Ionicons name="add" size={width * 0.05} color={colors.card2Title} />
     </TouchableOpacity>
   )
