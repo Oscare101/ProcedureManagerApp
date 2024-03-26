@@ -90,4 +90,5 @@ export default {
   save: 'Зберегти',
   Confirmed: 'Підтвердженно',
   Statistics: 'Статистика',
+  AgendasAmount: 'Кількість записів',
 }
