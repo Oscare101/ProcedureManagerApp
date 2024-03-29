@@ -297,7 +297,7 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
         )}
 
         <ButtonBlock
-          title={route.params?.customer ? text.edit : text.create}
+          title={route.params?.customer ? text.save : text.create}
           disable={
             !(
               messenger &&

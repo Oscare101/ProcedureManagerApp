@@ -149,7 +149,11 @@ export default function CustomerInfoScreen({ navigation, route }: any) {
             customer: customer,
           })
         }}
-        buttonStyles={{ marginBottom: width * 0.05 }}
+        buttonStyles={{
+          marginBottom: width * 0.05,
+          backgroundColor: '#00000000',
+        }}
+        titleStyles={{ color: colors.card1 }}
       />
     </View>
   )
