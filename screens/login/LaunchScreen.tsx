@@ -4,15 +4,21 @@ import { useEffect } from 'react'
 import { MMKV } from 'react-native-mmkv'
 import colors from '../../constants/colors'
 import { LogIn } from '../../functions/actions'
+import { useDispatch } from 'react-redux'
+import { updateSettings } from '../../redux/settings'
+import { Settings } from '../../constants/interfaces'
 
 export const storage = new MMKV()
 
 const width = Dimensions.get('screen').width
 
 export default function LaunchScreen({ navigation }: any) {
+  const dispatch = useDispatch()
+
   async function LogInFunc(email: string, password: string) {
     const response = await LogIn(email, password)
     if (!response.error) {
+      GetStorage()
       navigation.reset({
         index: 0,
         routes: [{ name: 'DrawerNavigation' }],
@@ -22,6 +28,20 @@ export default function LaunchScreen({ navigation }: any) {
         index: 0,
         routes: [{ name: 'LogInScreen' }],
       })
+    }
+  }
+
+  function GetStorage() {
+    const settingsStorage = storage.getString('settings')
+    console.log(settingsStorage)
+
+    if (!!settingsStorage) {
+      dispatch(updateSettings(JSON.parse(settingsStorage)))
+    } else {
+      const settingsDefault: Settings = {
+        swipe: false,
+      }
+      dispatch(updateSettings(settingsDefault))
     }
   }
 

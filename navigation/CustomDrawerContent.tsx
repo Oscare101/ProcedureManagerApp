@@ -25,12 +25,12 @@ export default function CustomDrawerContent(props: any) {
       iconActive: 'stats-chart',
       screen: 'StatisticsScreen',
     },
-    // {
-    //   title: text.Settings,
-    //   icon: 'settings-outline',
-    //   iconActive: 'settings-sharp',
-    //   screen: 'SettingsScreen',
-    // },
+    {
+      title: text.Settings,
+      icon: 'settings-outline',
+      iconActive: 'settings-sharp',
+      screen: 'SettingsScreen',
+    },
   ]
 
   return (

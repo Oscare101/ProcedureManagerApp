@@ -12,7 +12,13 @@ import { RootState } from './redux'
 import { auth } from './firebase'
 import { getDatabase, onValue, ref } from 'firebase/database'
 import { updateCustomers } from './redux/customers'
-import { Agenda, Customer, Master, Procedure } from './constants/interfaces'
+import {
+  Agenda,
+  Customer,
+  Master,
+  Procedure,
+  Settings,
+} from './constants/interfaces'
 import Toast from 'react-native-toast-message'
 import { updateProcedures } from './redux/procedures'
 import { updateMasters } from './redux/masters'
@@ -23,7 +29,6 @@ export const storage = new MMKV()
 function AppComponent() {
   const [update, setUpdate] = useState<boolean>(false)
   const schedule = useSelector((state: RootState) => state.schedule)
-
   const dispatch = useDispatch()
 
   function GetCustomers() {

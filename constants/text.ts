@@ -91,4 +91,5 @@ export default {
   Confirmed: 'Підтвердженно',
   Statistics: 'Статистика',
   AgendasAmount: 'Кількість записів',
+  SwipeEnable: 'Дозволити жести',
 }

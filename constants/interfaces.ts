@@ -50,3 +50,7 @@ export interface Procedure {
   time: number
   price: number
 }
+
+export interface Settings {
+  swipe?: boolean
+}
