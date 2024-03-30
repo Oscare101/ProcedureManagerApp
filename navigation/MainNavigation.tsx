@@ -21,6 +21,9 @@ import { Dimensions } from 'react-native'
 import SettingsScreen from '../screens/application/SettingsScreen'
 import StatisticsScreen from '../screens/application/StatisticsScreen'
 import CalendarScreenWithoutSwipe from '../screens/application/CalendarScreenWithoutSwipe'
+import { RootState } from '../redux'
+import { useSelector } from 'react-redux'
+import { Settings } from '../constants/interfaces'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -28,6 +31,8 @@ const Drawer = createDrawerNavigator()
 const width = Dimensions.get('screen').width
 
 export default function MainNavigation() {
+  const settings: Settings = useSelector((state: RootState) => state.settings)
+
   function DrawerNavigation() {
     return (
       <Drawer.Navigator
@@ -39,7 +44,9 @@ export default function MainNavigation() {
         <Drawer.Screen
           options={{ headerShown: false }}
           name="CalendarScreen"
-          component={true ? CalendarScreenWithoutSwipe : CalendarScreen}
+          component={
+            settings.swipe ? CalendarScreen : CalendarScreenWithoutSwipe
+          }
         />
         <Drawer.Screen
           options={{ headerShown: false }}

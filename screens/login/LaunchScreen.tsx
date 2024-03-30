@@ -33,8 +33,6 @@ export default function LaunchScreen({ navigation }: any) {
 
   function GetStorage() {
     const settingsStorage = storage.getString('settings')
-    console.log(settingsStorage)
-
     if (!!settingsStorage) {
       dispatch(updateSettings(JSON.parse(settingsStorage)))
     } else {

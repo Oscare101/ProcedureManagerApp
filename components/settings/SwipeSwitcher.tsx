@@ -24,7 +24,7 @@ export default function SwipeSwitcher() {
 
   return (
     <View style={styles.card}>
-      <Text>{text.SwipeEnable}</Text>
+      <Text style={styles.title}>{text.SwipeEnable}</Text>
       <AnimatedSwitcher
         value={settings.swipe!}
         toggle={toggle}
@@ -45,5 +45,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     paddingHorizontal: '4%',
+  },
+  title: {
+    fontSize: width * 0.05,
+    color: colors.text,
   },
 })
