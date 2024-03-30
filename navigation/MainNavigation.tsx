@@ -20,6 +20,7 @@ import CustomerHistoryScreen from '../screens/application/CustomerHistoryScreen'
 import { Dimensions } from 'react-native'
 import SettingsScreen from '../screens/application/SettingsScreen'
 import StatisticsScreen from '../screens/application/StatisticsScreen'
+import CalendarScreenWithoutSwipe from '../screens/application/CalendarScreenWithoutSwipe'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -30,7 +31,6 @@ export default function MainNavigation() {
   function DrawerNavigation() {
     return (
       <Drawer.Navigator
-        initialRouteName="PortfolioScreen"
         drawerContent={(props) => <CustomDrawerContent {...props} />}
         screenOptions={{
           swipeEdgeWidth: width * 0.05,
@@ -39,7 +39,7 @@ export default function MainNavigation() {
         <Drawer.Screen
           options={{ headerShown: false }}
           name="CalendarScreen"
-          component={CalendarScreen}
+          component={true ? CalendarScreenWithoutSwipe : CalendarScreen}
         />
         <Drawer.Screen
           options={{ headerShown: false }}
