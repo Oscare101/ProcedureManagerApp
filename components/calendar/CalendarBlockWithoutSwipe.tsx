@@ -1,4 +1,4 @@
-import { Animated, Dimensions, FlatList, StyleSheet, View } from 'react-native'
+import { Animated, Dimensions, StyleSheet, View } from 'react-native'
 import colors from '../../constants/colors'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import WeekDaysBlock from './WeekDaysBlock'
@@ -12,11 +12,11 @@ interface CalendarBlockProps {
   open: boolean
   date: Date
   setDate: any
+  onClose: any
 }
 
 export default function CalendarBlockWithoutSwipe(props: CalendarBlockProps) {
   const heightAnim = useRef(new Animated.Value(0)).current
-  const flatListRef: any = useRef(null)
 
   const [dateMonths, setDateMonths] = useState<Date>(new Date(props.date))
 
@@ -64,6 +64,11 @@ export default function CalendarBlockWithoutSwipe(props: CalendarBlockProps) {
       nativeEvent.velocityX < 0
     ) {
       OnNextMonth()
+    } else if (
+      Math.abs(nativeEvent.translationY) > Math.abs(nativeEvent.translationX) &&
+      nativeEvent.velocityY < 0
+    ) {
+      props.onClose()
     }
   }
 

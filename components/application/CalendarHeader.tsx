@@ -8,44 +8,62 @@ import {
 import colors from '../../constants/colors'
 import { Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
+import { PanGestureHandler } from 'react-native-gesture-handler'
 
 const width = Dimensions.get('screen').width
 
 interface HeaderProps {
   title: string
-  toggle: any
   toggleValue: boolean
+  setValue: any
 }
 
 export default function CalendarHeader(props: HeaderProps) {
   const navigation: any = useNavigation()
-  return (
-    <View style={styles.header}>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => navigation.openDrawer()}
-        style={styles.button}
-      >
-        <Ionicons
-          name="menu-outline"
-          size={width * 0.1}
-          color={colors.card1Title}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={props.toggle}
-        style={styles.toggleButton}
-      >
-        <Ionicons
-          name={props.toggleValue ? 'chevron-up' : 'chevron-down'}
-          size={width * 0.06}
-          color={colors.card1Title}
-        />
 
-        <Text style={styles.title}>{props.title}</Text>
-      </TouchableOpacity>
-    </View>
+  const handleGesture = (e: any) => {
+    const { nativeEvent } = e
+    if (
+      Math.abs(nativeEvent.translationY) > Math.abs(nativeEvent.translationX) &&
+      nativeEvent.velocityY < 0
+    ) {
+      props.setValue(false)
+    } else if (
+      Math.abs(nativeEvent.translationY) > Math.abs(nativeEvent.translationX) &&
+      nativeEvent.velocityY > 0
+    ) {
+      props.setValue(true)
+    }
+  }
+  return (
+    <PanGestureHandler onEnded={handleGesture}>
+      <View style={styles.header}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => navigation.openDrawer()}
+          style={styles.button}
+        >
+          <Ionicons
+            name="menu-outline"
+            size={width * 0.1}
+            color={colors.card1Title}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => props.setValue(!props.toggleValue)}
+          style={styles.toggleButton}
+        >
+          <Ionicons
+            name={props.toggleValue ? 'chevron-up' : 'chevron-down'}
+            size={width * 0.06}
+            color={colors.card1Title}
+          />
+
+          <Text style={styles.title}>{props.title}</Text>
+        </TouchableOpacity>
+      </View>
+    </PanGestureHandler>
   )
 }
 
