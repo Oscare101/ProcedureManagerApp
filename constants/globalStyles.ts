@@ -3,6 +3,8 @@ import colors from './colors'
 
 const { width, height } = Dimensions.get('screen')
 
+const minCardHeight = width * 0.07
+
 export default StyleSheet.create({
   container: {
     flex: 1,
@@ -23,12 +25,12 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
   },
   scheduleCardHeight1: {
-    height: width * 0.07,
+    height: minCardHeight,
   },
   scheduleCardHeight2: {
-    height: width * 0.14,
+    height: minCardHeight * 2,
   },
   scheduleCardHeight3: {
-    height: width * 0.21,
+    height: minCardHeight * 3,
   },
 })
