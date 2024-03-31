@@ -46,106 +46,126 @@ export default function DateInfoBlock(props: DateInfoBlockProps) {
     ]?.['date-' + props.date.getDate()] || []
   ).find((i: any) => i?.comment)?.comment
 
+  const buttonPrevious = (
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={OnPreviousDate}
+      style={styles.dateButton}
+    >
+      <Ionicons name="chevron-back" size={width * 0.07} color={colors.text} />
+    </TouchableOpacity>
+  )
+
+  const dateBlock = (
+    <View style={styles.dateBlock}>
+      <Text
+        style={[
+          styles.date,
+          { color: IsDateToday(props.date) ? colors.accent : colors.text },
+        ]}
+      >
+        {props.date.getDate()}
+      </Text>
+      <Text
+        style={[
+          styles.weekDay,
+          { color: IsDateToday(props.date) ? colors.accent : colors.text },
+        ]}
+      >
+        {text.weekDaysShort[(props.date.getDay() || 7) - 1]}
+      </Text>
+    </View>
+  )
+
+  const buttonNext = (
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={OnNextDate}
+      style={styles.dateButton}
+    >
+      <Ionicons
+        name="chevron-forward"
+        size={width * 0.07}
+        color={colors.text}
+      />
+    </TouchableOpacity>
+  )
+
+  const mastersBlock = (
+    <View
+      style={{
+        flex: 1,
+        height: '100%',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginLeft: width * 0.02,
+      }}
+    >
+      {[...masters]
+        .sort((a: Master, b: Master) => a.number - b.number)
+        .map((master: Master, index: number) => (
+          <View
+            key={index}
+            style={[
+              styles.masterBlock,
+              {
+                backgroundColor: master.color,
+                opacity: Object.values(
+                  schedule['year-' + props.date.getFullYear()]?.[
+                    `month-${props.date.getMonth() + 1}`
+                  ]?.['date-' + props.date.getDate()] || []
+                ).find((m: any) => m === master.id)
+                  ? 1
+                  : 0,
+              },
+            ]}
+          >
+            <Text style={styles.masterBlockTitle}>{master.name}</Text>
+          </View>
+        ))}
+    </View>
+  )
+
+  const getSheduleButton = (
+    <TouchableOpacity
+      style={styles.editButton}
+      activeOpacity={0.8}
+      onPress={props.onGetScheule}
+    >
+      <Ionicons name="grid-outline" size={width * 0.07} color={colors.text} />
+    </TouchableOpacity>
+  )
+
+  const editScheduleButton = (
+    <TouchableOpacity
+      style={styles.editButton}
+      activeOpacity={0.8}
+      onPress={props.onEdit}
+    >
+      <Ionicons name="pencil" size={width * 0.06} color={colors.text} />
+    </TouchableOpacity>
+  )
+
+  const createButton = (
+    <TouchableOpacity
+      style={styles.addButton}
+      activeOpacity={0.8}
+      onPress={props.onAdd}
+    >
+      <Ionicons name="add" size={width * 0.08} color={colors.text} />
+    </TouchableOpacity>
+  )
+
   return (
     <>
       <View style={styles.container}>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={OnPreviousDate}
-          style={styles.dateButton}
-        >
-          <Ionicons
-            name="chevron-back"
-            size={width * 0.07}
-            color={colors.text}
-          />
-        </TouchableOpacity>
-        <View style={styles.dateBlock}>
-          <Text
-            style={[
-              styles.date,
-              { color: IsDateToday(props.date) ? colors.accent : colors.text },
-            ]}
-          >
-            {props.date.getDate()}
-          </Text>
-          <Text
-            style={[
-              styles.weekDay,
-              { color: IsDateToday(props.date) ? colors.accent : colors.text },
-            ]}
-          >
-            {text.weekDaysShort[(props.date.getDay() || 7) - 1]}
-          </Text>
-        </View>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={OnNextDate}
-          style={styles.dateButton}
-        >
-          <Ionicons
-            name="chevron-forward"
-            size={width * 0.07}
-            color={colors.text}
-          />
-        </TouchableOpacity>
-        <View
-          style={{
-            flex: 1,
-            height: '100%',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          {[...masters]
-            .sort((a: Master, b: Master) => a.number - b.number)
-            .map((master: Master, index: number) => (
-              <View
-                key={index}
-                style={[
-                  styles.masterBlock,
-                  {
-                    backgroundColor: master.color,
-                    opacity: Object.values(
-                      schedule['year-' + props.date.getFullYear()]?.[
-                        `month-${props.date.getMonth() + 1}`
-                      ]?.['date-' + props.date.getDate()] || []
-                    ).find((m: any) => m === master.id)
-                      ? 1
-                      : 0,
-                  },
-                ]}
-              >
-                <Text style={styles.masterBlockTitle}>{master.name}</Text>
-              </View>
-            ))}
-        </View>
-        <TouchableOpacity
-          style={styles.editButton}
-          activeOpacity={0.8}
-          onPress={props.onGetScheule}
-        >
-          <Ionicons
-            name="grid-outline"
-            size={width * 0.06}
-            color={colors.text}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.editButton}
-          activeOpacity={0.8}
-          onPress={props.onEdit}
-        >
-          <Ionicons name="pencil" size={width * 0.06} color={colors.text} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.addButton}
-          activeOpacity={0.8}
-          onPress={props.onAdd}
-        >
-          <Ionicons name="add" size={width * 0.08} color={colors.text} />
-        </TouchableOpacity>
+        {buttonPrevious}
+        {dateBlock}
+        {mastersBlock}
+        {getSheduleButton}
+        {editScheduleButton}
+        {buttonNext}
       </View>
       {comment ? (
         <TouchableOpacity
@@ -178,7 +198,7 @@ const styles = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    aspectRatio: 0.5,
+    aspectRatio: 0.8,
   },
   dateBlock: {
     flexDirection: 'column',
