@@ -13,6 +13,7 @@ import { RootState } from '../../redux'
 import { Agenda, Master } from '../../constants/interfaces'
 import { IsDateToday } from '../../functions/functions'
 import CommentBlock from '../customers/CommentBlock'
+import { PanGestureHandler } from 'react-native-gesture-handler'
 
 const width = Dimensions.get('screen').width
 
@@ -157,16 +158,33 @@ export default function DateInfoBlock(props: DateInfoBlockProps) {
     </TouchableOpacity>
   )
 
+  const handleGesture = (e: any) => {
+    const { nativeEvent } = e
+    if (
+      Math.abs(nativeEvent.translationY) < Math.abs(nativeEvent.translationX) &&
+      nativeEvent.velocityX > 0
+    ) {
+      OnPreviousDate()
+    } else if (
+      Math.abs(nativeEvent.translationY) < Math.abs(nativeEvent.translationX) &&
+      nativeEvent.velocityX < 0
+    ) {
+      OnNextDate()
+    }
+  }
+
   return (
     <>
-      <View style={styles.container}>
-        {buttonPrevious}
-        {dateBlock}
-        {mastersBlock}
-        {getSheduleButton}
-        {editScheduleButton}
-        {buttonNext}
-      </View>
+      <PanGestureHandler onEnded={handleGesture}>
+        <View style={styles.container}>
+          {buttonPrevious}
+          {dateBlock}
+          {mastersBlock}
+          {getSheduleButton}
+          {editScheduleButton}
+          {buttonNext}
+        </View>
+      </PanGestureHandler>
       {comment ? (
         <TouchableOpacity
           activeOpacity={0.8}
