@@ -101,6 +101,7 @@ const ScheduleBlock = React.memo(function (props: ScheduleBlockProps) {
       </View>
     )
   }
+
   return (
     <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
       <View style={styles.container}>

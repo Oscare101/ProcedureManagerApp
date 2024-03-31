@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import WeekDaysBlock from './WeekDaysBlock'
 import DatesBlock from './DatesBlock'
 import MonthBlock from './MonthBlock'
+import { PanGestureHandler } from 'react-native-gesture-handler'
 
 const width = Dimensions.get('screen').width
 
@@ -51,21 +52,42 @@ export default function CalendarBlockWithoutSwipe(props: CalendarBlockProps) {
     SetMonths(date)
   }
 
+  const handleGesture = (e: any) => {
+    const { nativeEvent } = e
+    if (
+      Math.abs(nativeEvent.translationY) < Math.abs(nativeEvent.translationX) &&
+      nativeEvent.velocityX > 0
+    ) {
+      OnPreviousMonth()
+    } else if (
+      Math.abs(nativeEvent.translationY) < Math.abs(nativeEvent.translationX) &&
+      nativeEvent.velocityX < 0
+    ) {
+      OnNextMonth()
+    }
+  }
+
   return (
     <Animated.View style={[styles.calendarBlock, { height: heightAnim }]}>
-      <View
-        style={{
-          width: width,
-        }}
-      >
-        <MonthBlock
-          date={dateMonths}
-          onPreviousMonth={OnPreviousMonth}
-          onNextMonth={OnNextMonth}
-        />
-        <WeekDaysBlock />
-        <DatesBlock date={props.date} month={dateMonths} setDate={SetMonths} />
-      </View>
+      <PanGestureHandler onEnded={handleGesture}>
+        <View
+          style={{
+            width: width,
+          }}
+        >
+          <MonthBlock
+            date={dateMonths}
+            onPreviousMonth={OnPreviousMonth}
+            onNextMonth={OnNextMonth}
+          />
+          <WeekDaysBlock />
+          <DatesBlock
+            date={props.date}
+            month={dateMonths}
+            setDate={SetMonths}
+          />
+        </View>
+      </PanGestureHandler>
     </Animated.View>
   )
 }
