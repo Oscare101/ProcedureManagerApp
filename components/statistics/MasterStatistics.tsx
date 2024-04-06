@@ -16,6 +16,7 @@ function MasterStatistics(props: { date: Date; stat: Agenda[] }) {
     <View style={styles.card}>
       {masters.map((master: Master, index: number) => (
         <View
+          key={index}
           style={{
             width: '100%',
             height: width * 0.1,
