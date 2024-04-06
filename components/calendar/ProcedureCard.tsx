@@ -109,6 +109,19 @@ export default function ProcedureCard(props: {
         <Text numberOfLines={1} style={styles.link}>
           {customer?.link || customer?.phone}
         </Text>
+        {props.agenda.comment ? (
+          <Text numberOfLines={1} style={styles.link}>
+            <Ionicons
+              name="chatbubble-ellipses-outline"
+              size={width * 0.03}
+              color={colors.text}
+              style={{ marginRight: width * 0.01 }}
+            />
+            {props.agenda.comment}
+          </Text>
+        ) : (
+          <></>
+        )}
       </TouchableOpacity>
     </View>
   )
