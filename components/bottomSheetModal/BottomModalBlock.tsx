@@ -68,7 +68,9 @@ export default function BottomModalBlock(props: BottomModalBlockProps) {
                 backgroundColor: '#00000066',
               },
             ]}
-          ></View>
+          >
+            <StatusBar backgroundColor={'#1a2028'} />
+          </View>
         </TouchableWithoutFeedback>
       )}
     >
