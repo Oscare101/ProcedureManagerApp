@@ -83,6 +83,16 @@ export default function ProcedureCard(props: {
               {proceduresString}
             </Text>
           </View>
+          {props.agenda.comment ? (
+            <Ionicons
+              name="chatbubble-ellipses-outline"
+              size={width * 0.03}
+              color={colors.lightWarningTitle}
+              style={{ marginRight: width * 0.01 }}
+            />
+          ) : (
+            <></>
+          )}
 
           <View
             style={[
