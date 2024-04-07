@@ -36,6 +36,7 @@ import { CreateAgenda, DeleteAgenda } from '../../functions/actions'
 import rules from '../../constants/rules'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import PrepaymentBlock from '../../components/agenda/PrepaymentBlock'
+import OtherPersonBlock from '../../components/agenda/OtherPersonBlock'
 
 const width = Dimensions.get('screen').width
 
@@ -180,6 +181,12 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
               amount={agenda.prepayment}
               onChange={(num: string) =>
                 dispatch(updateAgenda({ ...agenda, prepayment: num }))
+              }
+            />
+            <OtherPersonBlock
+              name={agenda.otherPerson}
+              onChange={(name: string) =>
+                dispatch(updateAgenda({ ...agenda, otherPerson: name }))
               }
             />
 

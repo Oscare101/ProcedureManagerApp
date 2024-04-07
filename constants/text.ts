@@ -92,4 +92,5 @@ export default {
   Statistics: 'Статистика',
   AgendasAmount: 'Кількість записів',
   SwipeEnable: 'Дозволити жести',
+  otherPerson: 'буде інша людина',
 }

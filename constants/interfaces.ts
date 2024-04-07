@@ -12,6 +12,7 @@ export interface Agenda {
   prepayment: string
   canceled?: boolean
   confirmed?: boolean
+  otherPerson?: string
 }
 
 export interface Customer {
