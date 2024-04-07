@@ -8,7 +8,7 @@ import { Agenda } from '../../constants/interfaces'
 
 const width = Dimensions.get('screen').width
 
-export default function PrepaymentBlock(props: {
+export default function OtherPersonBlock(props: {
   name: Agenda['otherPerson']
   onChange: any
   static?: boolean
@@ -19,20 +19,7 @@ export default function PrepaymentBlock(props: {
       <InputBlock
         value={props.name!}
         setValue={(value: string) => {
-          if (rules.amountRegrex.test(value.replace(',', '.'))) {
-            let num = ''
-            if (
-              value.replace(',', '.') === '0' ||
-              value.replace(',', '.') === '.'
-            ) {
-              num = ''
-            } else {
-              num = value.replace(',', '.')
-            }
-            props.onChange(num)
-          } else {
-            return false
-          }
+          props.onChange(value)
         }}
         type="text"
         placeHolder={text.name}
