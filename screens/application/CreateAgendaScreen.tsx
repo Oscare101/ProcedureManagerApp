@@ -81,8 +81,6 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
       ...agenda,
       lastUpdated: new Date().getTime(),
     }
-    console.log(agendaData)
-
     await CreateAgenda(agendaData)
     navigation.goBack()
   }

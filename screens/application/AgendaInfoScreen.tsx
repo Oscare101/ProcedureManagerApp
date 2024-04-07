@@ -33,6 +33,7 @@ import {
 } from '../../functions/functions'
 import CinfirmationBlock from '../../components/agenda/ConfirmationBlock'
 import ConfirmationBlock from '../../components/agenda/ConfirmationBlock'
+import OtherPersonBlock from '../../components/agenda/OtherPersonBlock'
 
 const width = Dimensions.get('screen').width
 
@@ -106,6 +107,16 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
           {agenda.prepayment ? (
             <PrepaymentBlock
               amount={agenda.prepayment}
+              onChange={false}
+              static={true}
+            />
+          ) : (
+            <></>
+          )}
+
+          {agenda.otherPerson ? (
+            <OtherPersonBlock
+              name={agenda.otherPerson}
               onChange={false}
               static={true}
             />
