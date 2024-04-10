@@ -80,7 +80,7 @@ export default function ProcedureCard(props: {
             }}
           >
             <Text numberOfLines={1} style={styles.procedureTitle}>
-              {proceduresString}
+              {props.agenda.otherProcedure || proceduresString}
             </Text>
           </View>
           {props.agenda.otherPerson ? (
