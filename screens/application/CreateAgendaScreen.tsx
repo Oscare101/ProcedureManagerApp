@@ -37,6 +37,7 @@ import rules from '../../constants/rules'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import PrepaymentBlock from '../../components/agenda/PrepaymentBlock'
 import OtherPersonBlock from '../../components/agenda/OtherPersonBlock'
+import OtherProcedureBlock from '../../components/agenda/OtherProcedureBlock'
 
 const width = Dimensions.get('screen').width
 
@@ -187,6 +188,14 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
               name={agenda.otherPerson}
               onChange={(name: string) =>
                 dispatch(updateAgenda({ ...agenda, otherPerson: name }))
+              }
+            />
+            <OtherProcedureBlock
+              procedure={agenda.otherProcedure}
+              onChange={(newProcedure: string) =>
+                dispatch(
+                  updateAgenda({ ...agenda, otherProcedure: newProcedure })
+                )
               }
             />
 

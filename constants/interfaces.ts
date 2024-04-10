@@ -13,6 +13,7 @@ export interface Agenda {
   canceled?: boolean
   confirmed?: boolean
   otherPerson?: string
+  otherProcedure?: string
 }
 
 export interface Customer {
