@@ -52,7 +52,7 @@ export default function GetScheduleModal(props: { date: Date; setDate: any }) {
           })
           .join(' ')
 
-        return `${a.time} ${proceduresString} ${
+        return `${a.time} ${a.otherProcedure || proceduresString} ${
           a.otherPerson ||
           customers.find((c: Customer) => c.id === a.customerId)?.name
         }${a.prepayment ? ` (${text.prepayment} ${a.prepayment})` : ''}`
