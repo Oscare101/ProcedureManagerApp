@@ -34,6 +34,7 @@ import {
 import CinfirmationBlock from '../../components/agenda/ConfirmationBlock'
 import ConfirmationBlock from '../../components/agenda/ConfirmationBlock'
 import OtherPersonBlock from '../../components/agenda/OtherPersonBlock'
+import OtherProcedureBlock from '../../components/agenda/OtherProcedureBlock'
 
 const width = Dimensions.get('screen').width
 
@@ -117,6 +118,15 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
           {agenda.otherPerson ? (
             <OtherPersonBlock
               name={agenda.otherPerson}
+              onChange={false}
+              static={true}
+            />
+          ) : (
+            <></>
+          )}
+          {agenda.otherProcedure ? (
+            <OtherProcedureBlock
+              procedure={agenda.otherProcedure}
               onChange={false}
               static={true}
             />
