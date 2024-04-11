@@ -11,6 +11,7 @@ export interface Agenda {
   masterId: Master['id']
   prepayment: string
   canceled?: boolean
+  deleted?: boolean
   confirmed?: boolean
   otherPerson?: string
   otherProcedure?: string
