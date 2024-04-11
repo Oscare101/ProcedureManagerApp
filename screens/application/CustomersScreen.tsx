@@ -36,7 +36,7 @@ export default function CustomersScreen({ navigation, route }: any) {
       />
       <FlatList
         style={{ width: '100%', marginTop: width * 0.05 }}
-        data={FilterCustomerSearch(customers, search)}
+        data={FilterCustomerSearch([...customers].reverse(), search)}
         renderItem={({ item }) => (
           <RenderCustomerItem
             item={item}
