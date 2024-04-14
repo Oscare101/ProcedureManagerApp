@@ -29,6 +29,7 @@ export default function BottomModalBlock(props: BottomModalBlockProps) {
       <MastersScheduleModal
         date={props.data.date}
         setDate={(newDate: Date) => props.setData(newDate)}
+        onClose={props.dismiss}
       />
     ),
     getSchedule: (

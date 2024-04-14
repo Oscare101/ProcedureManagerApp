@@ -22,6 +22,7 @@ const width = Dimensions.get('screen').width
 export default function MastersScheduleModal(props: {
   date: Date
   setDate: any
+  onClose: any
 }) {
   const masters = useSelector((state: RootState) => state.masters)
   const schedule: any = useSelector((state: RootState) => state.schedule)
@@ -87,6 +88,7 @@ export default function MastersScheduleModal(props: {
       props.date,
       comment ? [...newSchedule, { comment: comment }] : newSchedule
     )
+    props.onClose()
   }
 
   function RenderMasterItem({ item }: any) {
