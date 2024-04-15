@@ -35,6 +35,7 @@ export default function CustomersScreen({ navigation, route }: any) {
         setValue={(value: string) => setSearch(value)}
       />
       <FlatList
+        keyboardShouldPersistTaps="always"
         style={{ width: '100%', marginTop: width * 0.05 }}
         data={FilterCustomerSearch([...customers].reverse(), search)}
         renderItem={({ item }) => (
