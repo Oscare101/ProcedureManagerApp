@@ -1,6 +1,7 @@
 import {
   Dimensions,
   FlatList,
+  Keyboard,
   Linking,
   ScrollView,
   StyleSheet,
@@ -108,6 +109,7 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => [width * 0.6], [])
   const onPresentModal = useCallback(() => {
+    Keyboard.dismiss()
     bottomSheetModalRef.current?.present()
   }, [])
   const onDismisModal = useCallback(() => {
@@ -277,8 +279,10 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
         <ScrollView
           style={{ width: '100%', flex: 1 }}
           showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="always"
         >
           <FlatList
+            keyboardShouldPersistTaps="always"
             scrollEnabled={false}
             style={{ width: '100%' }}
             data={data}
