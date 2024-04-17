@@ -34,7 +34,9 @@ export default function RenderCustomerHistoryItem(props: {
     >
       <View style={globalStyles.rowBetween}>
         <View style={styles.procedureBlock}>
-          <Text style={styles.procedureTitle}>{props.proceduresString}</Text>
+          <Text style={styles.procedureTitle}>
+            {props.item.otherProcedure || props.proceduresString}
+          </Text>
         </View>
         {props.item.prepayment ? (
           <View
