@@ -12,7 +12,12 @@ import text from '../../constants/text'
 import colors from '../../constants/colors'
 import { Ionicons } from '@expo/vector-icons'
 import { Agenda, Customer, Master, Procedure } from '../../constants/interfaces'
-import { GetDateString, GetNumberFromTime } from '../../functions/functions'
+import {
+  CalculateProcedureFinishTime,
+  GetDateString,
+  GetNumberFromTime,
+  IsTimeBetweenTimes,
+} from '../../functions/functions'
 import * as Clipboard from 'expo-clipboard'
 import Toast from 'react-native-toast-message'
 
@@ -138,7 +143,86 @@ export default function GetScheduleModal(props: { date: Date; setDate: any }) {
     )
   }
 
-  async function GetFreeTimes(masterdId: Master['id']) {}
+  async function GetFreeTimes(masterdId: Master['id']) {
+    let times: any = [
+      '10:00',
+      '10:30',
+      '11:00',
+      '11:30',
+      '12:00',
+      '12:30',
+      '13:00',
+      '13:30',
+      '14:00',
+      '14:30',
+      '15:00',
+      '15:30',
+      '16:00',
+      '16:30',
+      '17:00',
+      '17:30',
+      '18:00',
+      '18:30',
+      '19:00',
+      '19:30',
+    ]
+
+    const schedule: Agenda[] = agendas.filter(
+      (a: Agenda) =>
+        a.masterId === masterdId &&
+        +a.date.split('.')[2] === props.date.getFullYear() &&
+        +a.date.split('.')[1] === props.date.getMonth() + 1 &&
+        +a.date.split('.')[0] === props.date.getDate() &&
+        !a.canceled
+    )
+
+    schedule.forEach((a: Agenda) => {
+      times = times
+        .map((time: string) => {
+          if (
+            IsTimeBetweenTimes(
+              a.time,
+              CalculateProcedureFinishTime(a.time, a.duration),
+              time,
+              `${time.split(':')[0]}:${+time.split(':')[1] + 29}`
+            )
+          ) {
+            return false
+          } else {
+            return time
+          }
+        })
+        .filter((i: any) => !!i)
+    })
+    let nextTime = times[0]
+
+    times = times.map((time: string, index: number) => {
+      if (
+        times[index + 1] &&
+        times[index + 2] &&
+        ((times[index + 1].split(':')[0] === time.split(':')[0] &&
+          +times[index + 1].split(':')[1] === +time.split(':')[1] + 30) ||
+          (+times[index + 1].split(':')[0] === +time.split(':')[0] + 1 &&
+            +times[index + 1].split(':')[1] === +time.split(':')[1] - 30)) &&
+        +times[index + 2].split(':')[0] === +time.split(':')[0] + 1 &&
+        +times[index + 2].split(':')[1] === +time.split(':')[1] &&
+        +nextTime.split(':')[0] <= +time.split(':')[0] &&
+        nextTime.split(':')[1] <= +time.split(':')[1]
+      ) {
+        nextTime = CalculateProcedureFinishTime(time, 90)
+        return time
+      }
+    })
+
+    await Clipboard.setStringAsync(times.join(' '))
+    Toast.show({
+      type: 'ToastMessage',
+      props: {
+        title: times.join(' '),
+      },
+      position: 'bottom',
+    })
+  }
 
   function RenderMasterFreeTimeItem({ item }: any) {
     return (
@@ -166,7 +250,7 @@ export default function GetScheduleModal(props: { date: Date; setDate: any }) {
           </Text>
         </View>
         <Text style={[styles.status, { color: colors.white }]}>
-          {'-------'}
+          {text.FreeTimes}
         </Text>
       </TouchableOpacity>
     )

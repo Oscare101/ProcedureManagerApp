@@ -95,4 +95,5 @@ export default {
   otherPerson: 'буде інша людина',
   otherProcedureName: 'інша назва процедури',
   GetFreeTimes: 'Отримати віконця',
+  FreeTimes: 'Віконця',
 }
