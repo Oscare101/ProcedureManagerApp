@@ -216,11 +216,15 @@ export default function GetScheduleModal(props: { date: Date; setDate: any }) {
       })
       .filter((i: any) => !!i)
 
-    await Clipboard.setStringAsync(times.join(' '))
+    const string = schedule.length
+      ? times.join(' ')
+      : '10:00 11:30 13:00 15:00 17:00 18:30'
+
+    await Clipboard.setStringAsync(string)
     Toast.show({
       type: 'ToastMessage',
       props: {
-        title: times.join(' '),
+        title: string,
       },
       position: 'bottom',
     })
