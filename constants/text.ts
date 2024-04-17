@@ -94,4 +94,5 @@ export default {
   SwipeEnable: 'Дозволити жести',
   otherPerson: 'буде інша людина',
   otherProcedureName: 'інша назва процедури',
+  GetFreeTimes: 'Отримати віконця',
 }

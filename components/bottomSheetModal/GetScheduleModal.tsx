@@ -138,6 +138,40 @@ export default function GetScheduleModal(props: { date: Date; setDate: any }) {
     )
   }
 
+  async function GetFreeTimes(masterdId: Master['id']) {}
+
+  function RenderMasterFreeTimeItem({ item }: any) {
+    return (
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => GetFreeTimes(item.id)}
+        style={[
+          styles.button,
+          {
+            backgroundColor: colors.card2,
+          },
+        ]}
+      >
+        <View
+          style={[
+            styles.nameBlock,
+            {
+              backgroundColor: item.color,
+              opacity: 1,
+            },
+          ]}
+        >
+          <Text style={[styles.name, { color: colors.white }]}>
+            {item.name}
+          </Text>
+        </View>
+        <Text style={[styles.status, { color: colors.white }]}>
+          {'-------'}
+        </Text>
+      </TouchableOpacity>
+    )
+  }
+
   return (
     <>
       <View style={styles.dateBlock}>
@@ -167,9 +201,20 @@ export default function GetScheduleModal(props: { date: Date; setDate: any }) {
           />
         </TouchableOpacity>
       </View>
+      <View style={{ height: width * 0.36 }}>
+        <FlatList
+          data={[...masters].sort(
+            (a: Master, b: Master) => a.number - b.number
+          )}
+          renderItem={RenderMasterItem}
+        />
+      </View>
+      <Text style={{ fontSize: width * 0.04, color: colors.text }}>
+        {text.GetFreeTimes}
+      </Text>
       <FlatList
         data={[...masters].sort((a: Master, b: Master) => a.number - b.number)}
-        renderItem={RenderMasterItem}
+        renderItem={RenderMasterFreeTimeItem}
       />
     </>
   )
