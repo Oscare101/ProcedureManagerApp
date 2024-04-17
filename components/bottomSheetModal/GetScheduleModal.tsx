@@ -108,6 +108,7 @@ export default function GetScheduleModal(props: { date: Date; setDate: any }) {
             backgroundColor: isWorking && hasAgendas ? colors.card2 : colors.bg,
           },
         ]}
+        disabled={!isWorking}
       >
         <View
           style={[
@@ -231,14 +232,20 @@ export default function GetScheduleModal(props: { date: Date; setDate: any }) {
   }
 
   function RenderMasterFreeTimeItem({ item }: any) {
+    const isWorking: boolean = !!schedule['year-' + props.date.getFullYear()]?.[
+      'month-' + (props.date.getMonth() + 1)
+    ]?.['date-' + props.date.getDate()]?.find(
+      (master: string) => master === item.id
+    )
     return (
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => GetFreeTimes(item.id)}
+        disabled={!isWorking}
         style={[
           styles.button,
           {
-            backgroundColor: colors.card2,
+            backgroundColor: isWorking ? colors.card2 : colors.bg,
           },
         ]}
       >
@@ -247,16 +254,26 @@ export default function GetScheduleModal(props: { date: Date; setDate: any }) {
             styles.nameBlock,
             {
               backgroundColor: item.color,
-              opacity: 1,
+              opacity: isWorking ? 1 : 0.5,
             },
           ]}
         >
-          <Text style={[styles.name, { color: colors.white }]}>
+          <Text
+            style={[
+              styles.name,
+              { color: isWorking ? colors.white : colors.text },
+            ]}
+          >
             {item.name}
           </Text>
         </View>
-        <Text style={[styles.status, { color: colors.white }]}>
-          {text.FreeTimes}
+        <Text
+          style={[
+            styles.status,
+            { color: isWorking ? colors.white : colors.comment },
+          ]}
+        >
+          {isWorking ? text.FreeTimes : text.dayOff}
         </Text>
       </TouchableOpacity>
     )
