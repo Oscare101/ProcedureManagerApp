@@ -16,6 +16,7 @@ import {
   GetDateString,
   TodayOrFuture,
 } from '../../functions/functions'
+import OtherPersonBlock from './OtherPersonBlock'
 
 const width = Dimensions.get('screen').width
 
@@ -111,6 +112,11 @@ export default function RenderCustomerHistoryItem(props: {
       </View>
       {props.item.comment ? (
         <CommentBlock comment={props.item.comment} />
+      ) : (
+        <></>
+      )}
+      {props.item.otherPerson ? (
+        <OtherPersonBlock name={props.item.otherPerson} />
       ) : (
         <></>
       )}
