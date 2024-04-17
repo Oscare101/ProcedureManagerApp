@@ -196,23 +196,25 @@ export default function GetScheduleModal(props: { date: Date; setDate: any }) {
     })
     let nextTime = times[0]
 
-    times = times.map((time: string, index: number) => {
-      if (
-        times[index + 1] &&
-        times[index + 2] &&
-        ((times[index + 1].split(':')[0] === time.split(':')[0] &&
-          +times[index + 1].split(':')[1] === +time.split(':')[1] + 30) ||
-          (+times[index + 1].split(':')[0] === +time.split(':')[0] + 1 &&
-            +times[index + 1].split(':')[1] === +time.split(':')[1] - 30)) &&
-        +times[index + 2].split(':')[0] === +time.split(':')[0] + 1 &&
-        +times[index + 2].split(':')[1] === +time.split(':')[1] &&
-        +nextTime.split(':')[0] <= +time.split(':')[0] &&
-        nextTime.split(':')[1] <= +time.split(':')[1]
-      ) {
-        nextTime = CalculateProcedureFinishTime(time, 90)
-        return time
-      }
-    })
+    times = times
+      .map((time: string, index: number) => {
+        if (
+          times[index + 1] &&
+          times[index + 2] &&
+          ((times[index + 1].split(':')[0] === time.split(':')[0] &&
+            +times[index + 1].split(':')[1] === +time.split(':')[1] + 30) ||
+            (+times[index + 1].split(':')[0] === +time.split(':')[0] + 1 &&
+              +times[index + 1].split(':')[1] === +time.split(':')[1] - 30)) &&
+          +times[index + 2].split(':')[0] === +time.split(':')[0] + 1 &&
+          +times[index + 2].split(':')[1] === +time.split(':')[1] &&
+          +nextTime.split(':')[0] <= +time.split(':')[0] &&
+          nextTime.split(':')[1] <= +time.split(':')[1]
+        ) {
+          // nextTime = CalculateProcedureFinishTime(time, 90)
+          return time
+        }
+      })
+      .filter((i: any) => !!i)
 
     await Clipboard.setStringAsync(times.join(' '))
     Toast.show({
