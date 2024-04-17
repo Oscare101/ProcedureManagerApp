@@ -299,8 +299,15 @@ export default function GetScheduleModal(props: { date: Date; setDate: any }) {
           renderItem={RenderMasterItem}
         />
       </View>
-      <Text style={{ fontSize: width * 0.04, color: colors.text }}>
-        {text.GetFreeTimes}
+      <Ionicons name="chevron-down" color={colors.text} size={width * 0.05} />
+      <Text
+        style={{
+          fontSize: width * 0.04,
+          color: colors.text,
+          marginBottom: width * 0.02,
+        }}
+      >
+        {text.GetFreeTimes} ({text.testing})
       </Text>
       <FlatList
         data={[...masters].sort((a: Master, b: Master) => a.number - b.number)}

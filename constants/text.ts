@@ -96,4 +96,5 @@ export default {
   otherProcedureName: 'інша назва процедури',
   GetFreeTimes: 'Отримати віконця',
   FreeTimes: 'Віконця',
+  testing: 'тестується',
 }
