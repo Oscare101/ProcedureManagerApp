@@ -14,6 +14,7 @@ import { Agenda, Master } from '../../constants/interfaces'
 import { IsDateToday } from '../../functions/functions'
 import CommentBlock from '../customers/CommentBlock'
 import { PanGestureHandler } from 'react-native-gesture-handler'
+import { auth } from '../../firebase'
 
 const width = Dimensions.get('screen').width
 
@@ -28,6 +29,7 @@ interface DateInfoBlockProps {
 export default function DateInfoBlock(props: DateInfoBlockProps) {
   const masters = useSelector((state: RootState) => state.masters)
   const schedule: any = useSelector((state: RootState) => state.schedule)
+  const permissions: any = useSelector((state: RootState) => state.permissions)
 
   function OnNextDate() {
     const date = new Date(props.date)
@@ -173,6 +175,11 @@ export default function DateInfoBlock(props: DateInfoBlockProps) {
     }
   }
 
+  const isAdmin =
+    auth.currentUser &&
+    auth.currentUser.email &&
+    permissions[auth.currentUser?.email.replaceAll('.', ',')] === 'admin'
+
   return (
     <>
       <PanGestureHandler onEnded={handleGesture}>
@@ -180,8 +187,8 @@ export default function DateInfoBlock(props: DateInfoBlockProps) {
           {buttonPrevious}
           {dateBlock}
           {mastersBlock}
-          {getSheduleButton}
-          {editScheduleButton}
+          {isAdmin ? getSheduleButton : <></>}
+          {isAdmin ? editScheduleButton : <></>}
           {buttonNext}
         </View>
       </PanGestureHandler>
