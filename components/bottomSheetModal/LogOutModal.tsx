@@ -16,20 +16,28 @@ import colors from '../../constants/colors'
 import text from '../../constants/text'
 import { updateAgenda } from '../../redux/agenda'
 import ButtonBlock from '../application/ButtonBlock'
+import { LogOut } from '../../functions/actions'
+import { useNavigation } from '@react-navigation/native'
 
 const width = Dimensions.get('screen').width
 
 export default function LogOutModal(props: { onClose: any }) {
-  const masters: Master[] = useSelector((state: RootState) => state.masters)
-  const agenda: Agenda = useSelector((state: RootState) => state.agenda)
-  const dispatch = useDispatch()
+  const navigation: any = useNavigation()
+
+  async function LogOutFunc() {
+    await LogOut()
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'LaunchScreen' }],
+    })
+  }
 
   return (
     <>
       <Text style={styles.title}>{text.DoYouWantToLogOut}</Text>
       <ButtonBlock
         title={text.LogOut}
-        action={props.onClose}
+        action={LogOutFunc}
         buttonStyles={{
           marginTop: width * 0.02,
           backgroundColor: colors.lightErrorBg,
@@ -49,15 +57,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: width * 0.05,
     color: colors.text,
-  },
-  button: {
-    width: '95%',
-    height: width * 0.1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderRadius: width * 0.02,
     marginBottom: width * 0.02,
-    alignSelf: 'center',
   },
 })

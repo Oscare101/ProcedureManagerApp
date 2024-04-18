@@ -15,7 +15,7 @@ const width = Dimensions.get('screen').width
 
 export default function SettingsScreen({ navigation }: any) {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
-  const snapPoints = useMemo(() => [width * 0.6, '100%'], [])
+  const snapPoints = useMemo(() => [width * 0.5], [])
   const onPresentModal = useCallback(() => {
     bottomSheetModalRef.current?.present()
   }, [])
