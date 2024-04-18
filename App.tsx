@@ -70,7 +70,6 @@ function AppComponent() {
   function GetPermissions() {
     if (auth.currentUser && auth.currentUser.email) {
       const data = ref(getDatabase(), `business/PoboiskayaSofia/permissions`)
-
       onValue(data, (snapshot) => {
         dispatch(updatePermissions(snapshot.val()))
       })

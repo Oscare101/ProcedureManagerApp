@@ -4,9 +4,35 @@ import { StyleSheet, View } from 'react-native'
 import DrawerHeader from '../components/drawer/DrawerHeader'
 import text from '../constants/text'
 import DrawerButtonsBlock from '../components/drawer/DrawerButtonsBlock'
+import { RootState } from '../redux/store'
+import { useSelector } from 'react-redux'
+import { auth } from '../firebase'
 
 export default function CustomDrawerContent(props: any) {
-  const screensButtonData = [
+  const permissions: any = useSelector((state: RootState) => state.permissions)
+
+  const screensData = [
+    {
+      title: text.calendarTitle,
+      icon: 'grid-outline',
+      iconActive: 'grid',
+      screen: 'CalendarScreen',
+    },
+    {
+      title: text.Statistics,
+      icon: 'stats-chart-outline',
+      iconActive: 'stats-chart',
+      screen: 'StatisticsScreen',
+    },
+    {
+      title: text.Settings,
+      icon: 'settings-outline',
+      iconActive: 'settings-sharp',
+      screen: 'SettingsScreen',
+    },
+  ]
+
+  const screensDataForAdmin = [
     {
       title: text.calendarTitle,
       icon: 'grid-outline',
@@ -51,7 +77,14 @@ export default function CustomDrawerContent(props: any) {
       <View style={styles.topContainer}>
         <DrawerHeader />
         <DrawerButtonsBlock
-          data={screensButtonData}
+          data={
+            auth.currentUser &&
+            auth.currentUser.email &&
+            permissions[auth.currentUser?.email.replaceAll('.', ',')] ===
+              'admin'
+              ? screensDataForAdmin
+              : screensData
+          }
           state={props.state}
           navigation={(screen: string) => props.navigation.jumpTo(screen)}
         />
