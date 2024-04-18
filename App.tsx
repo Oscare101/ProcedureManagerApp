@@ -23,6 +23,7 @@ import Toast from 'react-native-toast-message'
 import { updateProcedures } from './redux/procedures'
 import { updateMasters } from './redux/masters'
 import { clearAgendas, updateAgendas } from './redux/agendas'
+import { updatePermissions } from './redux/permissions'
 
 export const storage = new MMKV()
 
@@ -66,6 +67,16 @@ function AppComponent() {
     }
   }
 
+  function GetPermissions() {
+    if (auth.currentUser && auth.currentUser.email) {
+      const data = ref(getDatabase(), `business/PoboiskayaSofia/permissions`)
+
+      onValue(data, (snapshot) => {
+        dispatch(updatePermissions(snapshot.val()))
+      })
+    }
+  }
+
   function GetAgendas() {
     if (auth.currentUser && auth.currentUser.email) {
       const data = ref(getDatabase(), `business/PoboiskayaSofia/agendas/`)
@@ -93,6 +104,7 @@ function AppComponent() {
 
   useEffect(() => {
     if (!update) {
+      GetPermissions()
       GetAgendas()
       GetMastersData()
       GetProcedures()
