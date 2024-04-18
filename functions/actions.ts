@@ -116,8 +116,8 @@ export async function CreateCustomer(customer: Customer) {
       customer
     )
     return true
-  } catch (error) {
-    console.log('CreateCustomer', error)
+  } catch (error: any) {
+    return error
   }
 }
 
