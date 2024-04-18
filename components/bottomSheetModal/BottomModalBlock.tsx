@@ -11,6 +11,7 @@ import TimePickerModal from './TimePickerModal'
 import MasterPickerModal from './MasterPickerModal'
 import GetScheduleModal from './GetScheduleModal'
 import MastersScheduleModal from './MastersScheduleModal'
+import LogOutModal from './LogOutModal'
 
 const width = Dimensions.get('screen').width
 
@@ -51,6 +52,7 @@ export default function BottomModalBlock(props: BottomModalBlockProps) {
       />
     ),
     masterPicker: <MasterPickerModal />,
+    logOut: <LogOutModal onClose={props.dismiss} />,
   }
 
   return (

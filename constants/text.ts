@@ -98,4 +98,5 @@ export default {
   FreeTimes: 'Віконця',
   testing: 'тестується',
   LogOut: 'Вийти',
+  DoYouWantToLogOut: 'Ви хочете вийти з акаунту?',
 }

@@ -28,12 +28,14 @@ const styles = StyleSheet.create({
     width: '92%',
     alignSelf: 'center',
     backgroundColor: colors.lightErrorBg,
-    borderRadius: width * 0.02,
+    marginTop: width * 0.02,
+    borderRadius: width * 0.03,
     alignItems: 'center',
     justifyContent: 'center',
+    height: width * 0.12,
   },
   title: {
-    fontSize: width * 0.04,
+    fontSize: width * 0.05,
     color: colors.lightErrorTitle,
   },
 })
