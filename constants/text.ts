@@ -97,4 +97,5 @@ export default {
   GetFreeTimes: 'Отримати віконця',
   FreeTimes: 'Віконця',
   testing: 'тестується',
+  LogOut: 'Вийти',
 }
