@@ -32,7 +32,7 @@ export default function ProceduresCard(props: { procedures: Procedure[] }) {
 
   useEffect(() => {
     Animated.timing(heightAnim, {
-      toValue: open ? width * 0.08 * props.procedures.length + 1 : 0,
+      toValue: open ? width * 0.08 * props.procedures.length + width * 0.02 : 0,
       duration: 100,
       useNativeDriver: false,
     }).start()
