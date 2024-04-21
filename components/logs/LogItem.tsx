@@ -7,22 +7,15 @@ import {
 } from 'react-native'
 import colors from '../../constants/colors'
 import { Ionicons } from '@expo/vector-icons'
-import { Agenda, Customer, Log } from '../../constants/interfaces'
+import { Log } from '../../constants/interfaces'
 import { useNavigation } from '@react-navigation/native'
-import {
-  ReturnCustomerMessenger,
-  ReturnPhoneString,
-} from '../../functions/functions'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../redux'
-import { updateAgenda } from '../../redux/agenda'
+
+import { useDispatch } from 'react-redux'
 import text from '../../constants/text'
 
 const width = Dimensions.get('screen').width
 
 export default function LogItem(props: { item: Log }) {
-  const agenda: Agenda = useSelector((state: RootState) => state.agenda)
-
   const navigation: any = useNavigation()
   const dispatch = useDispatch()
 
@@ -34,7 +27,10 @@ export default function LogItem(props: { item: Log }) {
     >
       <View style={styles.rowBetween}>
         <View style={styles.nameBlock}>
-          <Text style={styles.name}>{new Date(+props.item.id).getDate()}</Text>
+          <Text style={styles.name}>
+            {new Date(+props.item.id).getHours()}:
+            {new Date(+props.item.id).getMinutes()}
+          </Text>
         </View>
       </View>
 

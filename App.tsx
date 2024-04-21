@@ -63,8 +63,12 @@ function AppComponent() {
   function GetLogs() {
     if (auth.currentUser && auth.currentUser.email) {
       const data = ref(getDatabase(), `business/PoboiskayaSofia/logs`)
+
       onValue(data, (snapshot) => {
-        dispatch(updateLogs(Object.values(snapshot.val()) as Log[]))
+        setUpdate(true)
+        if (snapshot.val()) {
+          dispatch(updateLogs(Object.values(snapshot.val()) as Log[]))
+        }
       })
     }
   }
