@@ -66,7 +66,7 @@ export async function CreateAgenda(agenda: Agenda) {
       ),
       agenda
     )
-    await CreateLog('createAgenda', agenda)
+    await CreateLog('createAgenda', 'agenda', agenda)
     return true
   } catch (error) {
     console.log('CreateAgenda', error)
@@ -86,7 +86,7 @@ export async function UpdateAgenda(agenda: Agenda) {
       ),
       agenda
     )
-    await CreateLog('updateAgenda', agenda)
+    await CreateLog('updateAgenda', 'agenda', agenda)
   } catch (error) {
     console.log('UpdateAgenda', error)
   }
@@ -104,7 +104,7 @@ export async function DeleteAgenda(agenda: Agenda) {
         )[0]}/${agenda.id}`
       )
     )
-    await CreateLog('deleteAgenda', agenda)
+    await CreateLog('deleteAgenda', 'agenda', agenda)
   } catch (error) {
     console.log('DeleteAgenda', error)
   }
@@ -118,7 +118,7 @@ export async function CreateCustomer(customer: Customer) {
       ref(getDatabase(), 'business/PoboiskayaSofia/customers/' + customer.id),
       customer
     )
-    await CreateLog('createCustomer', customer)
+    await CreateLog('createCustomer', 'customer', customer)
     return true
   } catch (error: any) {
     return error
@@ -131,7 +131,7 @@ export async function UpdateCustomer(customer: Customer) {
       ref(getDatabase(), 'business/PoboiskayaSofia/customers/' + customer.id),
       customer
     )
-    await CreateLog('updateCustomer', customer)
+    await CreateLog('updateCustomer', 'customer', customer)
   } catch (error) {
     console.log('UpdateCustomer', error)
   }
@@ -157,7 +157,11 @@ export async function UpdateSchedule(date: Date, schedule: Master['id'][]) {
 
 // LOG
 
-export async function CreateLog(action: string, data: any) {
+export async function CreateLog(
+  action: string,
+  type: 'customer' | 'agenda',
+  data: any
+) {
   console.log(data)
 
   const timeStamp = new Date().getTime().toString()
@@ -165,6 +169,7 @@ export async function CreateLog(action: string, data: any) {
     id: timeStamp,
     data: data,
     action: action,
+    type: type,
   }
   try {
     await set(
