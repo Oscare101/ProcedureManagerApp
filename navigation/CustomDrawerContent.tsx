@@ -57,6 +57,12 @@ export default function CustomDrawerContent(props: any) {
       iconActive: 'settings-sharp',
       screen: 'SettingsScreen',
     },
+    {
+      title: text.History,
+      icon: 'code-slash-outline',
+      iconActive: 'code-slash',
+      screen: 'LogsScreen',
+    },
   ]
 
   return (

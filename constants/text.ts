@@ -99,4 +99,5 @@ export default {
   testing: 'тестується',
   LogOut: 'Вийти',
   DoYouWantToLogOut: 'Ви хочете вийти з акаунту?',
+  History: 'Історія',
 }

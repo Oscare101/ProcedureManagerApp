@@ -24,6 +24,7 @@ import CalendarScreenWithoutSwipe from '../screens/application/CalendarScreenWit
 import { RootState } from '../redux'
 import { useSelector } from 'react-redux'
 import { Settings } from '../constants/interfaces'
+import LogsScreen from '../screens/application/LogsScreen'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -62,6 +63,11 @@ export default function MainNavigation() {
           options={{ headerShown: false }}
           name="SettingsScreen"
           component={SettingsScreen}
+        />
+        <Drawer.Screen
+          options={{ headerShown: false }}
+          name="LogsScreen"
+          component={LogsScreen}
         />
       </Drawer.Navigator>
     )
