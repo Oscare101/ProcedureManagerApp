@@ -16,7 +16,7 @@ import {
 } from 'firebase/database'
 import { ref as refStorage, deleteObject } from 'firebase/storage'
 import { MMKV } from 'react-native-mmkv'
-import { Agenda, Customer, Master } from '../constants/interfaces'
+import { Agenda, Customer, Log, Master } from '../constants/interfaces'
 
 // var md5 = require('md5')
 export const storage = new MMKV()
@@ -158,14 +158,14 @@ export async function UpdateSchedule(date: Date, schedule: Master['id'][]) {
 // LOG
 
 export async function CreateLog(
-  action: string,
-  type: 'customer' | 'agenda',
-  data: any
+  action: Log['action'],
+  type: Log['type'],
+  data: Log['data']
 ) {
   console.log(data)
 
   const timeStamp = new Date().getTime().toString()
-  const logData = {
+  const logData: Log = {
     id: timeStamp,
     data: data,
     action: action,

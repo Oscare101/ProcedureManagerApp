@@ -8,6 +8,7 @@ import agendasReducer from './agendas'
 import themeReducer from './theme'
 import settingsReducer from './settings'
 import permissionsReducer from './permissions'
+import logsReducer from './logs'
 
 export const store = configureStore({
   reducer: {
@@ -20,7 +21,9 @@ export const store = configureStore({
     theme: themeReducer,
     settings: settingsReducer,
     permissions: permissionsReducer,
+    logs: logsReducer,
   },
 })
+
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>

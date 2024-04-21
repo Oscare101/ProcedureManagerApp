@@ -57,3 +57,10 @@ export interface Procedure {
 export interface Settings {
   swipe?: boolean
 }
+
+export interface Log {
+  data: any
+  id: string
+  action: string
+  type: 'customer' | 'agenda'
+}
