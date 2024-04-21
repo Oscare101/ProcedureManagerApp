@@ -12,66 +12,84 @@ import { useNavigation } from '@react-navigation/native'
 
 import { useDispatch } from 'react-redux'
 import text from '../../constants/text'
+import { GetDateString } from '../../functions/functions'
 
 const width = Dimensions.get('screen').width
 
-export default function LogItem(props: { item: Log }) {
+export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
   const navigation: any = useNavigation()
   const dispatch = useDispatch()
 
   return (
-    <TouchableOpacity
-      activeOpacity={0.8}
-      onPress={() => {}}
-      style={styles.card}
-    >
-      <View style={styles.rowBetween}>
-        <View style={styles.nameBlock}>
-          <Text style={styles.name}>
-            {new Date(+props.item.id).getHours()}:
-            {new Date(+props.item.id).getMinutes()}
-          </Text>
+    <>
+      {props.needDateTitle ? (
+        <Text style={styles.dateTitle}>
+          {GetDateString(new Date(+props.item.id))} (
+          {text.weekDaysShort[(new Date(+props.item.id).getDay() || 7) - 1]})
+        </Text>
+      ) : (
+        <></>
+      )}
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => {}}
+        style={styles.card}
+      >
+        <View style={styles.rowBetween}>
+          <View style={styles.nameBlock}>
+            <Text style={styles.name}>
+              {new Date(+props.item.id).getHours()}:
+              {new Date(+props.item.id).getMinutes()}
+            </Text>
+          </View>
         </View>
-      </View>
 
-      <Ionicons
-        name="open-outline"
-        size={width * 0.05}
-        color={colors.text}
-        style={styles.openIcon}
-      />
+        <Ionicons
+          name="open-outline"
+          size={width * 0.05}
+          color={colors.text}
+          style={styles.openIcon}
+        />
 
-      <View style={styles.rowBetween}>
-        <View style={styles.rowStart}>
-          <Text
-            style={[
-              styles.customerInfo,
-              {
-                color: colors.text,
-              },
-            ]}
-          >
-            {props.item.action}
-          </Text>
+        <View style={styles.rowBetween}>
+          <View style={styles.rowStart}>
+            <Text
+              style={[
+                styles.customerInfo,
+                {
+                  color: colors.text,
+                },
+              ]}
+            >
+              {props.item.action}
+            </Text>
+          </View>
+          <View style={styles.rowStart}>
+            <Text
+              style={[
+                styles.customerInfo,
+                {
+                  color: colors.text,
+                },
+              ]}
+            >
+              {props.item.type}
+            </Text>
+          </View>
         </View>
-        <View style={styles.rowStart}>
-          <Text
-            style={[
-              styles.customerInfo,
-              {
-                color: colors.text,
-              },
-            ]}
-          >
-            {props.item.type}
-          </Text>
-        </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </>
   )
 }
 
 const styles = StyleSheet.create({
+  dateTitle: {
+    width: '92%',
+    alignSelf: 'center',
+    fontSize: width * 0.04,
+    color: colors.text,
+    marginBottom: width * 0.02,
+  },
   card: {
     width: '92%',
     backgroundColor: colors.white,

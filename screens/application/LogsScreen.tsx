@@ -39,7 +39,16 @@ export default function LogsScreen({ navigation }: any) {
           keyboardShouldPersistTaps="always"
           style={{ width: '100%', marginTop: width * 0.05 }}
           data={logs}
-          renderItem={({ item }) => <LogItem item={item} />}
+          renderItem={({ item, index }) => (
+            <LogItem
+              item={item}
+              needDateTitle={
+                !index ||
+                new Date(+logs[index - 1].id).getDate() !==
+                  new Date(+item.id).getDate()
+              }
+            />
+          )}
           ListFooterComponent={() => <View style={{ height: width * 0.2 }} />}
         />
       ) : (
