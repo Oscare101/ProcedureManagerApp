@@ -77,6 +77,7 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
             </Text>
           </View>
         </View>
+        <Text>{JSON.stringify(props.item.data)}</Text>
       </TouchableOpacity>
     </>
   )
