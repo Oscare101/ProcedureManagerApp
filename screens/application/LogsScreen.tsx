@@ -34,15 +34,25 @@ export default function LogsScreen({ navigation }: any) {
         value={search}
         setValue={(value: string) => setSearch(value)}
       /> */}
-      <FlatList
-        keyboardShouldPersistTaps="always"
-        style={{ width: '100%', marginTop: width * 0.05 }}
-        data={logs}
-        renderItem={({ item }) => <LogItem item={item} />}
-        ListFooterComponent={() => <View style={{ height: width * 0.2 }} />}
-      />
+      {logs.length ? (
+        <FlatList
+          keyboardShouldPersistTaps="always"
+          style={{ width: '100%', marginTop: width * 0.05 }}
+          data={logs}
+          renderItem={({ item }) => <LogItem item={item} />}
+          ListFooterComponent={() => <View style={{ height: width * 0.2 }} />}
+        />
+      ) : (
+        <Text style={styles.comment}>{text.NoLogsYet}</Text>
+      )}
     </View>
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  comment: {
+    fontSize: width * 0.04,
+    marginTop: width * 0.02,
+    color: colors.comment,
+  },
+})

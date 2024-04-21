@@ -100,4 +100,5 @@ export default {
   LogOut: 'Вийти',
   DoYouWantToLogOut: 'Ви хочете вийти з акаунту?',
   History: 'Історія',
+  NoLogsYet: 'Поки немає сторії записів',
 }
