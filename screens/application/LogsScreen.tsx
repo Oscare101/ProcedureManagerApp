@@ -18,6 +18,7 @@ import { Ionicons } from '@expo/vector-icons'
 import colors from '../../constants/colors'
 import { FilterCustomerSearch } from '../../functions/functions'
 import { Log } from '../../constants/interfaces'
+import LogItem from '../../components/logs/LogItem'
 
 const width = Dimensions.get('screen').width
 
@@ -37,32 +38,11 @@ export default function LogsScreen({ navigation }: any) {
         keyboardShouldPersistTaps="always"
         style={{ width: '100%', marginTop: width * 0.05 }}
         data={logs}
-        renderItem={({ item }) => <Text>{item.id}</Text>}
+        renderItem={({ item }) => <LogItem item={item} />}
         ListFooterComponent={() => <View style={{ height: width * 0.2 }} />}
       />
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => {
-          navigation.navigate('CreateCustomerScreen')
-        }}
-        style={styles.createCustomerButton}
-      >
-        <Ionicons name="add" size={width * 0.1} color={colors.card2Title} />
-      </TouchableOpacity>
     </View>
   )
 }
 
-const styles = StyleSheet.create({
-  createCustomerButton: {
-    width: width * 0.15,
-    height: width * 0.15,
-    borderRadius: width * 0.15,
-    position: 'absolute',
-    right: width * 0.05,
-    bottom: width * 0.05,
-    backgroundColor: colors.card2,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-})
+const styles = StyleSheet.create({})
