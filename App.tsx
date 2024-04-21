@@ -15,6 +15,7 @@ import { updateCustomers } from './redux/customers'
 import {
   Agenda,
   Customer,
+  Log,
   Master,
   Procedure,
   Settings,
@@ -24,6 +25,7 @@ import { updateProcedures } from './redux/procedures'
 import { updateMasters } from './redux/masters'
 import { clearAgendas, updateAgendas } from './redux/agendas'
 import { updatePermissions } from './redux/permissions'
+import { updateLogs } from './redux/logs'
 
 export const storage = new MMKV()
 
@@ -54,6 +56,15 @@ function AppComponent() {
             updateProcedures(Object.values(snapshot.val()) as Procedure[])
           )
         }
+      })
+    }
+  }
+
+  function GetLogs() {
+    if (auth.currentUser && auth.currentUser.email) {
+      const data = ref(getDatabase(), `business/PoboiskayaSofia/logs`)
+      onValue(data, (snapshot) => {
+        dispatch(updateLogs(Object.values(snapshot.val()) as Log[]))
       })
     }
   }
@@ -108,6 +119,7 @@ function AppComponent() {
       GetMastersData()
       GetProcedures()
       GetCustomers()
+      GetLogs()
     }
   }, [schedule])
   return <StatusBar barStyle={'light-content'} backgroundColor={colors.card1} />
