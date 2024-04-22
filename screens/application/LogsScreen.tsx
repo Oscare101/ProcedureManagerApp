@@ -38,7 +38,7 @@ export default function LogsScreen({ navigation }: any) {
         <FlatList
           keyboardShouldPersistTaps="always"
           style={{ width: '100%', marginTop: width * 0.05 }}
-          data={logs}
+          data={[...logs].reverse()}
           renderItem={({ item, index }) => (
             <LogItem
               item={item}
