@@ -103,4 +103,7 @@ export default {
   NoLogsYet: 'Поки немає сторії записів',
   deleteAgendaComment: 'видалення запису',
   createAgendaComment: 'створення запису',
+  updateAgendaComment: 'редагування запису',
+  createCustomerComment: 'створення клієнта',
+  updateCustomerComment: 'редагування клієнта',
 }

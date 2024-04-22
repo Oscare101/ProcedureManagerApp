@@ -61,6 +61,11 @@ export interface Settings {
 export interface Log {
   data: any
   id: string
-  action: string
+  action:
+    | 'deleteAgenda'
+    | 'updateAgenda'
+    | 'createAgenda'
+    | 'createCustomer'
+    | 'updateCustomer'
   type: 'customer' | 'agenda'
 }

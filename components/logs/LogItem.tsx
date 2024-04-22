@@ -25,8 +25,14 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
     switch (props.item.action) {
       case 'deleteAgenda':
         return 'delete'
+      case 'updateAgenda':
+        return 'update'
       case 'createAgenda':
         return 'create'
+      case 'createCustomer':
+        return 'create'
+      case 'updateCustomer':
+        return 'update'
       default:
         return 'none'
     }
@@ -36,8 +42,14 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
     switch (props.item.action) {
       case 'deleteAgenda':
         return text.deleteAgendaComment
+      case 'updateAgenda':
+        return text.updateAgendaComment
       case 'createAgenda':
         return text.createAgendaComment
+      case 'createCustomer':
+        return text.createCustomerComment
+      case 'updateCustomer':
+        return text.updateCustomerComment
       default:
         return 'none'
     }
