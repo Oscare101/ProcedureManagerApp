@@ -13,12 +13,35 @@ import { useNavigation } from '@react-navigation/native'
 import { useDispatch } from 'react-redux'
 import text from '../../constants/text'
 import { GetDateString } from '../../functions/functions'
+import LogStatus from './LogStatus'
 
 const width = Dimensions.get('screen').width
 
 export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
   const navigation: any = useNavigation()
   const dispatch = useDispatch()
+
+  function GetStatus() {
+    switch (props.item.action) {
+      case 'deleteAgenda':
+        return 'delete'
+      case 'createAgenda':
+        return 'create'
+      default:
+        return 'none'
+    }
+  }
+
+  function GetTitle() {
+    switch (props.item.action) {
+      case 'deleteAgenda':
+        return text.deleteAgendaComment
+      case 'createAgenda':
+        return text.createAgendaComment
+      default:
+        return 'none'
+    }
+  }
 
   return (
     <>
@@ -42,14 +65,15 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
               {new Date(+props.item.id).getMinutes()}
             </Text>
           </View>
+          <LogStatus title={GetTitle()} status={GetStatus()} />
         </View>
 
-        <Ionicons
+        {/* <Ionicons
           name="open-outline"
           size={width * 0.05}
           color={colors.text}
           style={styles.openIcon}
-        />
+        /> */}
 
         <View style={styles.rowBetween}>
           <View style={styles.rowStart}>
