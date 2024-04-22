@@ -23,7 +23,9 @@ import LogItem from '../../components/logs/LogItem'
 const width = Dimensions.get('screen').width
 
 export default function LogsScreen({ navigation }: any) {
-  const logs: Log[] = useSelector((state: RootState) => state.logs)
+  const logs: Log[] = [
+    ...useSelector((state: RootState) => state.logs),
+  ].reverse()
 
   // const [search, setSearch] = useState<string>('')
 
@@ -38,14 +40,14 @@ export default function LogsScreen({ navigation }: any) {
         <FlatList
           keyboardShouldPersistTaps="always"
           style={{ width: '100%', marginTop: width * 0.05 }}
-          data={[...logs].reverse()}
+          data={logs}
           renderItem={({ item, index }) => (
             <LogItem
               item={item}
               needDateTitle={
-                !index ||
-                new Date(+logs[index - 1].id).getDate() !==
-                  new Date(+item.id).getDate()
+                new Date(+logs[index - 1]?.id)?.getDate() !==
+                // new Date(+item.id).getDate()
+                new Date(+logs[index]?.id).getDate()
               }
             />
           )}
