@@ -61,6 +61,10 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
         return navigation.navigate('AgendaInfoScreen', {
           agendaId: props.item.data.id,
         })
+      case 'updateAgenda':
+        return navigation.navigate('AgendaInfoScreen', {
+          agendaId: props.item.data.id,
+        })
       case 'createCustomer':
         return navigation.navigate('CustomerInfoScreen', {
           customer: props.item.data,
