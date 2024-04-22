@@ -55,6 +55,23 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
     }
   }
 
+  function GetOpenLink() {
+    switch (props.item.action) {
+      case 'createAgenda':
+        return navigation.navigate('AgendaInfoScreen', {
+          agendaId: props.item.data.id,
+        })
+      case 'createCustomer':
+        return navigation.navigate('CustomerInfoScreen', {
+          customer: props.item.data,
+        })
+      case 'updateCustomer':
+        return navigation.navigate('CustomerInfoScreen', {
+          customer: props.item.data,
+        })
+    }
+  }
+
   return (
     <>
       {props.needDateTitle ? (
@@ -67,7 +84,7 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
       )}
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => {}}
+        onPress={GetOpenLink}
         style={styles.card}
       >
         <View style={styles.rowBetween}>
@@ -78,40 +95,6 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
             </Text>
           </View>
           <LogStatus title={GetTitle()} status={GetStatus()} />
-        </View>
-
-        {/* <Ionicons
-          name="open-outline"
-          size={width * 0.05}
-          color={colors.text}
-          style={styles.openIcon}
-        /> */}
-
-        <View style={styles.rowBetween}>
-          <View style={styles.rowStart}>
-            <Text
-              style={[
-                styles.customerInfo,
-                {
-                  color: colors.text,
-                },
-              ]}
-            >
-              {props.item.action}
-            </Text>
-          </View>
-          <View style={styles.rowStart}>
-            <Text
-              style={[
-                styles.customerInfo,
-                {
-                  color: colors.text,
-                },
-              ]}
-            >
-              {props.item.type}
-            </Text>
-          </View>
         </View>
         <Text>{JSON.stringify(props.item.data)}</Text>
       </TouchableOpacity>
