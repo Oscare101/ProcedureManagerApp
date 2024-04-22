@@ -162,8 +162,6 @@ export async function CreateLog(
   type: Log['type'],
   data: Log['data']
 ) {
-  console.log(data)
-
   const timeStamp = new Date().getTime().toString()
   const logData: Log = {
     id: timeStamp,
