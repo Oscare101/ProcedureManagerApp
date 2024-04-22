@@ -1,5 +1,11 @@
 import { Linking } from 'react-native'
-import { Agenda, Customer, Master, Procedure } from '../constants/interfaces'
+import {
+  Agenda,
+  Customer,
+  Log,
+  Master,
+  Procedure,
+} from '../constants/interfaces'
 import rules from '../constants/rules'
 import text from '../constants/text'
 
@@ -247,5 +253,22 @@ export function TodayOrFuture(date: any) {
   return (
     GetDateFormateFromString(date).getTime() >=
     GetDateFormateFromString(GetDateString(new Date())).getTime()
+  )
+}
+
+export function FilterLogsSearch(logs: Log[], search: string) {
+  if (!search) {
+    return logs
+  }
+  return logs.filter(
+    (l: Log) =>
+      l.data.date?.toLocaleLowerCase().includes(search.toLocaleLowerCase()) ||
+      l.data.time?.toLocaleLowerCase().includes(search.toLocaleLowerCase()) ||
+      l.data.name?.toLocaleLowerCase().includes(search.toLocaleLowerCase()) ||
+      l.data.link?.toLocaleLowerCase().includes(search.toLocaleLowerCase()) ||
+      l.data.comment
+        ?.toLocaleLowerCase()
+        .includes(search.toLocaleLowerCase()) ||
+      l.data.phone?.toLocaleLowerCase().includes(search.toLocaleLowerCase())
   )
 }

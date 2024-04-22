@@ -16,7 +16,10 @@ import { RootState } from '../../redux'
 import RenderCustomerItem from '../../components/customers/RenserCustomerItem'
 import { Ionicons } from '@expo/vector-icons'
 import colors from '../../constants/colors'
-import { FilterCustomerSearch } from '../../functions/functions'
+import {
+  FilterCustomerSearch,
+  FilterLogsSearch,
+} from '../../functions/functions'
 import { Log } from '../../constants/interfaces'
 import LogItem from '../../components/logs/LogItem'
 
@@ -27,27 +30,29 @@ export default function LogsScreen({ navigation }: any) {
     ...useSelector((state: RootState) => state.logs),
   ].reverse()
 
-  // const [search, setSearch] = useState<string>('')
+  const [search, setSearch] = useState<string>('')
 
   return (
     <View style={globalStyles.container}>
       <Header title={text.History} action={'drawer'} />
-      {/* <SearchBlock
+      <SearchBlock
         value={search}
         setValue={(value: string) => setSearch(value)}
-      /> */}
+      />
       {logs.length ? (
         <FlatList
           keyboardShouldPersistTaps="always"
           style={{ width: '100%', marginTop: width * 0.05 }}
-          data={logs}
+          data={FilterLogsSearch(logs, search)}
           renderItem={({ item, index }) => (
             <LogItem
               item={item}
               needDateTitle={
-                new Date(+logs[index - 1]?.id)?.getDate() !==
+                new Date(
+                  +FilterLogsSearch(logs, search)[index - 1]?.id
+                )?.getDate() !==
                 // new Date(+item.id).getDate()
-                new Date(+logs[index]?.id).getDate()
+                new Date(+FilterLogsSearch(logs, search)[index]?.id).getDate()
               }
             />
           )}
