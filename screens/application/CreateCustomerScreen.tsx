@@ -1,4 +1,5 @@
 import {
+  BackHandler,
   Dimensions,
   FlatList,
   Keyboard,
@@ -51,6 +52,23 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
   )
   const [loading, setLoading] = useState<boolean>(false)
   const [warning, setWarning] = useState<string>('')
+
+  // prevent go back
+  useEffect(() => {
+    const backAction = () => {
+      if (name || phone || messenger || link) {
+        console.log('modal here') // TODO
+        return true
+      }
+    }
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    )
+
+    return () => backHandler.remove()
+  }, [name, phone, messenger, link])
 
   async function CreateCustomerFunc(back: boolean) {
     if (
