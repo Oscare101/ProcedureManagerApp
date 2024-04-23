@@ -106,4 +106,7 @@ export default {
   updateAgendaComment: 'редагування запису',
   createCustomerComment: 'створення клієнта',
   updateCustomerComment: 'редагування клієнта',
+  Exit: 'Вийти',
+  UnsavedChanges:
+    'У вас наявні незбережені зміни. Якщо ви вийдете вони не збережуться',
 }

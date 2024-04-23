@@ -35,6 +35,7 @@ import {
 } from '../../functions/functions'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux'
+import ModalBlock from '../../components/application/ModalBlock'
 
 const width = Dimensions.get('screen').width
 
@@ -345,6 +346,14 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
           loading={loading}
         />
       </View>
+      <ModalBlock
+        modal={exitModal}
+        closeModal={() => {
+          setExitModal(false)
+        }}
+        title={text.Exit}
+        text={text.UnsavedChanges}
+      />
       <BottomModalBlock
         bottomSheetModalRef={bottomSheetModalRef}
         snapPoints={snapPoints}
