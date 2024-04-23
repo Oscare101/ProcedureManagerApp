@@ -14,7 +14,7 @@ const width = Dimensions.get('screen').width
 interface HeaderProps {
   title: string
   action: 'drawer' | 'back' | 'modal'
-  onModal: any
+  onModal?: any
 }
 
 export default function Header(props: HeaderProps) {

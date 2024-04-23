@@ -1,4 +1,5 @@
 import {
+  BackHandler,
   Dimensions,
   Keyboard,
   KeyboardAvoidingView,
@@ -38,6 +39,7 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import PrepaymentBlock from '../../components/agenda/PrepaymentBlock'
 import OtherPersonBlock from '../../components/agenda/OtherPersonBlock'
 import OtherProcedureBlock from '../../components/agenda/OtherProcedureBlock'
+import ModalBlock from '../../components/application/ModalBlock'
 
 const width = Dimensions.get('screen').width
 
@@ -51,6 +53,24 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
   const [modalData, setModalData] = useState<string>('timePicker')
   const [loading, setLoading] = useState<boolean>(false)
   const [isEnoughtTime, setIsEnoughtTime] = useState<boolean>(true)
+  const [exitModal, setExitModal] = useState<boolean>(false)
+
+  // prevent go back
+  useEffect(() => {
+    const backAction = () => {
+      if (agenda.customerId || agenda.procedures.length) {
+        setExitModal(true)
+        return true
+      }
+    }
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    )
+
+    return () => backHandler.remove()
+  }, [agenda])
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => [width * 1.3], [])
@@ -112,7 +132,12 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
           title={
             route.params?.agenda ? text.editProcedure : text.createProcedure
           }
-          action="back"
+          action={
+            agenda.customerId || agenda.procedures.length ? 'modal' : 'back'
+          }
+          onModal={() => {
+            setExitModal(true)
+          }}
         />
         <ScrollView
           style={{ flex: 1, width: '100%' }}
@@ -255,6 +280,14 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
           loading={loading}
         />
       </View>
+      <ModalBlock
+        modal={exitModal}
+        closeModal={() => {
+          setExitModal(false)
+        }}
+        title={text.Exit}
+        text={text.UnsavedChanges}
+      />
       <BottomModalBlock
         bottomSheetModalRef={bottomSheetModalRef}
         snapPoints={snapPoints}
