@@ -40,6 +40,7 @@ import PrepaymentBlock from '../../components/agenda/PrepaymentBlock'
 import OtherPersonBlock from '../../components/agenda/OtherPersonBlock'
 import OtherProcedureBlock from '../../components/agenda/OtherProcedureBlock'
 import ModalBlock from '../../components/application/ModalBlock'
+import { useRoute } from '@react-navigation/native'
 
 const width = Dimensions.get('screen').width
 
@@ -49,7 +50,6 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
   const agendas: Agenda[] = useSelector((state: RootState) => state.agendas)
 
   const dispatch = useDispatch()
-
   const [modalData, setModalData] = useState<string>('timePicker')
   const [loading, setLoading] = useState<boolean>(false)
   const [isEnoughtTime, setIsEnoughtTime] = useState<boolean>(true)
@@ -58,7 +58,10 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
   // prevent go back
   useEffect(() => {
     const backAction = () => {
-      if (agenda.customerId || agenda.procedures.length) {
+      if (
+        (agenda.customerId || agenda.procedures.length) &&
+        navigation.isFocused()
+      ) {
         setExitModal(true)
         return true
       }

@@ -9,7 +9,7 @@ import ProceduresCard from '../../components/procedures/ProceduresCard'
 
 const width = Dimensions.get('screen').width
 
-export default function ProceduresScreen({ navigation }: any) {
+export default function ProceduresScreen({ navigation, route }: any) {
   const procedures: Procedure[] = useSelector(
     (state: RootState) => state.procedures
   )
