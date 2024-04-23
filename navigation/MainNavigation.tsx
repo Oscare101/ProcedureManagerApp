@@ -116,7 +116,7 @@ export default function MainNavigation() {
           headerLeft: () => null,
           animationEnabled: true,
           gestureDirection: 'horizontal',
-          gestureEnabled: true,
+          // gestureEnabled: true,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}
         name="CreateCustomerScreen"
@@ -128,7 +128,7 @@ export default function MainNavigation() {
           headerLeft: () => null,
           animationEnabled: true,
           gestureDirection: 'horizontal',
-          gestureEnabled: true,
+          // gestureEnabled: true,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}
         name="CreateAgendaScreen"
