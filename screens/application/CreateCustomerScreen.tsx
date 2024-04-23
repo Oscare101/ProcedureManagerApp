@@ -52,12 +52,13 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
   )
   const [loading, setLoading] = useState<boolean>(false)
   const [warning, setWarning] = useState<string>('')
+  const [exitModal, setExitModal] = useState<boolean>(false)
 
   // prevent go back
   useEffect(() => {
     const backAction = () => {
       if (name || phone || messenger || link) {
-        console.log('modal here') // TODO
+        setExitModal(true)
         return true
       }
     }
@@ -289,10 +290,13 @@ export default function CreateCustomerScreen({ navigation, route }: any) {
     <BottomSheetModalProvider>
       <View style={globalStyles.container}>
         <Header
-          action="back"
+          action={name || phone || messenger || link ? 'modal' : 'back'}
           title={
             route.params?.customer ? text.editCustomer : text.createCustomer
           }
+          onModal={() => {
+            setExitModal(true)
+          }}
         />
         <ScrollView
           style={{ width: '100%', flex: 1 }}

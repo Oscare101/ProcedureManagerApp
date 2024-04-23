@@ -13,7 +13,8 @@ const width = Dimensions.get('screen').width
 
 interface HeaderProps {
   title: string
-  action: 'drawer' | 'back'
+  action: 'drawer' | 'back' | 'modal'
+  onModal: any
 }
 
 export default function Header(props: HeaderProps) {
@@ -25,8 +26,10 @@ export default function Header(props: HeaderProps) {
         onPress={() => {
           if (props.action === 'drawer') {
             navigation.openDrawer()
-          } else {
+          } else if (props.action === 'back') {
             navigation.goBack()
+          } else {
+            props.onModal()
           }
         }}
         style={styles.button}
