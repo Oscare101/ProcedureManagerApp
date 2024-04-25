@@ -17,21 +17,21 @@ export default function AgendaActionsBlock(props: {
         activeOpacity={0.8}
         onPress={props.onRepeat}
       >
-        <Ionicons name="copy-outline" size={24} color="black" />
+        <Ionicons name="copy-outline" size={24} color={colors.text} />
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.card}
         activeOpacity={0.8}
         onPress={props.onCopy}
       >
-        <Ionicons name="text-outline" size={24} color="black" />
+        <Ionicons name="text-outline" size={24} color={colors.text} />
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.card}
         activeOpacity={0.8}
         onPress={props.onDelete}
       >
-        <Ionicons name="trash-outline" size={24} color="black" />
+        <Ionicons name="trash-outline" size={24} color={colors.text} />
       </TouchableOpacity>
     </View>
   )

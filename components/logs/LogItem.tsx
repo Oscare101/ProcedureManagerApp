@@ -76,6 +76,10 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
     }
   }
 
+  const agendaBlock = <></>
+
+  const customerBlock = <></>
+
   return (
     <>
       {props.needDateTitle ? (
@@ -101,6 +105,7 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
           <LogStatus title={GetTitle()} status={GetStatus()} />
         </View>
         <Text>{JSON.stringify(props.item.data)}</Text>
+        {props.item.type === 'agenda' ? agendaBlock : customerBlock}
       </TouchableOpacity>
     </>
   )
