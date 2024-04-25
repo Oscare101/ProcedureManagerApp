@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux'
 import text from '../../constants/text'
 import { GetDateString } from '../../functions/functions'
 import LogStatus from './LogStatus'
+import LogValueBlock from './LogValueBlock'
 
 const width = Dimensions.get('screen').width
 
@@ -76,9 +77,18 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
     }
   }
 
-  const agendaBlock = <></>
+  const agendaBlock = (
+    <View style={{ flexDirection: 'row', gap: width * 0.02 }}>
+      <LogValueBlock title={props.item.data.time} icon="time-outline" />
+      <LogValueBlock title={props.item.data.date} icon="calendar-outline" />
+    </View>
+  )
 
-  const customerBlock = <></>
+  const customerBlock = (
+    <View style={{ flexDirection: 'row', gap: width * 0.02 }}>
+      <LogValueBlock title={props.item.data.name} icon="person-outline" />
+    </View>
+  )
 
   return (
     <>
