@@ -114,6 +114,54 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
           }
           icon="person-outline"
         />
+        <View
+          style={{
+            backgroundColor: colors.bg,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 100,
+            paddingHorizontal: width * 0.02,
+            paddingVertical: width * 0.01,
+            maxWidth: width * 0.88,
+          }}
+        >
+          <RenderMessengerIcon
+            messenger={
+              customers.find(
+                (c: Customer) => c.id === props.item.data.customerId
+              )?.messenger!
+            }
+            color={
+              ReturnCustomerMessenger(
+                customers.find(
+                  (c: Customer) => c.id === props.item.data.customerId
+                )!
+              )
+                ? colors.text
+                : colors.comment
+            }
+          />
+          <Text
+            style={{
+              color: ReturnCustomerMessenger(
+                customers.find(
+                  (c: Customer) => c.id === props.item.data.customerId
+                )!
+              )
+                ? colors.text
+                : colors.comment,
+              fontSize: width * 0.04,
+              marginLeft: width * 0.02,
+            }}
+          >
+            {ReturnCustomerMessenger(
+              customers.find(
+                (c: Customer) => c.id === props.item.data.customerId
+              )!
+            ) || text.noLink}
+          </Text>
+        </View>
         <LogValueBlock title={proceduresString} icon="" />
         <LogValueBlock
           title={
@@ -121,12 +169,6 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
               ?.name || ''
           }
           icon=""
-        />
-        <LogValueBlock
-          title={''}
-          icon={
-            props.item.data.confirmed ? 'checkbox-outline' : 'square-outline'
-          }
         />
       </>
     )
@@ -198,9 +240,27 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
               {new Date(+props.item.id).getMinutes()}
             </Text>
           </View>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              paddingLeft: width * 0.02,
+            }}
+          >
+            <Ionicons
+              name={
+                props.item.data.confirmed
+                  ? 'checkbox-outline'
+                  : 'square-outline'
+              }
+              size={width * 0.05}
+              color={colors.text}
+            />
+          </View>
           <LogStatus title={GetTitle()} status={GetStatus()} />
         </View>
-        {/* <Text>{JSON.stringify(props.item.data)}</Text> */}
         <View
           style={{
             flexDirection: 'row',
