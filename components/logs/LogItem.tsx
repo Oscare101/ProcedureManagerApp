@@ -97,7 +97,19 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
       .join(' ')
 
     return (
-      <View style={{ flexDirection: 'row', gap: width * 0.02 }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          gap: width * 0.02,
+          margin: width * 0.02,
+          // flex: 1,
+          flexWrap: 'wrap',
+          width: width * 0.88,
+          overflow: 'hidden',
+
+          // overflow: 'hidden',
+        }}
+      >
         <LogValueBlock title={props.item.data.time} icon="time-outline" />
         <LogValueBlock title={props.item.data.date} icon="calendar-outline" />
         <LogValueBlock
@@ -108,7 +120,7 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
           }
           icon="person-outline"
         />
-        <LogValueBlock title={proceduresString} icon="person-outline" />
+        <LogValueBlock title={proceduresString} icon="" />
       </View>
     )
   }

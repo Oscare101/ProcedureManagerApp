@@ -7,7 +7,7 @@ const width = Dimensions.get('screen').width
 
 export default function LogValueBlock(props: {
   title: string
-  icon: keyof typeof Ionicons.glyphMap
+  icon: keyof typeof Ionicons.glyphMap | ''
 }) {
   return (
     <View
@@ -19,14 +19,20 @@ export default function LogValueBlock(props: {
         borderRadius: 100,
         paddingHorizontal: width * 0.02,
         paddingVertical: width * 0.01,
+        maxWidth: width * 0.88,
       }}
     >
-      <Ionicons name={props.icon} size={width * 0.05} color={colors.text} />
+      {props.icon ? (
+        <Ionicons name={props.icon} size={width * 0.05} color={colors.text} />
+      ) : (
+        <></>
+      )}
       <Text
+        numberOfLines={1}
         style={{
           fontSize: width * 0.04,
           color: colors.text,
-          marginLeft: width * 0.02,
+          marginLeft: props.icon ? width * 0.02 : 0,
         }}
       >
         {props.title}
