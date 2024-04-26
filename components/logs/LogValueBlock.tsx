@@ -32,7 +32,7 @@ export default function LogValueBlock(props: {
         style={{
           fontSize: width * 0.04,
           color: colors.text,
-          marginLeft: props.icon ? width * 0.02 : 0,
+          marginLeft: props.icon && props.title ? width * 0.02 : 0,
         }}
       >
         {props.title}

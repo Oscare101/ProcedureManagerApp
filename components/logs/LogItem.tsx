@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import colors from '../../constants/colors'
 import { Ionicons } from '@expo/vector-icons'
-import { Customer, Log, Procedure } from '../../constants/interfaces'
+import { Customer, Log, Master, Procedure } from '../../constants/interfaces'
 import { useNavigation } from '@react-navigation/native'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -26,6 +26,7 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
   const procedures: Procedure[] = useSelector(
     (state: RootState) => state.procedures
   )
+  const masters: Master[] = useSelector((state: RootState) => state.masters)
 
   const navigation: any = useNavigation()
   const dispatch = useDispatch()
@@ -102,12 +103,9 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
           flexDirection: 'row',
           gap: width * 0.02,
           margin: width * 0.02,
-          // flex: 1,
           flexWrap: 'wrap',
           width: width * 0.88,
           overflow: 'hidden',
-
-          // overflow: 'hidden',
         }}
       >
         <LogValueBlock title={props.item.data.time} icon="time-outline" />
@@ -121,6 +119,19 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
           icon="person-outline"
         />
         <LogValueBlock title={proceduresString} icon="" />
+        <LogValueBlock
+          title={
+            masters.find((c: Master) => c.id === props.item.data.masterId)
+              ?.name || ''
+          }
+          icon=""
+        />
+        <LogValueBlock
+          title={''}
+          icon={
+            props.item.data.confirmed ? 'checkbox-outline' : 'square-outline'
+          }
+        />
       </View>
     )
   }
@@ -155,7 +166,7 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
           </View>
           <LogStatus title={GetTitle()} status={GetStatus()} />
         </View>
-        <Text>{JSON.stringify(props.item.data)}</Text>
+        {/* <Text>{JSON.stringify(props.item.data)}</Text> */}
         {props.item.type === 'agenda' ? <AgendaBlock /> : customerBlock}
       </TouchableOpacity>
     </>
