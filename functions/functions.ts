@@ -73,7 +73,6 @@ export function ExtractInstagramUsername(url: string) {
 
 export function ReturnPhoneString(phone: string) {
   const cleaned = phone.replace(/\D/g, '')
-
   const match = cleaned.match(rules.phoneRegrex)
   if (match) {
     let formattedPhoneNumber = ''

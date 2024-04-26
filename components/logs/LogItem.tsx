@@ -12,10 +12,15 @@ import { useNavigation } from '@react-navigation/native'
 
 import { useDispatch, useSelector } from 'react-redux'
 import text from '../../constants/text'
-import { GetDateString } from '../../functions/functions'
+import {
+  GetDateString,
+  ReturnCustomerMessenger,
+  ReturnPhoneString,
+} from '../../functions/functions'
 import LogStatus from './LogStatus'
 import LogValueBlock from './LogValueBlock'
 import { RootState } from '../../redux/store'
+import RenderMessengerIcon from '../customers/RenderMessengerIcon'
 
 const width = Dimensions.get('screen').width
 
@@ -98,16 +103,7 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
       .join(' ')
 
     return (
-      <View
-        style={{
-          flexDirection: 'row',
-          gap: width * 0.02,
-          margin: width * 0.02,
-          flexWrap: 'wrap',
-          width: width * 0.88,
-          overflow: 'hidden',
-        }}
-      >
+      <>
         <LogValueBlock title={props.item.data.time} icon="time-outline" />
         <LogValueBlock title={props.item.data.date} icon="calendar-outline" />
         <LogValueBlock
@@ -132,15 +128,53 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
             props.item.data.confirmed ? 'checkbox-outline' : 'square-outline'
           }
         />
-      </View>
+      </>
     )
   }
 
-  const customerBlock = (
-    <View style={{ flexDirection: 'row', gap: width * 0.02 }}>
-      <LogValueBlock title={props.item.data.name} icon="person-outline" />
-    </View>
-  )
+  function CustomerBlock() {
+    return (
+      <>
+        <LogValueBlock title={props.item.data.name} icon="person-outline" />
+        <LogValueBlock
+          title={ReturnPhoneString(props.item.data.phone)}
+          icon="call-outline"
+        />
+        <View
+          style={{
+            backgroundColor: colors.bg,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 100,
+            paddingHorizontal: width * 0.02,
+            paddingVertical: width * 0.01,
+            maxWidth: width * 0.88,
+          }}
+        >
+          <RenderMessengerIcon
+            messenger={props.item.data?.messenger}
+            color={
+              ReturnCustomerMessenger(props.item.data)
+                ? colors.text
+                : colors.comment
+            }
+          />
+          <Text
+            style={{
+              color: ReturnCustomerMessenger(props.item.data)
+                ? colors.text
+                : colors.comment,
+              fontSize: width * 0.04,
+              marginLeft: width * 0.02,
+            }}
+          >
+            {ReturnCustomerMessenger(props.item.data) || text.noLink}
+          </Text>
+        </View>
+      </>
+    )
+  }
 
   return (
     <>
@@ -167,7 +201,18 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
           <LogStatus title={GetTitle()} status={GetStatus()} />
         </View>
         {/* <Text>{JSON.stringify(props.item.data)}</Text> */}
-        {props.item.type === 'agenda' ? <AgendaBlock /> : customerBlock}
+        <View
+          style={{
+            flexDirection: 'row',
+            gap: width * 0.02,
+            margin: width * 0.02,
+            flexWrap: 'wrap',
+            width: width * 0.88,
+            overflow: 'hidden',
+          }}
+        >
+          {props.item.type === 'agenda' ? <AgendaBlock /> : <CustomerBlock />}
+        </View>
       </TouchableOpacity>
     </>
   )
