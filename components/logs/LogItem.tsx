@@ -7,18 +7,26 @@ import {
 } from 'react-native'
 import colors from '../../constants/colors'
 import { Ionicons } from '@expo/vector-icons'
-import { Log } from '../../constants/interfaces'
+import { Customer, Log, Procedure } from '../../constants/interfaces'
 import { useNavigation } from '@react-navigation/native'
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import text from '../../constants/text'
 import { GetDateString } from '../../functions/functions'
 import LogStatus from './LogStatus'
 import LogValueBlock from './LogValueBlock'
+import { RootState } from '../../redux/store'
 
 const width = Dimensions.get('screen').width
 
 export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
+  const customers: Customer[] = useSelector(
+    (state: RootState) => state.customers
+  )
+  const procedures: Procedure[] = useSelector(
+    (state: RootState) => state.procedures
+  )
+
   const navigation: any = useNavigation()
   const dispatch = useDispatch()
 
@@ -77,12 +85,33 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
     }
   }
 
-  const agendaBlock = (
-    <View style={{ flexDirection: 'row', gap: width * 0.02 }}>
-      <LogValueBlock title={props.item.data.time} icon="time-outline" />
-      <LogValueBlock title={props.item.data.date} icon="calendar-outline" />
-    </View>
-  )
+  function AgendaBlock() {
+    const proceduresArr: any = props.item.data.procedures.map((item: any) => {
+      return procedures.find((p: Procedure) => p.id === item)
+    })
+    const proceduresString = proceduresArr
+      .sort((a: Procedure, b: Procedure) => b.time - a.time)
+      .map((item: Procedure) => {
+        return item?.short
+      })
+      .join(' ')
+
+    return (
+      <View style={{ flexDirection: 'row', gap: width * 0.02 }}>
+        <LogValueBlock title={props.item.data.time} icon="time-outline" />
+        <LogValueBlock title={props.item.data.date} icon="calendar-outline" />
+        <LogValueBlock
+          title={
+            props.item.data.otherPerson ||
+            customers.find((c: Customer) => c.id === props.item.data.customerId)
+              ?.name
+          }
+          icon="person-outline"
+        />
+        <LogValueBlock title={proceduresString} icon="person-outline" />
+      </View>
+    )
+  }
 
   const customerBlock = (
     <View style={{ flexDirection: 'row', gap: width * 0.02 }}>
@@ -115,7 +144,7 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
           <LogStatus title={GetTitle()} status={GetStatus()} />
         </View>
         <Text>{JSON.stringify(props.item.data)}</Text>
-        {props.item.type === 'agenda' ? agendaBlock : customerBlock}
+        {props.item.type === 'agenda' ? <AgendaBlock /> : customerBlock}
       </TouchableOpacity>
     </>
   )
