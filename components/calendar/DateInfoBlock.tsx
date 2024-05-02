@@ -175,9 +175,9 @@ export default function DateInfoBlock(props: DateInfoBlockProps) {
     }
   }
 
-  const isAdmin =
-    auth.currentUser &&
-    auth.currentUser.email &&
+  const isAdmin: boolean =
+    !!auth.currentUser &&
+    !!auth.currentUser.email &&
     permissions[auth.currentUser?.email.replaceAll('.', ',')] === 'admin'
 
   return (

@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux'
 import { Agenda, Customer, Master, Procedure } from '../../constants/interfaces'
 import { DateTimeBlockAgenda } from '../../functions/functions'
 import RenderScheduleCard from './RenderScheduleCard'
+import { auth } from '../../firebase'
 
 interface ScheduleBlockProps {
   date: Date
@@ -34,6 +35,11 @@ const ScheduleBlock = React.memo(function (props: ScheduleBlockProps) {
   const customers: Customer[] = useSelector(
     (state: RootState) => state.customers
   )
+  const permissions: any = useSelector((state: RootState) => state.permissions)
+  const isAdmin: boolean =
+    !!auth.currentUser &&
+    !!auth.currentUser.email &&
+    permissions[auth.currentUser?.email.replaceAll('.', ',')] === 'admin'
 
   const [cardPreview, setCardPreview] = useState<{
     date: Date
@@ -96,6 +102,7 @@ const ScheduleBlock = React.memo(function (props: ScheduleBlockProps) {
             customers={customers}
             masters={masters}
             schedule={schedule}
+            isAdmin={isAdmin}
           />
         ))}
       </View>

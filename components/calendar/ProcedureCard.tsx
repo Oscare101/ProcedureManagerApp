@@ -18,6 +18,7 @@ export default function ProcedureCard(props: {
   customers: Customer[]
   masters: Master[]
   procedures: Procedure[]
+  isAdmin: boolean
 }) {
   const navigation: any = useNavigation()
   const customer = props.customers.find(
@@ -114,7 +115,9 @@ export default function ProcedureCard(props: {
           />
         </View>
         <Text numberOfLines={1} style={styles.customer}>
-          {customer?.name}
+          {props.isAdmin
+            ? customer?.name
+            : props.agenda.otherPerson || customer?.name}
         </Text>
         <Text numberOfLines={1} style={styles.link}>
           {customer?.link || customer?.phone}

@@ -25,6 +25,7 @@ export default function RenderScheduleCard(props: {
   customers: Customer[]
   masters: Master[]
   schedule: any
+  isAdmin: boolean
 }) {
   if (props.agenda) {
     return (
@@ -33,6 +34,7 @@ export default function RenderScheduleCard(props: {
         customers={props.customers}
         procedures={props.procedures}
         masters={props.masters}
+        isAdmin={props.isAdmin}
       />
     )
   }
