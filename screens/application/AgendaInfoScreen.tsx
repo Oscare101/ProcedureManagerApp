@@ -35,6 +35,7 @@ import CinfirmationBlock from '../../components/agenda/ConfirmationBlock'
 import ConfirmationBlock from '../../components/agenda/ConfirmationBlock'
 import OtherPersonBlock from '../../components/agenda/OtherPersonBlock'
 import OtherProcedureBlock from '../../components/agenda/OtherProcedureBlock'
+import { auth } from '../../firebase'
 
 const width = Dimensions.get('screen').width
 
@@ -43,6 +44,11 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
   const agenda: Agenda = agendas.find(
     (a: Agenda) => a.id === route.params.agendaId
   ) as Agenda
+  const permissions: any = useSelector((state: RootState) => state.permissions)
+  const isAdmin: boolean =
+    !!auth.currentUser &&
+    !!auth.currentUser.email &&
+    permissions[auth.currentUser?.email.replaceAll('.', ',')] === 'admin'
 
   const [deleteModal, setDeleteModal] = useState<boolean>(false)
 
@@ -96,7 +102,7 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
             procedures={agenda.procedures}
             duration={agenda.duration}
           />
-          {!agenda.canceled && TodayOrFuture(agenda.date) ? (
+          {!agenda.canceled && TodayOrFuture(agenda.date) && isAdmin ? (
             <ConfirmationBlock
               confirmed={!!agenda.confirmed}
               toggleComfirmation={ToggleComfirmation}
@@ -133,54 +139,64 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
           ) : (
             <></>
           )}
-          <AgendaActionsBlock
-            onRepeat={() => {
-              dispatch(
-                updateAgenda({
-                  ...initialStateAgenda,
-                  date: agenda.date,
-                  masterId: agenda.masterId,
-                  customerId: agenda.customerId,
-                  procedures: agenda.procedures,
-                  duration: agenda.duration,
+          {isAdmin ? (
+            <AgendaActionsBlock
+              onRepeat={() => {
+                dispatch(
+                  updateAgenda({
+                    ...initialStateAgenda,
+                    date: agenda.date,
+                    masterId: agenda.masterId,
+                    customerId: agenda.customerId,
+                    procedures: agenda.procedures,
+                    duration: agenda.duration,
+                  })
+                )
+                navigation.navigate('CreateAgendaScreen')
+              }}
+              onCopy={async () => {
+                await Clipboard.setStringAsync(
+                  text.confirmationAgenda.replace('#', agenda.time)
+                )
+                Toast.show({
+                  type: 'ToastMessage',
+                  props: {
+                    title: text.textCopied,
+                  },
+                  position: 'bottom',
                 })
-              )
-              navigation.navigate('CreateAgendaScreen')
-            }}
-            onCopy={async () => {
-              await Clipboard.setStringAsync(
-                text.confirmationAgenda.replace('#', agenda.time)
-              )
-              Toast.show({
-                type: 'ToastMessage',
-                props: {
-                  title: text.textCopied,
-                },
-                position: 'bottom',
-              })
-            }}
-            onDelete={() => setDeleteModal(true)}
-          />
+              }}
+              onDelete={() => setDeleteModal(true)}
+            />
+          ) : (
+            <></>
+          )}
+
           {agenda.comment ? (
             <CommentCardBlock comment={agenda.comment} />
           ) : (
             <></>
           )}
           <View style={{ flex: 1 }} />
-          <ButtonBlock
-            title={text.edit}
-            action={() => {
-              dispatch(updateAgenda(agenda))
-              navigation.navigate('CreateAgendaScreen', {
-                agenda: agenda,
-              })
-            }}
-            buttonStyles={{
-              marginBottom: width * 0.05,
-              backgroundColor: '#00000000',
-            }}
-            titleStyles={{ color: colors.card1 }}
-          />
+          {isAdmin ? (
+            <ButtonBlock
+              title={text.edit}
+              action={() => {
+                dispatch(updateAgenda(agenda))
+                navigation.navigate('CreateAgendaScreen', {
+                  agenda: agenda,
+                })
+              }}
+              buttonStyles={{
+                marginBottom: width * 0.05,
+                backgroundColor: '#00000000',
+              }}
+              titleStyles={{ color: colors.card1 }}
+            />
+          ) : (
+            <></>
+          )}
+
           <DeleteAgendaModal
             visible={deleteModal}
             agenda={agenda}

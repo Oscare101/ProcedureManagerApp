@@ -94,7 +94,7 @@ export default function ProcedureCard(props: {
           ) : (
             <></>
           )}
-          {props.agenda.comment && props.isAdmin ? (
+          {props.agenda.comment ? (
             <Ionicons
               name="chatbubble-ellipses-outline"
               size={width * 0.03}
