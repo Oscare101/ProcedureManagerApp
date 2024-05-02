@@ -20,6 +20,7 @@ export default function ChosenProceduresItem(props: {
   static?: boolean
   procedures: Procedure['id'][]
   duration: Agenda['duration']
+  procedureString?: string
 }) {
   const agenda: Agenda = useSelector((state: RootState) => state.agenda)
   const procedures: Procedure[] = useSelector(
@@ -46,9 +47,17 @@ export default function ChosenProceduresItem(props: {
   return (
     <View style={[styles.card, styles.rowBetween]}>
       <View style={styles.proceduresBlock}>
-        {props.procedures.map((item: any, index: number) => (
-          <RenderProcedureItem key={index} item={item} />
-        ))}
+        {props.procedureString ? (
+          <View style={styles.procedureItem}>
+            <Text style={styles.procedureTitle}>{props.procedureString}</Text>
+          </View>
+        ) : (
+          <>
+            {props.procedures.map((item: any, index: number) => (
+              <RenderProcedureItem key={index} item={item} />
+            ))}
+          </>
+        )}
       </View>
 
       <View style={styles.line} />

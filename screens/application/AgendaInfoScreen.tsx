@@ -116,6 +116,7 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
             action={false}
             static={true}
             procedures={agenda.procedures}
+            procedureString={isAdmin ? '' : agenda.otherProcedure}
             duration={agenda.duration}
           />
           {!agenda.canceled && TodayOrFuture(agenda.date) ? (
@@ -147,7 +148,7 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
           ) : (
             <></>
           )}
-          {agenda.otherProcedure ? (
+          {agenda.otherProcedure && isAdmin ? (
             <OtherProcedureBlock
               procedure={agenda.otherProcedure}
               onChange={false}
