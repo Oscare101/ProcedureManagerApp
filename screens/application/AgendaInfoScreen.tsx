@@ -102,10 +102,11 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
             procedures={agenda.procedures}
             duration={agenda.duration}
           />
-          {!agenda.canceled && TodayOrFuture(agenda.date) && isAdmin ? (
+          {!agenda.canceled && TodayOrFuture(agenda.date) ? (
             <ConfirmationBlock
               confirmed={!!agenda.confirmed}
               toggleComfirmation={ToggleComfirmation}
+              static={!isAdmin}
             />
           ) : (
             <></>

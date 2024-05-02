@@ -15,11 +15,13 @@ const width = Dimensions.get('screen').width
 function ConfirmationBlock(props: {
   confirmed: boolean
   toggleComfirmation: any
+  static: boolean
 }) {
   return (
     <View style={styles.card}>
       <Text style={styles.text}>{text.Confirmed}</Text>
       <TouchableOpacity
+        disabled={props.static}
         activeOpacity={0.8}
         onPress={props.toggleComfirmation}
         style={styles.button}
