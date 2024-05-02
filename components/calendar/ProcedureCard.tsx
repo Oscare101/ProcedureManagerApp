@@ -84,7 +84,7 @@ export default function ProcedureCard(props: {
               {props.agenda.otherProcedure || proceduresString}
             </Text>
           </View>
-          {props.agenda.otherPerson ? (
+          {props.agenda.otherPerson && props.isAdmin ? (
             <Ionicons
               name="person-outline"
               size={width * 0.03}
@@ -94,7 +94,7 @@ export default function ProcedureCard(props: {
           ) : (
             <></>
           )}
-          {props.agenda.comment ? (
+          {props.agenda.comment && props.isAdmin ? (
             <Ionicons
               name="chatbubble-ellipses-outline"
               size={width * 0.03}
@@ -114,14 +114,21 @@ export default function ProcedureCard(props: {
             ]}
           />
         </View>
+
         <Text numberOfLines={1} style={styles.customer}>
           {props.isAdmin
             ? customer?.name
             : props.agenda.otherPerson || customer?.name}
         </Text>
-        <Text numberOfLines={1} style={styles.link}>
-          {customer?.link || customer?.phone}
-        </Text>
+
+        {props.isAdmin ? (
+          <Text numberOfLines={1} style={styles.link}>
+            {customer?.link || customer?.phone}
+          </Text>
+        ) : (
+          <></>
+        )}
+
         {props.agenda.comment ? (
           <Text numberOfLines={1} style={styles.link}>
             <Ionicons
