@@ -16,7 +16,7 @@ import ChosenProceduresItem from '../../components/agenda/ChosenProceduresItem'
 import ButtonBlock from '../../components/application/ButtonBlock'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateAgenda, initialStateAgenda } from '../../redux/agenda'
-import { Agenda } from '../../constants/interfaces'
+import { Agenda, Customer } from '../../constants/interfaces'
 import { RootState } from '../../redux'
 import PrepaymentBlock from '../../components/agenda/PrepaymentBlock'
 import { useCallback, useState } from 'react'
@@ -36,10 +36,14 @@ import ConfirmationBlock from '../../components/agenda/ConfirmationBlock'
 import OtherPersonBlock from '../../components/agenda/OtherPersonBlock'
 import OtherProcedureBlock from '../../components/agenda/OtherProcedureBlock'
 import { auth } from '../../firebase'
+import CustomerNameBlock from '../../components/agenda/CustomerNameBlock'
 
 const width = Dimensions.get('screen').width
 
 export default function AgendaInfoScreen({ navigation, route }: any) {
+  const customers: Customer[] = useSelector(
+    (state: RootState) => state.customers
+  )
   const agendas: Agenda[] = useSelector((state: RootState) => state.agendas)
   const agenda: Agenda = agendas.find(
     (a: Agenda) => a.id === route.params.agendaId
@@ -88,7 +92,19 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
             onModal={false}
           />
           <Text style={styles.comment}>{text.customer}</Text>
-          <ChosenCustomerItem customerId={agenda.customerId} static={true} />
+          {isAdmin ? (
+            <ChosenCustomerItem customerId={agenda.customerId} static={true} />
+          ) : (
+            <CustomerNameBlock
+              name={
+                agenda.otherPerson ||
+                customers.find((c: Customer) => c.id === agenda.customerId)
+                  ?.name ||
+                ''
+              }
+            />
+          )}
+
           <Text style={styles.comment}>{text.master}</Text>
           <ChosenMasterItem
             action={false}
