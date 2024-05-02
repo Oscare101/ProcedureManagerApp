@@ -65,6 +65,11 @@ export default function CustomDrawerContent(props: any) {
     },
   ]
 
+  const isAdmin: boolean =
+    !!auth.currentUser &&
+    !!auth.currentUser.email &&
+    permissions[auth.currentUser?.email.replaceAll('.', ',')] === 'admin'
+
   return (
     <DrawerContentScrollView
       style={{
@@ -83,14 +88,7 @@ export default function CustomDrawerContent(props: any) {
       <View style={styles.topContainer}>
         <DrawerHeader />
         <DrawerButtonsBlock
-          data={
-            auth.currentUser &&
-            auth.currentUser.email &&
-            permissions[auth.currentUser?.email.replaceAll('.', ',')] ===
-              'admin'
-              ? screensDataForAdmin
-              : screensData
-          }
+          data={isAdmin ? screensDataForAdmin : screensData}
           state={props.state}
           navigation={(screen: string) => props.navigation.jumpTo(screen)}
         />
