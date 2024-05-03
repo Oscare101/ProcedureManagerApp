@@ -11,6 +11,7 @@ import { Agenda, Customer, Master, Procedure } from '../../constants/interfaces'
 import colors from '../../constants/colors'
 import { Ionicons } from '@expo/vector-icons'
 import ProcedureCard from './ProcedureCard'
+import { auth } from '../../firebase'
 
 const width = Dimensions.get('screen').width
 
@@ -48,6 +49,7 @@ export default function RenderScheduleCard(props: {
   return (
     <TouchableOpacity
       activeOpacity={0.8}
+      disabled={!props.isAdmin}
       onPress={() => {
         if (isMasterWorking) {
           props.setCardPreview()
