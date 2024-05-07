@@ -74,9 +74,17 @@ const ScheduleBlock = React.memo(function (props: ScheduleBlockProps) {
     )
   }
 
-  function RenderScheduleItem({ item }: any) {
+  function RenderScheduleItem({ item, index }: any) {
     return (
-      <View style={[styles.scheduleItem, globalStyles.scheduleCardHeight1]}>
+      <View
+        style={[
+          styles.scheduleItem,
+          globalStyles.scheduleCardHeight1,
+          index === rules.timesArrFullReversed.length - 1
+            ? { borderTopWidth: 0 }
+            : {},
+        ]}
+      >
         {[...masters].map((_: any, index: number) => (
           <RenderScheduleCard
             key={index}
@@ -159,7 +167,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column-reverse',
   },
   scheduleItem: {
-    borderBottomWidth: 1,
+    borderTopWidth: 1,
     borderColor: colors.bg,
     borderStyle: 'dashed',
     flexDirection: 'row',
