@@ -50,14 +50,14 @@ export default function CreateProcedureCard(props: {
 
 const styles = StyleSheet.create({
   card: {
-    width: '95%',
+    width: '100%',
     alignSelf: 'center',
     backgroundColor: colors.card2,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderRadius: width * 0.01,
-    paddingHorizontal: width * 0.01,
+    borderRadius: width * 0.02,
+    paddingHorizontal: width * 0.02,
   },
   title: {
     fontSize: width * 0.035,
