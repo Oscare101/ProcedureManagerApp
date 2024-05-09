@@ -58,6 +58,8 @@ const ScheduleBlock = React.memo(function (props: ScheduleBlockProps) {
     }
   }, [cardPreview])
 
+  // TODO make autocount minutes
+
   function RenderTimesItem({ item }: any) {
     const isNow = new Date().getHours()
     return (
@@ -77,6 +79,7 @@ const ScheduleBlock = React.memo(function (props: ScheduleBlockProps) {
                   minCardHeight * 2 * (new Date().getMinutes() / 60) -
                   width * 0.005 +
                   width * 0.02,
+                zIndex: -1,
               }}
             ></View>
             <View
@@ -91,6 +94,7 @@ const ScheduleBlock = React.memo(function (props: ScheduleBlockProps) {
                 width: width * 0.03,
                 backgroundColor: colors.accent,
                 borderRadius: width,
+                zIndex: -1,
               }}
             />
           </>
