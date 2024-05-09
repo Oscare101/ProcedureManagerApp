@@ -15,7 +15,7 @@ import CreateProcedureCard from './CreateProcedureCard'
 import { RootState } from '../../redux'
 import { useSelector } from 'react-redux'
 import { Agenda, Customer, Master, Procedure } from '../../constants/interfaces'
-import { DateTimeBlockAgenda } from '../../functions/functions'
+import { DateTimeBlockAgenda, IsDateToday } from '../../functions/functions'
 import RenderScheduleCard from './RenderScheduleCard'
 import { auth } from '../../firebase'
 
@@ -64,7 +64,7 @@ const ScheduleBlock = React.memo(function (props: ScheduleBlockProps) {
       <View style={[styles.timesItem, globalStyles.scheduleCardHeight2]}>
         <Text style={styles.timesTitle}>{item}</Text>
         <Text style={styles.timesTitle}>-</Text>
-        {isNow === +item.split(':')[0] ? (
+        {isNow === +item.split(':')[0] && IsDateToday(props.date) ? (
           <>
             <View
               style={{
