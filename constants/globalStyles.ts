@@ -3,7 +3,7 @@ import colors from './colors'
 
 const { width, height } = Dimensions.get('screen')
 
-const minCardHeight = width * 0.07
+export const minCardHeight = width * 0.07
 
 export default StyleSheet.create({
   container: {

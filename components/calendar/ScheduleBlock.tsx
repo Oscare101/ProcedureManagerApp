@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import rules from '../../constants/rules'
 import colors from '../../constants/colors'
-import globalStyles from '../../constants/globalStyles'
+import globalStyles, { minCardHeight } from '../../constants/globalStyles'
 import React, { memo, useEffect, useMemo, useState } from 'react'
 import CreateProcedureCard from './CreateProcedureCard'
 import { RootState } from '../../redux'
@@ -59,13 +59,36 @@ const ScheduleBlock = React.memo(function (props: ScheduleBlockProps) {
   }, [cardPreview])
 
   function RenderTimesItem({ item }: any) {
+    const isNow = new Date().getHours()
     return (
-      <View style={[styles.timesItem, globalStyles.scheduleCardHeight2]}>
+      <View
+        style={[
+          styles.timesItem,
+          globalStyles.scheduleCardHeight2,
+          isNow === +item.split(':')[0] ? {} : {},
+        ]}
+      >
         <Text style={styles.timesTitle}>{item}</Text>
         <Text style={styles.timesTitle}>-</Text>
+        {isNow === +item.split(':')[0] ? (
+          <>
+            <View
+              style={{
+                width: '100%',
+                height: width * 0.01,
+                backgroundColor: 'red',
+                position: 'absolute',
+                top: minCardHeight * 2 * (new Date().getMinutes() / 60),
+              }}
+            ></View>
+          </>
+        ) : (
+          <></>
+        )}
       </View>
     )
   }
+
   function IsPreview(time: string, column: number) {
     return (
       props.date === cardPreview?.date &&
