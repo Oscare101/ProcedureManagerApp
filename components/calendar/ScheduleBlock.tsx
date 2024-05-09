@@ -61,26 +61,38 @@ const ScheduleBlock = React.memo(function (props: ScheduleBlockProps) {
   function RenderTimesItem({ item }: any) {
     const isNow = new Date().getHours()
     return (
-      <View
-        style={[
-          styles.timesItem,
-          globalStyles.scheduleCardHeight2,
-          isNow === +item.split(':')[0] ? {} : {},
-        ]}
-      >
+      <View style={[styles.timesItem, globalStyles.scheduleCardHeight2]}>
         <Text style={styles.timesTitle}>{item}</Text>
         <Text style={styles.timesTitle}>-</Text>
         {isNow === +item.split(':')[0] ? (
           <>
             <View
               style={{
-                width: '100%',
+                width: '90%',
                 height: width * 0.01,
-                backgroundColor: 'red',
+                backgroundColor: colors.accent,
                 position: 'absolute',
-                top: minCardHeight * 2 * (new Date().getMinutes() / 60),
+                borderRadius: width,
+                top:
+                  minCardHeight * 2 * (new Date().getMinutes() / 60) -
+                  width * 0.005 +
+                  width * 0.02,
               }}
             ></View>
+            <View
+              style={{
+                position: 'absolute',
+                left: 0,
+                top:
+                  minCardHeight * 2 * (new Date().getMinutes() / 60) -
+                  width * 0.015 +
+                  width * 0.02,
+                height: width * 0.03,
+                width: width * 0.03,
+                backgroundColor: colors.accent,
+                borderRadius: width,
+              }}
+            />
           </>
         ) : (
           <></>
