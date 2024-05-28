@@ -237,7 +237,10 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
           <View style={styles.nameBlock}>
             <Text style={styles.name}>
               {new Date(+props.item.id).getHours()}:
-              {new Date(+props.item.id).getMinutes()}
+              {new Date(+props.item.id)
+                .getMinutes()
+                .toString()
+                .padStart(2, '0')}
             </Text>
           </View>
           <View

@@ -38,7 +38,9 @@ export default function GetScheduleModal(props: { date: Date; setDate: any }) {
     const agendasToCopy = agendas
       .filter(
         (a: Agenda) =>
-          a.date === GetDateString(props.date) && a.masterId === masterId
+          a.date === GetDateString(props.date) &&
+          a.masterId === masterId &&
+          !a.canceled
       )
       .sort(
         (a: Agenda, b: Agenda) =>
