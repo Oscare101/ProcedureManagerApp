@@ -38,6 +38,7 @@ import OtherProcedureBlock from '../../components/agenda/OtherProcedureBlock'
 import { auth } from '../../firebase'
 import CustomerNameBlock from '../../components/agenda/CustomerNameBlock'
 import AgendaIdBlock from '../../components/agenda/AgendaIdBlock'
+import { ScrollView } from 'react-native-gesture-handler'
 
 const width = Dimensions.get('screen').width
 
@@ -84,120 +85,141 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
   return (
     <View style={globalStyles.container}>
       <Header title={text.agenda} action="back" />
+
       {agenda?.date ? (
         <>
-          <DateTimeBlock
-            date={GetDateFormateFromString(agenda.date).getTime()}
-            time={agenda.time}
-            static={true}
-            onModal={false}
-          />
-          <Text style={styles.comment}>{text.customer}</Text>
-          {isAdmin ? (
-            <ChosenCustomerItem customerId={agenda.customerId} static={true} />
-          ) : (
-            <CustomerNameBlock
-              name={
-                agenda.otherPerson ||
-                customers.find((c: Customer) => c.id === agenda.customerId)
-                  ?.name ||
-                ''
-              }
-            />
-          )}
-
-          <Text style={styles.comment}>{text.master}</Text>
-          <ChosenMasterItem
-            action={false}
-            static={true}
-            masterId={agenda.masterId}
-          />
-          <Text style={styles.comment}>{text.procedure}</Text>
-          <ChosenProceduresItem
-            action={false}
-            static={true}
-            procedures={agenda.procedures}
-            procedureString={isAdmin ? '' : agenda.otherProcedure}
-            duration={agenda.duration}
-          />
-          {!agenda.canceled && TodayOrFuture(agenda.date) ? (
-            <ConfirmationBlock
-              confirmed={!!agenda.confirmed}
-              toggleComfirmation={ToggleComfirmation}
-              static={!isAdmin}
-            />
-          ) : (
-            <></>
-          )}
-
-          {agenda.prepayment ? (
-            <PrepaymentBlock
-              amount={agenda.prepayment}
-              onChange={false}
-              static={true}
-            />
-          ) : (
-            <></>
-          )}
-
-          {agenda.otherPerson ? (
-            <OtherPersonBlock
-              name={agenda.otherPerson}
-              onChange={false}
-              static={true}
-            />
-          ) : (
-            <></>
-          )}
-          {agenda.otherProcedure && isAdmin ? (
-            <OtherProcedureBlock
-              procedure={agenda.otherProcedure}
-              onChange={false}
-              static={true}
-            />
-          ) : (
-            <></>
-          )}
-          {isAdmin ? (
-            <AgendaActionsBlock
-              onRepeat={() => {
-                dispatch(
-                  updateAgenda({
-                    ...initialStateAgenda,
-                    date: agenda.date,
-                    masterId: agenda.masterId,
-                    customerId: agenda.customerId,
-                    procedures: agenda.procedures,
-                    duration: agenda.duration,
-                  })
-                )
-                navigation.navigate('CreateAgendaScreen')
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{ flex: 1, width: '100%' }}
+          >
+            <View
+              style={{
+                flex: 1,
+                width: width,
+                backgroundColor: colors.bg,
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'flex-start',
               }}
-              onCopy={async () => {
-                await Clipboard.setStringAsync(
-                  text.confirmationAgenda.replace('#', agenda.time)
-                )
-                Toast.show({
-                  type: 'ToastMessage',
-                  props: {
-                    title: text.textCopied,
-                  },
-                  position: 'bottom',
-                })
-              }}
-              onDelete={() => setDeleteModal(true)}
-            />
-          ) : (
-            <></>
-          )}
+            >
+              <DateTimeBlock
+                date={GetDateFormateFromString(agenda.date).getTime()}
+                time={agenda.time}
+                static={true}
+                onModal={false}
+              />
+              <Text style={styles.comment}>{text.customer}</Text>
+              {isAdmin ? (
+                <ChosenCustomerItem
+                  customerId={agenda.customerId}
+                  static={true}
+                />
+              ) : (
+                <CustomerNameBlock
+                  name={
+                    agenda.otherPerson ||
+                    customers.find((c: Customer) => c.id === agenda.customerId)
+                      ?.name ||
+                    ''
+                  }
+                />
+              )}
 
-          {agenda.comment ? (
-            <CommentCardBlock comment={agenda.comment} />
-          ) : (
-            <></>
-          )}
-          <AgendaIdBlock agenda={agenda} />
-          <View style={{ flex: 1 }} />
+              <Text style={styles.comment}>{text.master}</Text>
+              <ChosenMasterItem
+                action={false}
+                static={true}
+                masterId={agenda.masterId}
+              />
+              <Text style={styles.comment}>{text.procedure}</Text>
+              <ChosenProceduresItem
+                action={false}
+                static={true}
+                procedures={agenda.procedures}
+                procedureString={isAdmin ? '' : agenda.otherProcedure}
+                duration={agenda.duration}
+              />
+              {!agenda.canceled && TodayOrFuture(agenda.date) ? (
+                <ConfirmationBlock
+                  confirmed={!!agenda.confirmed}
+                  toggleComfirmation={ToggleComfirmation}
+                  static={!isAdmin}
+                />
+              ) : (
+                <></>
+              )}
+
+              {agenda.prepayment ? (
+                <PrepaymentBlock
+                  amount={agenda.prepayment}
+                  onChange={false}
+                  static={true}
+                />
+              ) : (
+                <></>
+              )}
+
+              {agenda.otherPerson ? (
+                <OtherPersonBlock
+                  name={agenda.otherPerson}
+                  onChange={false}
+                  static={true}
+                />
+              ) : (
+                <></>
+              )}
+              {agenda.otherProcedure && isAdmin ? (
+                <OtherProcedureBlock
+                  procedure={agenda.otherProcedure}
+                  onChange={false}
+                  static={true}
+                />
+              ) : (
+                <></>
+              )}
+              {isAdmin ? (
+                <AgendaActionsBlock
+                  onRepeat={() => {
+                    dispatch(
+                      updateAgenda({
+                        ...initialStateAgenda,
+                        date: agenda.date,
+                        masterId: agenda.masterId,
+                        customerId: agenda.customerId,
+                        procedures: agenda.procedures,
+                        duration: agenda.duration,
+                      })
+                    )
+                    navigation.navigate('CreateAgendaScreen')
+                  }}
+                  onCopy={async () => {
+                    await Clipboard.setStringAsync(
+                      text.confirmationAgenda.replace('#', agenda.time)
+                    )
+                    Toast.show({
+                      type: 'ToastMessage',
+                      props: {
+                        title: text.textCopied,
+                      },
+                      position: 'bottom',
+                    })
+                  }}
+                  onDelete={() => setDeleteModal(true)}
+                />
+              ) : (
+                <></>
+              )}
+
+              {agenda.comment ? (
+                <CommentCardBlock comment={agenda.comment} />
+              ) : (
+                <></>
+              )}
+              <AgendaIdBlock agenda={agenda} />
+            </View>
+          </ScrollView>
+
+          {/* <View style={{ flex: 1 }} /> */}
           {isAdmin ? (
             <ButtonBlock
               title={text.edit}
