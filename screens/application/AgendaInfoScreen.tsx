@@ -37,6 +37,7 @@ import OtherPersonBlock from '../../components/agenda/OtherPersonBlock'
 import OtherProcedureBlock from '../../components/agenda/OtherProcedureBlock'
 import { auth } from '../../firebase'
 import CustomerNameBlock from '../../components/agenda/CustomerNameBlock'
+import AgendaIdBlock from '../../components/agenda/AgendaIdBlock'
 
 const width = Dimensions.get('screen').width
 
@@ -195,6 +196,7 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
           ) : (
             <></>
           )}
+          <AgendaIdBlock agenda={agenda} />
           <View style={{ flex: 1 }} />
           {isAdmin ? (
             <ButtonBlock
