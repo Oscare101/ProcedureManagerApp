@@ -25,6 +25,7 @@ import Toast from 'react-native-toast-message'
 import { RenderCustomerInfoItem } from '../../components/customers/RenderCustomerInfoItem'
 import RenderCustomerHistoryItem from '../../components/customers/RenderCustomerHistoryItem'
 import { Ionicons } from '@expo/vector-icons'
+import * as Clipboard from 'expo-clipboard'
 
 const width = Dimensions.get('screen').width
 
@@ -57,6 +58,16 @@ export default function CustomerInfoScreen({ navigation, route }: any) {
       onPress: () => {
         Linking.openURL(`tel:${customer.phone}`)
       },
+      onLongPress: async () => {
+        await Clipboard.setStringAsync(customer.phone)
+        Toast.show({
+          type: 'ToastMessage',
+          props: {
+            title: customer.phone,
+          },
+          position: 'bottom',
+        })
+      },
     },
     {
       title: text.messenger,
@@ -73,6 +84,18 @@ export default function CustomerInfoScreen({ navigation, route }: any) {
           })
         }
         await OpenMessenger(customer)
+      },
+      onLongPress: async () => {
+        if (customer.link) {
+          await Clipboard.setStringAsync(customer.link)
+          Toast.show({
+            type: 'ToastMessage',
+            props: {
+              title: customer.link,
+            },
+            position: 'bottom',
+          })
+        }
       },
       messenger: customer.messenger,
     },

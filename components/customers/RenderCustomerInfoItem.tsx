@@ -20,6 +20,7 @@ export function RenderCustomerInfoItem({ item }: any) {
       disabled={!item.onPress}
       activeOpacity={0.8}
       onPress={item.onPress}
+      onLongPress={item.onLongPress}
       style={styles.card}
     >
       <Text style={styles.cardTitle}>{item.title}</Text>
