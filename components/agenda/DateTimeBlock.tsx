@@ -14,6 +14,7 @@ import { updateAgenda } from '../../redux/agenda'
 import { Ionicons } from '@expo/vector-icons'
 import { GetDateString } from '../../functions/functions'
 import { useNavigation } from '@react-navigation/native'
+import { updateDateTo } from '../../redux/dateTo'
 
 const width = Dimensions.get('screen').width
 
@@ -80,7 +81,7 @@ export default function DateTimeBlock(props: {
               }}
               activeOpacity={0.8}
               onPress={() => {
-                // TODO redux set date
+                dispatch(updateDateTo(new Date(props.date).getTime()))
                 navigation.navigate('CalendarScreen')
               }}
             >
