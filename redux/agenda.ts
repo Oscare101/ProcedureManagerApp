@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Agenda } from '../constants/interfaces'
 
 export const initialStateAgenda: Agenda = {
-  date: new Date().getTime(),
+  date: '',
   time: '',
   duration: 0,
   customerId: '',
