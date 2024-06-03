@@ -7,7 +7,6 @@ import {
 import { useCallback, useMemo, useRef, useState } from 'react'
 import BottomModalBlock from '../../components/bottomSheetModal/BottomModalBlock'
 import text from '../../constants/text'
-import CalendarBlock from '../../components/calendar/CalendarBlock'
 import CalendarHeader from '../../components/application/CalendarHeader'
 import DateInfoBlock from '../../components/calendar/DateInfoBlock'
 import { useDispatch, useSelector } from 'react-redux'

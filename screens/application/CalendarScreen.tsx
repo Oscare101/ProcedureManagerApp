@@ -10,7 +10,7 @@ import text from '../../constants/text'
 import CalendarBlock from '../../components/calendar/CalendarBlock'
 import CalendarHeader from '../../components/application/CalendarHeader'
 import DateInfoBlock from '../../components/calendar/DateInfoBlock'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { auth } from '../../firebase'
 import { getDatabase, onValue, ref } from 'firebase/database'
@@ -18,12 +18,16 @@ import { clearSchedule, updateSchedule } from '../../redux/schedule'
 import ScheduleBlock from '../../components/calendar/ScheduleBlock'
 import { initialStateAgenda, updateAgenda } from '../../redux/agenda'
 import { GetDateString } from '../../functions/functions'
+import { updateDateTo } from '../../redux/dateTo'
+import { RootState } from '../../redux/store'
 
 const width = Dimensions.get('screen').width
 
-export default function CalendarScreen({ navigation, route }: any) {
+export default function CalendarScreen({ navigation }: any) {
+  const dateTo: number = useSelector((state: RootState) => state.dateTo)
+
   const [openCalendar, setOpenCalendar] = useState<boolean>(false)
-  const [date, setDate] = useState<Date>(route.params.date || new Date())
+  const [date, setDate] = useState<Date>(new Date())
   const [dates, setDates] = useState<any[]>([
     new Date(new Date(date).setDate(date.getDate() - 1)),
     new Date(date),
@@ -42,6 +46,13 @@ export default function CalendarScreen({ navigation, route }: any) {
   const onDismisModal = useCallback(() => {
     bottomSheetModalRef.current?.dismiss()
   }, [])
+
+  useEffect(() => {
+    if (dateTo) {
+      setDate(new Date(dateTo))
+      dispatch(updateDateTo(0))
+    }
+  }, [dateTo])
 
   const dispatch = useDispatch()
 
