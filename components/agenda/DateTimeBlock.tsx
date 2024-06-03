@@ -13,6 +13,7 @@ import { RootState } from '../../redux'
 import { updateAgenda } from '../../redux/agenda'
 import { Ionicons } from '@expo/vector-icons'
 import { GetDateString } from '../../functions/functions'
+import { useNavigation } from '@react-navigation/native'
 
 const width = Dimensions.get('screen').width
 
@@ -22,6 +23,7 @@ export default function DateTimeBlock(props: {
   time: string
   static?: boolean
 }) {
+  const navigation: any = useNavigation()
   const agenda: Agenda = useSelector((state: RootState) => state.agenda)
   const dispatch = useDispatch()
 
@@ -69,7 +71,26 @@ export default function DateTimeBlock(props: {
           {text.weekDaysShort[(new Date(props.date).getDay() || 7) - 1]})
         </Text>
         {props.static ? (
-          <View style={styles.dateButon}></View>
+          <View style={styles.dateButon}>
+            <TouchableOpacity
+              style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              activeOpacity={0.8}
+              onPress={() => {
+                // TODO redux set date
+                navigation.navigate('CalendarScreen')
+              }}
+            >
+              <Ionicons
+                name="open-outline"
+                size={width * 0.06}
+                color={colors.text}
+              />
+            </TouchableOpacity>
+          </View>
         ) : (
           <TouchableOpacity
             activeOpacity={0.8}

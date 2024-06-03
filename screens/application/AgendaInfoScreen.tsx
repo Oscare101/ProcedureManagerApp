@@ -1,10 +1,4 @@
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { Dimensions, StyleSheet, Text, View } from 'react-native'
 import globalStyles from '../../constants/globalStyles'
 import Header from '../../components/application/Header'
 import text from '../../constants/text'
@@ -19,7 +13,7 @@ import { updateAgenda, initialStateAgenda } from '../../redux/agenda'
 import { Agenda, Customer } from '../../constants/interfaces'
 import { RootState } from '../../redux'
 import PrepaymentBlock from '../../components/agenda/PrepaymentBlock'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import DeleteAgendaModal from '../../components/agenda/DeleteAgendaModal'
 import { DeleteAgenda, UpdateAgenda } from '../../functions/actions'
 import AgendaActionsBlock from '../../components/agenda/AgendaActionsBlock'
@@ -28,10 +22,8 @@ import CommentCardBlock from '../../components/agenda/CommentCardBlock'
 import Toast from 'react-native-toast-message'
 import {
   GetDateFormateFromString,
-  GetDateString,
   TodayOrFuture,
 } from '../../functions/functions'
-import CinfirmationBlock from '../../components/agenda/ConfirmationBlock'
 import ConfirmationBlock from '../../components/agenda/ConfirmationBlock'
 import OtherPersonBlock from '../../components/agenda/OtherPersonBlock'
 import OtherProcedureBlock from '../../components/agenda/OtherProcedureBlock'

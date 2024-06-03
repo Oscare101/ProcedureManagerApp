@@ -21,10 +21,9 @@ import { GetDateString } from '../../functions/functions'
 
 const width = Dimensions.get('screen').width
 
-export default function CalendarScreen({ navigation }: any) {
+export default function CalendarScreen({ navigation, route }: any) {
   const [openCalendar, setOpenCalendar] = useState<boolean>(false)
-  const [date, setDate] = useState<Date>(new Date())
-
+  const [date, setDate] = useState<Date>(route.params.date || new Date())
   const [dates, setDates] = useState<any[]>([
     new Date(new Date(date).setDate(date.getDate() - 1)),
     new Date(date),

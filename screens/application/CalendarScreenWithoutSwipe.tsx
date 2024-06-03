@@ -25,8 +25,7 @@ const width = Dimensions.get('screen').width
 export default function CalendarScreenWithoutSwipe({ navigation }: any) {
   const [openCalendar, setOpenCalendar] = useState<boolean>(false)
   const [date, setDate] = useState<Date>(new Date())
-
-  const flatListRef: any = useRef(null)
+  console.log('date: ')
 
   const [modalContent, setModalContent] = useState<string>('')
 
