@@ -15,6 +15,7 @@ import { Agenda, Customer, Master, Procedure } from '../../constants/interfaces'
 import {
   CalculateProcedureFinishTime,
   GetDateString,
+  GetDiscountType,
   GetNumberFromTime,
   IsTimeBetweenTimes,
 } from '../../functions/functions'
@@ -58,11 +59,25 @@ export default function GetScheduleModal(props: { date: Date; setDate: any }) {
             return item?.short
           })
           .join(' ')
+        const discountString: string = a.discount
+          ? `${text.discount} ${a.discount.replace(/^\D+/g, '')} ${
+              GetDiscountType(a.discount) === '%' ? '%' : text.UAHshort
+            }`
+          : ''
+        const prepaymentString: string = a.prepayment
+          ? `${text.prepayment} ${a.prepayment}`
+          : ''
+        const bracketsString: string =
+          discountString || prepaymentString
+            ? `(${prepaymentString}${
+                prepaymentString && discountString ? ' + ' : ''
+              }${discountString})`
+            : ''
 
         return `${a.time} ${a.otherProcedure || proceduresString} ${
           a.otherPerson ||
           customers.find((c: Customer) => c.id === a.customerId)?.name
-        }${a.prepayment ? ` (${text.prepayment} ${a.prepayment})` : ''}`
+        } ${bracketsString}`
       })
       .join('\n')
 
