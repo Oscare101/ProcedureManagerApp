@@ -15,6 +15,7 @@ export interface Agenda {
   confirmed?: boolean
   otherPerson?: string
   otherProcedure?: string
+  discount: string
 }
 
 export interface Customer {

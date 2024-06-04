@@ -13,6 +13,7 @@ export const initialStateAgenda: Agenda = {
   created: 0,
   masterId: '',
   prepayment: '',
+  discount: '',
 }
 
 const agendaSlice = createSlice({
