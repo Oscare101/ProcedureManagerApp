@@ -271,3 +271,11 @@ export function FilterLogsSearch(logs: Log[], search: string) {
       l.data.phone?.toLocaleLowerCase().includes(search.toLocaleLowerCase())
   )
 }
+
+export function GetDiscountType(discount: string) {
+  if (discount.includes('₴')) {
+    return '₴'
+  } else {
+    return '%'
+  }
+}

@@ -41,6 +41,7 @@ import OtherPersonBlock from '../../components/agenda/OtherPersonBlock'
 import OtherProcedureBlock from '../../components/agenda/OtherProcedureBlock'
 import ModalBlock from '../../components/application/ModalBlock'
 import { useRoute } from '@react-navigation/native'
+import DiscountBlock from '../../components/agenda/DiscountBlock'
 
 const width = Dimensions.get('screen').width
 
@@ -85,12 +86,17 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
   }, [])
 
   async function CreateAgendaFunc() {
+    const discountString: string = agenda.discount.replace(/^\D+/g, '')
+      ? agenda.discount
+      : ''
+
     setLoading(true)
     const agendaData: Agenda = {
       ...agenda,
       created: new Date().getTime(),
       lastUpdated: new Date().getTime(),
       id: new Date().getTime().toString(),
+      discount: discountString,
     }
 
     await CreateAgenda(agendaData)
@@ -144,7 +150,7 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
         />
         <ScrollView
           style={{ flex: 1, width: '100%' }}
-          keyboardShouldPersistTaps="always"
+          keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -224,6 +230,12 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
                 dispatch(
                   updateAgenda({ ...agenda, otherProcedure: newProcedure })
                 )
+              }
+            />
+            <DiscountBlock
+              amount={agenda.discount || ''}
+              onChange={(num: string) =>
+                dispatch(updateAgenda({ ...agenda, discount: num }))
               }
             />
 
