@@ -10,6 +10,7 @@ import { Agenda, Customer, Master, Procedure } from '../../constants/interfaces'
 import colors from '../../constants/colors'
 import { useNavigation } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
+import { GetDiscountType } from '../../functions/functions'
 
 const width = Dimensions.get('screen').width
 
@@ -70,6 +71,13 @@ export default function ProcedureCard(props: {
           )}
           {props.agenda.prepayment ? (
             <Text style={styles.prepaymentTitle}>₴</Text>
+          ) : (
+            <></>
+          )}
+          {props.agenda.discount ? (
+            <Text style={styles.discountTitle}>
+              -{GetDiscountType(props.agenda.discount)}
+            </Text>
           ) : (
             <></>
           )}
@@ -189,6 +197,11 @@ const styles = StyleSheet.create({
   prepaymentTitle: {
     fontSize: width * 0.03,
     color: colors.darkSuccessTitle,
+    marginRight: width * 0.01,
+  },
+  discountTitle: {
+    fontSize: width * 0.03,
+    color: colors.comment,
     marginRight: width * 0.01,
   },
 })
