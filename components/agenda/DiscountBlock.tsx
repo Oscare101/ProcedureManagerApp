@@ -27,62 +27,67 @@ export default function DiscountBlock(props: {
   return (
     <View style={[styles.card, globalStyles.rowBetween]}>
       <Text style={styles.title}>{text.discount}</Text>
-      <View style={styles.switchBlock}>
-        <TouchableOpacity
-          onPress={() => SetDiscount('₴', props.amount.replace(/^\D+/g, ''))}
-          activeOpacity={0.8}
-          style={[
-            styles.switchButton,
-            {
-              backgroundColor:
-                GetDiscountType(props.amount) === '₴'
-                  ? colors.card1
-                  : '#00000000',
-            },
-          ]}
-        >
-          <Text
+      {props.static ? (
+        <></>
+      ) : (
+        <View style={styles.switchBlock}>
+          <TouchableOpacity
+            onPress={() => SetDiscount('₴', props.amount.replace(/^\D+/g, ''))}
+            activeOpacity={0.8}
             style={[
-              styles.switchTitle,
+              styles.switchButton,
               {
-                color:
+                backgroundColor:
                   GetDiscountType(props.amount) === '₴'
-                    ? colors.card1Title
-                    : colors.text,
+                    ? colors.card1
+                    : '#00000000',
               },
             ]}
           >
-            ₴
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => SetDiscount('%', props.amount.replace(/^\D+/g, ''))}
-          activeOpacity={0.8}
-          style={[
-            styles.switchButton,
-            {
-              backgroundColor:
-                GetDiscountType(props.amount) === '%'
-                  ? colors.card1
-                  : '#00000000',
-            },
-          ]}
-        >
-          <Text
+            <Text
+              style={[
+                styles.switchTitle,
+                {
+                  color:
+                    GetDiscountType(props.amount) === '₴'
+                      ? colors.card1Title
+                      : colors.text,
+                },
+              ]}
+            >
+              ₴
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => SetDiscount('%', props.amount.replace(/^\D+/g, ''))}
+            activeOpacity={0.8}
             style={[
-              styles.switchTitle,
+              styles.switchButton,
               {
-                color:
+                backgroundColor:
                   GetDiscountType(props.amount) === '%'
-                    ? colors.card1Title
-                    : colors.text,
+                    ? colors.card1
+                    : '#00000000',
               },
             ]}
           >
-            %
-          </Text>
-        </TouchableOpacity>
-      </View>
+            <Text
+              style={[
+                styles.switchTitle,
+                {
+                  color:
+                    GetDiscountType(props.amount) === '%'
+                      ? colors.card1Title
+                      : colors.text,
+                },
+              ]}
+            >
+              %
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
       <InputBlock
         value={props.amount.replace(/^\D+/g, '')}
         setValue={(value: string) => {
@@ -101,6 +106,7 @@ export default function DiscountBlock(props: {
             return false
           }
         }}
+        textIcon={props.static ? GetDiscountType(props.amount) : ''}
         type="number"
         placeHolder={'0.00'}
         styles={{

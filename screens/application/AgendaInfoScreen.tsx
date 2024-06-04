@@ -31,6 +31,7 @@ import { auth } from '../../firebase'
 import CustomerNameBlock from '../../components/agenda/CustomerNameBlock'
 import AgendaIdBlock from '../../components/agenda/AgendaIdBlock'
 import { ScrollView } from 'react-native-gesture-handler'
+import DiscountBlock from '../../components/agenda/DiscountBlock'
 
 const width = Dimensions.get('screen').width
 
@@ -163,6 +164,15 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
               {agenda.otherProcedure && isAdmin ? (
                 <OtherProcedureBlock
                   procedure={agenda.otherProcedure}
+                  onChange={false}
+                  static={true}
+                />
+              ) : (
+                <></>
+              )}
+              {agenda.discount ? (
+                <DiscountBlock
+                  amount={agenda.discount}
                   onChange={false}
                   static={true}
                 />
