@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import { Master } from '../../constants/interfaces'
+import { Agenda, Master } from '../../constants/interfaces'
 import colors from '../../constants/colors'
 import globalStyles from '../../constants/globalStyles'
 import text from '../../constants/text'
@@ -14,6 +14,7 @@ import CommentBlock from './CommentBlock'
 import {
   GetDateFormateFromString,
   GetDateString,
+  GetDiscountType,
   TodayOrFuture,
 } from '../../functions/functions'
 import OtherPersonBlock from './OtherPersonBlock'
@@ -21,7 +22,7 @@ import OtherPersonBlock from './OtherPersonBlock'
 const width = Dimensions.get('screen').width
 
 export default function RenderCustomerHistoryItem(props: {
-  item: any
+  item: Agenda
   master: any
   proceduresString: any
   navigate: any
@@ -49,6 +50,31 @@ export default function RenderCustomerHistoryItem(props: {
               style={[styles.infoTitle, { color: colors.lightSuccessTitle }]}
             >
               ₴ {props.item.prepayment}
+            </Text>
+          </View>
+        ) : (
+          <></>
+        )}
+        {props.item.discount ? (
+          <View
+            style={[
+              styles.infoBlock,
+              { backgroundColor: colors.lightWarningBg },
+            ]}
+          >
+            <Text
+              style={[styles.infoTitle, { color: colors.lightWarningTitle }]}
+            >
+              {props.item.discount
+                ? `${text.discount} ${props.item.discount.replace(
+                    /^\D+/g,
+                    ''
+                  )} ${
+                    GetDiscountType(props.item.discount) === '%'
+                      ? '%'
+                      : text.UAHshort
+                  }`
+                : ''}
             </Text>
           </View>
         ) : (
