@@ -23,13 +23,27 @@ import CommentBlock from '../customers/CommentBlock'
 
 const width = Dimensions.get('screen').width
 
-export default function CustomerNameBlock(props: { name: string }) {
+export default function CustomerNameBlock(props: {
+  name: string
+  openHistory: any
+}) {
   return (
     <View style={styles.card}>
       <View style={styles.rowBetween}>
         <View style={styles.nameBlock}>
           <Text style={styles.name}>{props.name}</Text>
         </View>
+        <TouchableOpacity
+          style={styles.button}
+          activeOpacity={0.8}
+          onPress={props.openHistory}
+        >
+          <Ionicons
+            name="open-outline"
+            size={width * 0.05}
+            color={colors.text}
+          />
+        </TouchableOpacity>
       </View>
     </View>
   )
@@ -64,36 +78,10 @@ const styles = StyleSheet.create({
     fontSize: width * 0.04,
     color: colors.card2Title,
   },
-  openIcon: { position: 'absolute', top: width * 0.015, right: width * 0.015 },
-  column: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    width: '50%',
-    paddingHorizontal: width * 0.01,
-  },
-  rowStart: {
-    width: '50%',
-    flexDirection: 'row',
+  button: {
+    height: width * 0.07,
+    aspectRatio: 1,
     alignItems: 'center',
-    justifyContent: 'flex-start',
-    margin: width * 0.01,
-  },
-  customerInfo: {
-    fontSize: width * 0.035,
-    marginLeft: width * 0.01,
-    color: colors.text,
-  },
-  editButton: {
-    paddingVertical: width * 0.01,
-    paddingHorizontal: width * 0.02,
-    borderRadius: width * 0.02,
-    backgroundColor: colors.bg,
-    marginTop: width * 0.02,
-    marginRight: width * 0.02,
-  },
-  editButtonTitle: {
-    fontSize: width * 0.04,
-    color: colors.text,
+    justifyContent: 'center',
   },
 })

@@ -115,6 +115,16 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
                       ?.name ||
                     ''
                   }
+                  openHistory={() =>
+                    navigation.navigate('CustomerHistoryScreen', {
+                      history: agendas.filter(
+                        (a: Agenda) => a.customerId === agenda.customerId
+                      ),
+                      customer: customers.find(
+                        (c: Customer) => c.id === agenda.customerId
+                      ),
+                    })
+                  }
                 />
               )}
 
