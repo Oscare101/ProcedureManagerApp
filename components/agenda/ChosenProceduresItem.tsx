@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import text from '../../constants/text'
 import colors from '../../constants/colors'
-import { Agenda, Master, Procedure } from '../../constants/interfaces'
+import { Agenda, Procedure } from '../../constants/interfaces'
 import { RootState } from '../../redux'
 import { useDispatch, useSelector } from 'react-redux'
 import { Ionicons } from '@expo/vector-icons'

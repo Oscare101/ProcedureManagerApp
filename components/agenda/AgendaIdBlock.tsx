@@ -1,7 +1,6 @@
 import { Dimensions, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { Agenda } from '../../constants/interfaces'
-import agenda from '../../redux/agenda'
 import text from '../../constants/text'
 import { GetDateString } from '../../functions/functions'
 import globalStyles from '../../constants/globalStyles'

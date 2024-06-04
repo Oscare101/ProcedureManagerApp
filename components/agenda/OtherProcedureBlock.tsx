@@ -3,7 +3,6 @@ import InputBlock from '../application/InputBlock'
 import globalStyles from '../../constants/globalStyles'
 import text from '../../constants/text'
 import colors from '../../constants/colors'
-import rules from '../../constants/rules'
 import { Agenda } from '../../constants/interfaces'
 
 const width = Dimensions.get('screen').width

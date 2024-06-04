@@ -27,7 +27,6 @@ import RenderMessengerIcon from '../../components/customers/RenderMessengerIcon'
 import ButtonBlock from '../../components/application/ButtonBlock'
 import { CreateCustomer, UpdateCustomer } from '../../functions/actions'
 import { auth } from '../../firebase'
-import rules from '../../constants/rules'
 import {
   OpenLink,
   OpenMessenger,

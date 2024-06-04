@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import { Agenda, Master } from '../../constants/interfaces'
+import { Agenda } from '../../constants/interfaces'
 import colors from '../../constants/colors'
 import globalStyles from '../../constants/globalStyles'
 import text from '../../constants/text'

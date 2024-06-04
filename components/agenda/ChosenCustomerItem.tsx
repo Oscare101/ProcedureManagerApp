@@ -11,7 +11,7 @@ import text from '../../constants/text'
 import colors from '../../constants/colors'
 import { RootState } from '../../redux'
 import { useSelector } from 'react-redux'
-import { Agenda, Customer } from '../../constants/interfaces'
+import { Customer } from '../../constants/interfaces'
 import RenderMessengerIcon from '../customers/RenderMessengerIcon'
 import {
   OpenMessenger,

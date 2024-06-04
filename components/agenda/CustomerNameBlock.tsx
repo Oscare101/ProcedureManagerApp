@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native'
 import {
   Dimensions,
   Linking,
@@ -7,19 +6,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import text from '../../constants/text'
 import colors from '../../constants/colors'
-import { RootState } from '../../redux'
-import { useSelector } from 'react-redux'
-import { Agenda, Customer } from '../../constants/interfaces'
-import RenderMessengerIcon from '../customers/RenderMessengerIcon'
-import {
-  OpenMessenger,
-  ReturnCustomerMessenger,
-  ReturnPhoneString,
-} from '../../functions/functions'
 import { Ionicons } from '@expo/vector-icons'
-import CommentBlock from '../customers/CommentBlock'
 
 const width = Dimensions.get('screen').width
 

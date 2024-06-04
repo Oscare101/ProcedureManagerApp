@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import text from '../../constants/text'
 import colors from '../../constants/colors'
-import { Agenda, Master } from '../../constants/interfaces'
+import { Master } from '../../constants/interfaces'
 import { RootState } from '../../redux'
 import { useSelector } from 'react-redux'
 

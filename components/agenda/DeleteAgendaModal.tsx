@@ -16,7 +16,6 @@ import { RootState } from '../../redux'
 import { useSelector } from 'react-redux'
 import { Ionicons } from '@expo/vector-icons'
 import ButtonBlock from '../application/ButtonBlock'
-import { GetDateString } from '../../functions/functions'
 
 const { width, height } = Dimensions.get('screen')
 
