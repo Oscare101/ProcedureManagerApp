@@ -2,7 +2,6 @@ import {
   BackHandler,
   Dimensions,
   Keyboard,
-  KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
   Text,
