@@ -70,3 +70,13 @@ export interface Log {
     | 'updateCustomer'
   type: 'customer' | 'agenda'
 }
+
+export interface AgendaObject {
+  [key: `year-${number}`]: {
+    [key: `month-${number}`]: {
+      [key: `date-${number}`]: {
+        [key: Agenda['id']]: Agenda
+      }
+    }
+  }
+}

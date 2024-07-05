@@ -14,6 +14,7 @@ import { getDatabase, onValue, ref } from 'firebase/database'
 import { updateCustomers } from './redux/customers'
 import {
   Agenda,
+  AgendaObject,
   Customer,
   Log,
   Master,
@@ -25,6 +26,7 @@ import { updateMasters } from './redux/masters'
 import { clearAgendas, updateAgendas } from './redux/agendas'
 import { updatePermissions } from './redux/permissions'
 import { updateLogs } from './redux/logs'
+import { updateAgendaObject } from './redux/agendaObject'
 
 export const storage = new MMKV()
 
@@ -106,6 +108,9 @@ function AppComponent() {
               )
             )
           )
+          // console.log(snapshot.val() as AgendaObject)
+          dispatch(updateAgendaObject(snapshot.val() as AgendaObject))
+
           dispatch(updateAgendas(arr))
         } else {
           dispatch(clearAgendas())

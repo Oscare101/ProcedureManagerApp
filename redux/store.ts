@@ -10,6 +10,7 @@ import settingsReducer from './settings'
 import permissionsReducer from './permissions'
 import logsReducer from './logs'
 import dateToReducer from './dateTo'
+import agendaObjectReducer from './agendaObject'
 
 export const store = configureStore({
   reducer: {
@@ -24,6 +25,7 @@ export const store = configureStore({
     permissions: permissionsReducer,
     logs: logsReducer,
     dateTo: dateToReducer,
+    agendaObject: agendaObjectReducer,
   },
 })
 
