@@ -21,10 +21,11 @@ import LogStatus from './LogStatus'
 import LogValueBlock from './LogValueBlock'
 import { RootState } from '../../redux/store'
 import RenderMessengerIcon from '../customers/RenderMessengerIcon'
+import { memo } from 'react'
 
 const width = Dimensions.get('screen').width
 
-export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
+function LogItem(props: { item: Log; needDateTitle: boolean }) {
   const customers: Customer[] = useSelector(
     (state: RootState) => state.customers
   )
@@ -35,6 +36,7 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
 
   const navigation: any = useNavigation()
   const dispatch = useDispatch()
+  console.log(props.item.id)
 
   function GetStatus() {
     switch (props.item.action) {
@@ -341,3 +343,5 @@ const styles = StyleSheet.create({
     color: colors.text,
   },
 })
+
+export default memo(LogItem)
