@@ -18,7 +18,6 @@ import {
   Log,
   Master,
   Procedure,
-  Settings,
 } from './constants/interfaces'
 import Toast from 'react-native-toast-message'
 import { updateProcedures } from './redux/procedures'
@@ -99,15 +98,14 @@ function AppComponent() {
       onValue(data, (snapshot) => {
         if (snapshot.val()) {
           let arr: Agenda[] = []
-          Object.values(snapshot.val()).map((year: any, index: number) =>
-            Object.values(year).map((month: any, index: number) =>
+          Object.values(snapshot.val()).map((year: any) =>
+            Object.values(year).map((month: any) =>
               Object.values(month).map(
-                (date: any, index: number) =>
+                (date: any) =>
                   (arr = [...arr, ...(Object.values(date) as Agenda[])])
               )
             )
           )
-
           dispatch(updateAgendas(arr))
         } else {
           dispatch(clearAgendas())

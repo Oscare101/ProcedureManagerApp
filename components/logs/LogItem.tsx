@@ -243,25 +243,30 @@ export default function LogItem(props: { item: Log; needDateTitle: boolean }) {
                 .padStart(2, '0')}
             </Text>
           </View>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'flex-start',
-              paddingLeft: width * 0.02,
-            }}
-          >
-            <Ionicons
-              name={
-                props.item.data.confirmed
-                  ? 'checkbox-outline'
-                  : 'square-outline'
-              }
-              size={width * 0.05}
-              color={colors.text}
-            />
-          </View>
+          {props.item.type === 'agenda' ? (
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'flex-start',
+                paddingLeft: width * 0.02,
+              }}
+            >
+              <Ionicons
+                name={
+                  props.item.data.confirmed
+                    ? 'checkbox-outline'
+                    : 'square-outline'
+                }
+                size={width * 0.05}
+                color={colors.text}
+              />
+            </View>
+          ) : (
+            <></>
+          )}
+
           <LogStatus title={GetTitle()} status={GetStatus()} />
         </View>
         <View
