@@ -1,6 +1,7 @@
 import { Linking } from 'react-native'
 import {
   Agenda,
+  AgendaObject,
   Customer,
   Log,
   Master,
@@ -155,14 +156,15 @@ export function DateTimeBlockAgenda(
   date: Date,
   time: string,
   column: number,
-  agendas: Agenda[],
+  agendas: AgendaObject,
   masters: Master[]
 ) {
-  const todaysAgendas = agendas.find(
+  const todaysAgendas = Object.values(
+    agendas[`year-${date.getFullYear()}`][`month-${date.getMonth() + 1}`][
+      `date-${date.getDate()}`
+    ]
+  ).find(
     (a: Agenda) =>
-      +a.date.split('.')[2] === date.getFullYear() &&
-      +a.date.split('.')[1] === date.getMonth() + 1 &&
-      +a.date.split('.')[0] === date.getDate() &&
       +a.time.split(':')[0] === +time.split(':')[0] &&
       +a.time.split(':')[1] >= +time.split(':')[1] &&
       +a.time.split(':')[1] < +time.split(':')[1] + 30 &&

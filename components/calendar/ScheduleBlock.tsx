@@ -14,7 +14,13 @@ import React, { memo, useEffect, useMemo, useState } from 'react'
 import CreateProcedureCard from './CreateProcedureCard'
 import { RootState } from '../../redux'
 import { useSelector } from 'react-redux'
-import { Agenda, Customer, Master, Procedure } from '../../constants/interfaces'
+import {
+  Agenda,
+  AgendaObject,
+  Customer,
+  Master,
+  Procedure,
+} from '../../constants/interfaces'
 import { DateTimeBlockAgenda, IsDateToday } from '../../functions/functions'
 import RenderScheduleCard from './RenderScheduleCard'
 import { auth } from '../../firebase'
@@ -27,6 +33,10 @@ const width = Dimensions.get('screen').width
 
 const ScheduleBlock = React.memo(function (props: ScheduleBlockProps) {
   const agendas: Agenda[] = useSelector((state: RootState) => state.agendas)
+  const agendaObject: AgendaObject = useSelector(
+    (state: RootState) => state.agendaObject
+  )
+
   const masters: Master[] = useSelector((state: RootState) => state.masters)
   const schedule = useSelector((state: RootState) => state.schedule)
   const procedures: Procedure[] = useSelector(
@@ -142,7 +152,7 @@ const ScheduleBlock = React.memo(function (props: ScheduleBlockProps) {
               props.date,
               item,
               index + 1,
-              agendas,
+              agendaObject,
               masters
             )}
             procedures={procedures}
