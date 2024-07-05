@@ -9,8 +9,7 @@ import colors from '../../constants/colors'
 import { Ionicons } from '@expo/vector-icons'
 import { Customer, Log, Master, Procedure } from '../../constants/interfaces'
 import { useNavigation } from '@react-navigation/native'
-
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import text from '../../constants/text'
 import {
   GetDateString,
@@ -35,8 +34,6 @@ function LogItem(props: { item: Log; needDateTitle: boolean }) {
   const masters: Master[] = useSelector((state: RootState) => state.masters)
 
   const navigation: any = useNavigation()
-  const dispatch = useDispatch()
-  console.log(props.item.id)
 
   function GetStatus() {
     switch (props.item.action) {

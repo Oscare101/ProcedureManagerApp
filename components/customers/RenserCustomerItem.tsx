@@ -19,6 +19,7 @@ import { RootState } from '../../redux'
 import { updateAgenda } from '../../redux/agenda'
 import text from '../../constants/text'
 import CommentBlock from './CommentBlock'
+import { memo } from 'react'
 
 interface RenderCustomerItemProps {
   item: Customer
@@ -27,7 +28,7 @@ interface RenderCustomerItemProps {
 
 const width = Dimensions.get('screen').width
 
-export default function RenderCustomerItem(props: RenderCustomerItemProps) {
+function RenderCustomerItem(props: RenderCustomerItemProps) {
   const agenda: Agenda = useSelector((state: RootState) => state.agenda)
 
   const navigation: any = useNavigation()
@@ -162,3 +163,5 @@ const styles = StyleSheet.create({
     color: colors.text,
   },
 })
+
+export default memo(RenderCustomerItem)
