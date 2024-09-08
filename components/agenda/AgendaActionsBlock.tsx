@@ -9,6 +9,7 @@ export default function AgendaActionsBlock(props: {
   onRepeat: any
   onCopy: any
   onDelete: any
+  onChatPhrase: any
 }) {
   return (
     <View style={[globalStyles.rowBetween, { width: width * 0.92 }]}>
@@ -29,6 +30,17 @@ export default function AgendaActionsBlock(props: {
       <TouchableOpacity
         style={styles.card}
         activeOpacity={0.8}
+        onPress={props.onChatPhrase}
+      >
+        <Ionicons
+          name="chatbox-ellipses-outline"
+          size={24}
+          color={colors.text}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.card}
+        activeOpacity={0.8}
         onPress={props.onDelete}
       >
         <Ionicons name="trash-outline" size={24} color={colors.text} />
@@ -39,7 +51,7 @@ export default function AgendaActionsBlock(props: {
 
 const styles = StyleSheet.create({
   card: {
-    width: width * 0.92 * 0.32,
+    width: width * 0.92 * 0.23,
     height: width * 0.12,
     backgroundColor: colors.white,
     marginTop: width * 0.02,

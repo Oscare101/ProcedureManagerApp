@@ -10,7 +10,7 @@ import ChosenProceduresItem from '../../components/agenda/ChosenProceduresItem'
 import ButtonBlock from '../../components/application/ButtonBlock'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateAgenda, initialStateAgenda } from '../../redux/agenda'
-import { Agenda, Customer } from '../../constants/interfaces'
+import { Agenda, Customer, Master } from '../../constants/interfaces'
 import { RootState } from '../../redux'
 import PrepaymentBlock from '../../components/agenda/PrepaymentBlock'
 import { useState } from 'react'
@@ -39,6 +39,7 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
   const customers: Customer[] = useSelector(
     (state: RootState) => state.customers
   )
+  const masters: Master[] = useSelector((state: RootState) => state.masters)
   const agendas: Agenda[] = useSelector((state: RootState) => state.agendas)
   const agenda: Agenda = agendas.find(
     (a: Agenda) => a.id === route.params.agendaId
@@ -217,6 +218,30 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
                     })
                   }}
                   onDelete={() => setDeleteModal(true)}
+                  onChatPhrase={async () => {
+                    const phrase = text.chatPhrase
+                      .replace(
+                        'date',
+                        `${agenda.date.split('.')[0]}.${
+                          agenda.date.split('.')[1]
+                        }`
+                      )
+                      .replace('time', agenda.time)
+                      .replace(
+                        'master',
+                        masters.find((m: Master) => m.id === agenda.masterId)!
+                          .name
+                      )
+
+                    await Clipboard.setStringAsync(phrase)
+                    Toast.show({
+                      type: 'ToastMessage',
+                      props: {
+                        title: phrase,
+                      },
+                      position: 'bottom',
+                    })
+                  }}
                 />
               ) : (
                 <></>
