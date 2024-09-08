@@ -257,6 +257,22 @@ export function TodayOrFuture(date: any) {
   )
 }
 
+export function IsToday(date: any) {
+  return (
+    GetDateFormateFromString(date).getTime() ==
+    GetDateFormateFromString(GetDateString(new Date())).getTime()
+  )
+}
+
+export function IsTomorrow(date: any) {
+  let tomorrow = new Date()
+  tomorrow.setDate(tomorrow.getDate() + 1)
+  return (
+    GetDateFormateFromString(GetDateString(new Date(tomorrow))).getTime() ==
+    GetDateFormateFromString(date).getTime()
+  )
+}
+
 export function FilterLogsSearch(logs: Log[], search: string) {
   if (!search) {
     return logs

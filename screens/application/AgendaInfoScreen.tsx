@@ -22,6 +22,8 @@ import CommentCardBlock from '../../components/agenda/CommentCardBlock'
 import Toast from 'react-native-toast-message'
 import {
   GetDateFormateFromString,
+  IsToday,
+  IsTomorrow,
   TodayOrFuture,
 } from '../../functions/functions'
 import ConfirmationBlock from '../../components/agenda/ConfirmationBlock'
@@ -219,20 +221,38 @@ export default function AgendaInfoScreen({ navigation, route }: any) {
                   }}
                   onDelete={() => setDeleteModal(true)}
                   onChatPhrase={async () => {
-                    const phrase = text.chatPhrase
-                      .replace(
-                        'date',
-                        `${agenda.date.split('.')[0]}.${
-                          agenda.date.split('.')[1]
-                        }`
-                      )
-                      .replace('time', agenda.time)
-                      .replace(
-                        'master',
-                        masters.find((m: Master) => m.id === agenda.masterId)!
-                          .name
-                      )
-
+                    const phrase = IsToday(agenda.date)
+                      ? text.chatPhraseToday
+                          .replace('time', agenda.time)
+                          .replace(
+                            'master',
+                            masters.find(
+                              (m: Master) => m.id === agenda.masterId
+                            )!.name
+                          )
+                      : IsTomorrow(agenda.date)
+                      ? text.chatPhraseTomorrow
+                          .replace('time', agenda.time)
+                          .replace(
+                            'master',
+                            masters.find(
+                              (m: Master) => m.id === agenda.masterId
+                            )!.name
+                          )
+                      : text.chatPhrase
+                          .replace(
+                            'date',
+                            `${agenda.date.split('.')[0]}.${
+                              agenda.date.split('.')[1]
+                            }`
+                          )
+                          .replace('time', agenda.time)
+                          .replace(
+                            'master',
+                            masters.find(
+                              (m: Master) => m.id === agenda.masterId
+                            )!.name
+                          )
                     await Clipboard.setStringAsync(phrase)
                     Toast.show({
                       type: 'ToastMessage',
