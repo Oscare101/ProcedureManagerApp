@@ -160,9 +160,9 @@ export function DateTimeBlockAgenda(
   masters: Master[]
 ) {
   const todaysAgendas = Object.values(
-    agendas[`year-${date.getFullYear()}`][`month-${date.getMonth() + 1}`][
+    agendas[`year-${date.getFullYear()}`]?.[`month-${date.getMonth() + 1}`]?.[
       `date-${date.getDate()}`
-    ]
+    ] || {}
   ).find(
     (a: Agenda) =>
       +a.time.split(':')[0] === +time.split(':')[0] &&
