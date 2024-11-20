@@ -5,6 +5,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native'
 import globalStyles from '../../constants/globalStyles'
@@ -17,7 +18,7 @@ import {
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
 import BottomModalBlock from '../../components/bottomSheetModal/BottomModalBlock'
-import { Agenda } from '../../constants/interfaces'
+import { Agenda, Master } from '../../constants/interfaces'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux'
 import { updateAgenda } from '../../redux/agenda'
@@ -31,6 +32,8 @@ import ButtonBlock from '../../components/application/ButtonBlock'
 import {
   CalculateIsEnoughtTimeForProcedure,
   GetDateFormateFromString,
+  IsToday,
+  IsTomorrow,
 } from '../../functions/functions'
 import { CreateAgenda, DeleteAgenda } from '../../functions/actions'
 import rules from '../../constants/rules'
@@ -41,6 +44,9 @@ import OtherProcedureBlock from '../../components/agenda/OtherProcedureBlock'
 import ModalBlock from '../../components/application/ModalBlock'
 import { useRoute } from '@react-navigation/native'
 import DiscountBlock from '../../components/agenda/DiscountBlock'
+import { Ionicons } from '@expo/vector-icons'
+import * as Clipboard from 'expo-clipboard'
+import Toast from 'react-native-toast-message'
 
 const width = Dimensions.get('screen').width
 
@@ -48,6 +54,7 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
   const agenda: Agenda = useSelector((state: RootState) => state.agenda)
   const schedule: any = useSelector((state: RootState) => state.schedule)
   const agendas: Agenda[] = useSelector((state: RootState) => state.agendas)
+  const masters: Master[] = useSelector((state: RootState) => state.masters)
 
   const dispatch = useDispatch()
   const [modalData, setModalData] = useState<string>('timePicker')
@@ -193,6 +200,7 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
               />
             )}
             <Text style={styles.comment}>{text.procedure}</Text>
+
             {agenda.procedures.length ? (
               <ChosenProceduresItem
                 action={() => {
@@ -200,6 +208,55 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
                 }}
                 procedures={agenda.procedures}
                 duration={agenda.duration}
+                onChatPhraseEnabled={
+                  !!(
+                    agenda.date &&
+                    agenda.masterId &&
+                    agenda.time &&
+                    agenda.customerId &&
+                    agenda.procedures.length > 0 &&
+                    isEnoughtTime
+                  )
+                }
+                onChatPhrase={async () => {
+                  const phrase = IsToday(agenda.date)
+                    ? text.chatPhraseToday
+                        .replace('time', agenda.time)
+                        .replace(
+                          'master',
+                          masters.find((m: Master) => m.id === agenda.masterId)!
+                            .name
+                        )
+                    : IsTomorrow(agenda.date)
+                    ? text.chatPhraseTomorrow
+                        .replace('time', agenda.time)
+                        .replace(
+                          'master',
+                          masters.find((m: Master) => m.id === agenda.masterId)!
+                            .name
+                        )
+                    : text.chatPhrase
+                        .replace(
+                          'date',
+                          `${agenda.date.split('.')[0]}.${
+                            agenda.date.split('.')[1]
+                          }`
+                        )
+                        .replace('time', agenda.time)
+                        .replace(
+                          'master',
+                          masters.find((m: Master) => m.id === agenda.masterId)!
+                            .name
+                        )
+                  await Clipboard.setStringAsync(phrase)
+                  Toast.show({
+                    type: 'ToastMessage',
+                    props: {
+                      title: phrase,
+                    },
+                    position: 'bottom',
+                  })
+                }}
               />
             ) : (
               <EmptyItem
@@ -209,6 +266,7 @@ export default function CreateAgendaScreen({ navigation, route }: any) {
                 }}
               />
             )}
+
             <View style={styles.line} />
 
             <PrepaymentBlock

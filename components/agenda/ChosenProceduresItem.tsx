@@ -21,6 +21,8 @@ export default function ChosenProceduresItem(props: {
   procedures: Procedure['id'][]
   duration: Agenda['duration']
   procedureString?: string
+  onChatPhrase?: any
+  onChatPhraseEnabled?: boolean
 }) {
   const agenda: Agenda = useSelector((state: RootState) => state.agenda)
   const procedures: Procedure[] = useSelector(
@@ -46,6 +48,33 @@ export default function ChosenProceduresItem(props: {
 
   return (
     <View style={[styles.card, styles.rowBetween]}>
+      {props.static ? (
+        <></>
+      ) : (
+        <>
+          <TouchableOpacity
+            style={{
+              width: width * 0.12,
+              height: '100%',
+              backgroundColor: colors.bg,
+              borderRadius: width * 0.03,
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'row',
+            }}
+            activeOpacity={0.8}
+            onPress={props.onChatPhrase}
+            disabled={!props.onChatPhraseEnabled}
+          >
+            <Ionicons
+              name="chatbox-ellipses-outline"
+              size={24}
+              color={props.onChatPhraseEnabled ? colors.text : colors.comment}
+            />
+          </TouchableOpacity>
+          <View style={[styles.line, { marginHorizontal: width * 0.02 }]} />
+        </>
+      )}
       <View style={styles.proceduresBlock}>
         {props.procedureString ? (
           <View style={styles.procedureItem}>
@@ -59,7 +88,6 @@ export default function ChosenProceduresItem(props: {
           </>
         )}
       </View>
-
       <View style={styles.line} />
       <View style={styles.editBlock}>
         {props.static ? (
